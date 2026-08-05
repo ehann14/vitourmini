@@ -70,8 +70,13 @@
             display: flex; align-items: center; gap: 12px;
             font-weight: 700; font-size: 1.2rem; color: var(--primary-blue);
             flex-shrink: 0; text-decoration: none;
+            user-select: none;
         }
-        .nav-brand img { width: 45px; height: 45px; object-fit: contain; border-radius: 8px; }
+        .nav-brand img { 
+            width: 45px; height: 45px; object-fit: contain; border-radius: 8px; 
+            transition: transform 0.1s ease;
+        }
+        .nav-brand:active img { transform: scale(0.92); }
         .nav-menu { flex-grow: 1; display: flex; justify-content: center; list-style: none; gap: 20px; margin: 0; padding: 0; }
         .nav-menu a {
             text-decoration: none; color: var(--gray-700);
@@ -108,19 +113,12 @@
             margin-bottom: 30px; position: relative;
         }
 
-        .search-hero {
-            position: relative;
-            margin-bottom: 20px;
-        }
+        .search-hero { position: relative; margin-bottom: 20px; }
         .search-hero-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
+            position: relative; display: flex; align-items: center;
             background: linear-gradient(135deg, #f8f9fa, #ffffff);
-            border: 2px solid var(--gray-200);
-            border-radius: 25px;
-            padding: 4px;
-            transition: all 0.3s;
+            border: 2px solid var(--gray-200); border-radius: 25px;
+            padding: 4px; transition: all 0.3s;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .search-hero-wrapper:focus-within {
@@ -128,59 +126,33 @@
             box-shadow: 0 4px 20px rgba(0, 201, 177, 0.2);
         }
         .search-hero-wrapper i.search-icon {
-            position: absolute;
-            left: 22px;
-            color: var(--gray-600);
-            font-size: 1.1rem;
-            pointer-events: none;
-            transition: color 0.3s;
+            position: absolute; left: 22px; color: var(--gray-600);
+            font-size: 1.1rem; pointer-events: none; transition: color 0.3s;
         }
         .search-hero-wrapper:focus-within i.search-icon { color: var(--accent-teal); }
         .search-hero-input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 14px 18px 14px 54px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 500;
-            color: var(--gray-700);
-            outline: none;
-            border-radius: 20px;
+            flex: 1; border: none; background: transparent;
+            padding: 14px 18px 14px 54px; font-size: 1rem;
+            font-family: 'Poppins', sans-serif; font-weight: 500;
+            color: var(--gray-700); outline: none; border-radius: 20px;
         }
         .search-hero-input::placeholder { color: var(--gray-600); }
         .search-hero-btn {
             background: linear-gradient(135deg, var(--accent-teal), #00b39d);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0, 201, 177, 0.3);
+            color: white; border: none; padding: 12px 24px; border-radius: 20px;
+            font-weight: 600; font-size: 0.95rem; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.3s; box-shadow: 0 4px 12px rgba(0, 201, 177, 0.3);
         }
         .search-hero-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 201, 177, 0.4); }
         .search-hero-btn:active { transform: scale(0.97); }
 
         .search-dropdown {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: white;
-            border-radius: 20px;
+            position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+            background: white; border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            max-height: 380px;
-            overflow-y: auto;
-            z-index: 500;
-            display: none;
-            padding: 8px;
-            border: 1px solid var(--gray-200);
+            max-height: 380px; overflow-y: auto; z-index: 500;
+            display: none; padding: 8px; border: 1px solid var(--gray-200);
         }
         .search-dropdown.active { display: block; animation: slideDown 0.25s ease; }
         @keyframes slideDown {
@@ -188,68 +160,38 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .search-dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px 16px; border-radius: 14px;
+            cursor: pointer; transition: all 0.2s;
         }
         .search-dropdown-item:hover, .search-dropdown-item.highlighted {
             background: linear-gradient(135deg, rgba(0, 201, 177, 0.08), rgba(30, 60, 114, 0.05));
             transform: translateX(4px);
         }
         .search-dropdown-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
+            width: 42px; height: 42px; border-radius: 12px;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
+            color: white; display: flex; align-items: center;
+            justify-content: center; font-size: 1.1rem; flex-shrink: 0;
         }
         .search-dropdown-icon.has-panorama {
             background: linear-gradient(135deg, #28a745, #20c997);
         }
         .search-dropdown-info { flex: 1; min-width: 0; }
         .search-dropdown-name {
-            font-weight: 600;
-            color: var(--gray-700);
-            font-size: 0.95rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: 600; color: var(--gray-700); font-size: 0.95rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
-        .search-dropdown-meta {
-            font-size: 0.8rem;
-            color: var(--gray-600);
-            margin-top: 2px;
-        }
-        .search-dropdown-empty {
-            padding: 30px 20px;
-            text-align: center;
-            color: var(--gray-600);
-        }
+        .search-dropdown-meta { font-size: 0.8rem; color: var(--gray-600); margin-top: 2px; }
+        .search-dropdown-empty { padding: 30px 20px; text-align: center; color: var(--gray-600); }
         .search-dropdown-empty i {
-            font-size: 2rem;
-            color: var(--gray-300);
-            display: block;
-            margin-bottom: 10px;
+            font-size: 2rem; color: var(--gray-300);
+            display: block; margin-bottom: 10px;
         }
         .search-hint {
-            padding: 10px 16px;
-            font-size: 0.8rem;
-            color: var(--gray-600);
-            background: var(--gray-100);
-            border-radius: 12px;
-            margin: 4px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 10px 16px; font-size: 0.8rem; color: var(--gray-600);
+            background: var(--gray-100); border-radius: 12px; margin: 4px;
+            display: flex; align-items: center; gap: 8px;
         }
 
         .viewer-header { text-align: center; margin-bottom: 15px; }
@@ -261,16 +203,10 @@
             font-weight: 600; font-size: 1rem;
         }
         .scene-type-badge {
-            background: rgba(255,255,255,0.2); 
-            color: white; 
-            padding: 4px 10px; 
-            border-radius: 12px; 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-            margin-left: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            background: rgba(255,255,255,0.2); color: white;
+            padding: 4px 10px; border-radius: 12px; font-size: 0.75rem;
+            font-weight: 600; margin-left: 10px;
+            display: inline-flex; align-items: center; gap: 5px;
             transition: all 0.3s ease;
         }
         
@@ -282,73 +218,43 @@
         #panorama { width: 100%; height: 100%; display: none; }
         
         #flat-viewer {
-            display: none;
-            width: 100%; height: 100%;
-            position: relative;
-            overflow: auto;
-            background: #f0f0f0;
-            align-items: center;
-            justify-content: center;
+            display: none; width: 100%; height: 100%; position: relative;
+            overflow: auto; background: #f0f0f0;
+            align-items: center; justify-content: center;
             touch-action: pan-x pan-y;
         }
         #flat-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            display: block;
-            user-select: none;
-            pointer-events: none;
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            display: block; user-select: none; pointer-events: none;
         }
         #flat-hotspots-container {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; pointer-events: none;
         }
         
         .flat-hotspot-pin {
-            position: absolute;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: transform 0.2s ease;
-            pointer-events: auto;
+            position: absolute; transform: translate(-50%, -50%);
+            cursor: pointer; z-index: 10; display: flex;
+            flex-direction: column; align-items: center;
+            transition: transform 0.2s ease; pointer-events: auto;
             touch-action: manipulation;
         }
         .flat-hotspot-pin:active { transform: translate(-50%, -50%) scale(0.95); }
         .flat-hotspot-pin i {
-            font-size: 28px;
-            color: var(--accent-teal);
+            font-size: 28px; color: var(--accent-teal);
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
         .flat-hotspot-pin .tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            white-space: nowrap;
-            margin-bottom: 8px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            pointer-events: none;
+            position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%); background: rgba(0, 0, 0, 0.85);
+            color: white; padding: 6px 12px; border-radius: 8px;
+            font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+            margin-bottom: 8px; opacity: 0; visibility: hidden;
+            transition: all 0.3s; pointer-events: none;
         }
         .flat-hotspot-pin .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
+            content: ''; position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%); border: 6px solid transparent;
             border-top-color: rgba(0, 0, 0, 0.85);
         }
         .flat-hotspot-pin:hover .tooltip { opacity: 1; visibility: visible; }
@@ -356,40 +262,29 @@
         .loading {
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%); text-align: center; z-index: 10;
-            background: rgba(255,255,255,0.95);
-            padding: 30px 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.95); padding: 30px 40px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             min-width: 280px;
         }
         .spinner {
             width: 50px; height: 50px;
             border: 4px solid rgba(30, 60, 114, 0.15);
             border-top-color: var(--accent-teal);
-            border-radius: 50%; 
-            animation: spin 0.8s linear infinite;
+            border-radius: 50%; animation: spin 0.8s linear infinite;
             margin: 0 auto 15px;
         }
         .loading-text {
-            color: var(--primary-blue);
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
+            color: var(--primary-blue); font-weight: 600;
+            font-size: 0.95rem; margin-bottom: 8px;
         }
         .loading-progress {
-            width: 100%;
-            height: 4px;
-            background: var(--gray-200);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-top: 10px;
+            width: 100%; height: 4px; background: var(--gray-200);
+            border-radius: 2px; overflow: hidden; margin-top: 10px;
         }
         .loading-progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--accent-teal), var(--primary-blue));
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 2px;
+            width: 0%; transition: width 0.3s ease; border-radius: 2px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -399,12 +294,7 @@
             *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
         
-        .viewer-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
+        .viewer-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
         .location-toggle-btn {
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
             color: white; border: none; padding: 12px 20px;
@@ -465,8 +355,7 @@
             display: flex; align-items: center; justify-content: flex-start; gap: 10px;
             padding: 14px 16px; background: var(--gray-100); border: 2px solid transparent;
             border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s;
-            text-align: left;
-            touch-action: manipulation;
+            text-align: left; touch-action: manipulation;
         }
         .scene-btn:active { transform: scale(0.98); }
         .scene-btn.active {
@@ -485,12 +374,9 @@
             display: flex; align-items: center; justify-content: center;
             width: 56px; height: 56px;
             background: linear-gradient(135deg, var(--accent-teal), #00b39d);
-            color: var(--white);
-            border-radius: 50%;
-            text-decoration: none;
+            color: var(--white); border-radius: 50%; text-decoration: none;
             box-shadow: 0 6px 20px rgba(0, 201, 177, 0.35);
-            transition: all 0.3s ease;
-            touch-action: manipulation;
+            transition: all 0.3s ease; touch-action: manipulation;
         }
         .cs-button:active { transform: scale(0.95); }
         .cs-button i { font-size: 1.8rem; }
@@ -504,12 +390,8 @@
             transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         .cs-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
+            content: ''; position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%); border: 6px solid transparent;
             border-top-color: var(--primary-blue);
         }
         .cs-button:hover .cs-tooltip { opacity: 1; visibility: visible; transform: translateX(50%) translateY(0); }
@@ -537,16 +419,14 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 3000;
             display: none; align-items: center; justify-content: center;
-            padding: 20px; overflow-y: auto;
-            touch-action: pan-y;
+            padding: 20px; overflow-y: auto; touch-action: pan-y;
         }
         .denah-modal-overlay.active { display: flex; }
         .denah-modal-content {
             background: white; border-radius: 30px; padding: 30px;
             max-width: 1400px; width: 100%; max-height: 90vh;
             overflow-y: auto; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.3s ease;
-            touch-action: pan-y;
+            animation: slideUp 0.3s ease; touch-action: pan-y;
         }
         .denah-modal-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -574,120 +454,70 @@
         }
         .denah-image { width: 100%; height: auto; display: block; }
 
-        /* ✅ ZOOM 150% + BISA DIGESER (pan/drag) */
         .denah-image-container.zoomed {
-            overflow: hidden;
-            cursor: grab;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
+            overflow: hidden; cursor: grab;
+            touch-action: none; user-select: none; -webkit-user-select: none;
         }
-        .denah-image-container.zoomed.dragging {
-            cursor: grabbing;
-        }
+        .denah-image-container.zoomed.dragging { cursor: grabbing; }
         .denah-zoom-layer {
-            position: relative;
-            width: 100%;
-            transform: translate(0px, 0px) scale(1);
-            transform-origin: 0 0;
+            position: relative; width: 100%;
+            transform: translate(0px, 0px) scale(1); transform-origin: 0 0;
             transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
         }
-        .denah-zoom-layer.no-transition {
-            transition: none !important;
-        }
+        .denah-zoom-layer.no-transition { transition: none !important; }
         .denah-zoom-layer .denah-image {
-            -webkit-user-drag: none;
-            pointer-events: none;
+            -webkit-user-drag: none; pointer-events: none;
         }
-        /* ✅ Pin dikecilkan karena layer di-zoom 1.5x (desktop) */
         .denah-zoom-layer .denah-cluster-pin.search-result {
-            width: 26px;
-            height: 26px;
-            font-size: 12px;
-            border-width: 2px;
+            width: 26px; height: 26px; font-size: 12px; border-width: 2px;
         }
         .denah-zoom-layer .denah-cluster-pin.search-result .denah-cluster-tooltip {
-            font-size: 0.75rem;
-            padding: 8px 10px;
-            margin-bottom: 6px;
+            font-size: 0.75rem; padding: 8px 10px; margin-bottom: 6px;
         }
-        /* ✅ Badge petunjuk geser */
         .drag-hint {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 20px;
-            z-index: 400;
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            backdrop-filter: blur(4px);
+            position: absolute; bottom: 12px; left: 50%;
+            transform: translateX(-50%); background: rgba(0, 0, 0, 0.75);
+            color: #fff; font-size: 0.75rem; font-weight: 600;
+            padding: 8px 16px; border-radius: 20px; z-index: 400;
+            pointer-events: none; display: flex; align-items: center; gap: 8px;
+            white-space: nowrap; backdrop-filter: blur(4px);
         }
         .drag-hint i { color: var(--accent-teal); }
         
         .denah-cluster-pin {
-            position: absolute;
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            border: 3px solid white;
-            cursor: pointer;
-            transform: translate(-50%, -50%);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            font-weight: bold;
-            z-index: 100;
+            position: absolute; width: 40px; height: 40px;
+            border-radius: 50%; border: 3px solid white;
+            cursor: pointer; transform: translate(-50%, -50%);
+            transition: all 0.3s ease; display: flex;
+            align-items: center; justify-content: center;
+            font-size: 18px; font-weight: bold; z-index: 100;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
             touch-action: manipulation;
             -webkit-tap-highlight-color: rgba(0,0,0,0.2);
         }
         .denah-cluster-pin.has-panorama {
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
+            background: linear-gradient(135deg, #28a745, #20c997); color: white;
         }
         .denah-cluster-pin.multiple-rooms {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); color: white;
         }
         .denah-cluster-pin:active, .denah-cluster-pin:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-            z-index: 200;
+            transform: translate(-50%, -50%) scale(1.1); z-index: 200;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
         .denah-cluster-pin .cluster-count {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #ffc107;
-            color: #000;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-            border: 2px solid white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            position: absolute; top: -6px; right: -6px;
+            background: #ffc107; color: #000; width: 18px; height: 18px;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 10px; font-weight: 700;
+            border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
         @keyframes pulse-search {
             0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.8), 0 3px 10px rgba(0,0,0,0.3); transform: translate(-50%, -50%) scale(1.2); }
             70% { box-shadow: 0 0 0 25px rgba(255, 193, 7, 0), 0 3px 10px rgba(0,0,0,0.3); transform: translate(-50%, -50%) scale(1.3); }
             100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0), 0 3px 10px rgba(0,0,0,0.3); transform: translate(-50%, -50%) scale(1.2); }
         }
-        /* ✅ Versi mobile: ring pulse lebih kecil */
         @keyframes pulse-search-mobile {
             0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.8), 0 2px 6px rgba(0,0,0,0.3); transform: translate(-50%, -50%) scale(1.15); }
             70% { box-shadow: 0 0 0 10px rgba(255, 193, 7, 0), 0 2px 6px rgba(0,0,0,0.3); transform: translate(-50%, -50%) scale(1.25); }
@@ -695,150 +525,70 @@
         }
         .denah-cluster-pin.search-result {
             background: linear-gradient(135deg, #ffc107, #ff9800) !important;
-            color: white;
-            animation: pulse-search 2s infinite;
-            z-index: 200;
-            border: 4px solid white;
+            color: white; animation: pulse-search 2s infinite;
+            z-index: 200; border: 4px solid white;
         }
         .denah-cluster-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.95);
-            color: white;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            margin-bottom: 10px;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            pointer-events: none;
-            z-index: 300;
+            position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%); background: rgba(0, 0, 0, 0.95);
+            color: white; padding: 10px 14px; border-radius: 10px;
+            font-size: 0.85rem; font-weight: 600; white-space: nowrap;
+            margin-bottom: 10px; opacity: 0; visibility: hidden;
+            transition: all 0.3s; pointer-events: none; z-index: 300;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            max-width: 220px;
-            text-align: center;
+            max-width: 220px; text-align: center;
         }
         .denah-cluster-tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 7px solid transparent;
+            content: ''; position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%); border: 7px solid transparent;
             border-top-color: rgba(0, 0, 0, 0.95);
         }
         .denah-cluster-pin:hover .denah-cluster-tooltip,
         .denah-cluster-pin:active .denah-cluster-tooltip {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1; visibility: visible;
         }
         .denah-cluster-pin.search-result .denah-cluster-tooltip {
-            opacity: 1;
-            visibility: visible;
+            opacity: 1; visibility: visible;
             background: linear-gradient(135deg, #ffc107, #ff9800);
-            font-size: 0.95rem;
-            padding: 12px 16px;
+            font-size: 0.95rem; padding: 12px 16px;
         }
 
         .cluster-popup-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 5000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 5000;
+            display: none; align-items: center; justify-content: center; padding: 20px;
         }
         .cluster-popup-overlay.active { display: flex; }
         .cluster-popup {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 400px;
-            width: 100%;
-            max-height: 70vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-            animation: slideUp 0.3s ease;
+            background: white; border-radius: 20px; padding: 25px;
+            max-width: 400px; width: 100%; max-height: 70vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: slideUp 0.3s ease;
         }
         .cluster-popup-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-200);
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--gray-200);
         }
-        .cluster-popup-header h4 {
-            color: var(--primary-blue);
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
+        .cluster-popup-header h4 { color: var(--primary-blue); font-size: 1.2rem; font-weight: 700; }
         .cluster-popup-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--gray-600);
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
+            background: none; border: none; font-size: 1.5rem; color: var(--gray-600);
+            cursor: pointer; width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s;
         }
-        .cluster-popup-close:hover {
-            background: var(--gray-100);
-            color: var(--primary-blue);
-        }
-        .cluster-popup-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .cluster-popup-close:hover { background: var(--gray-100); color: var(--primary-blue); }
+        .cluster-popup-list { display: flex; flex-direction: column; gap: 10px; }
         .cluster-popup-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: var(--gray-100);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px; background: var(--gray-100); border-radius: 12px;
+            cursor: pointer; transition: all 0.3s; border: 2px solid transparent;
         }
         .cluster-popup-item:hover, .cluster-popup-item:active {
-            background: var(--white);
-            border-color: var(--accent-teal);
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0, 201, 177, 0.2);
+            background: var(--white); border-color: var(--accent-teal);
+            transform: translateX(5px); box-shadow: 0 4px 12px rgba(0, 201, 177, 0.2);
         }
-        .cluster-popup-item i {
-            font-size: 1.2rem;
-            color: var(--accent-teal);
-            width: 30px;
-            text-align: center;
-        }
-        .cluster-popup-item.has-panorama i {
-            color: #28a745;
-        }
-        .cluster-popup-item-content h5 {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--gray-700);
-            margin-bottom: 2px;
-        }
-        .cluster-popup-item-content small {
-            font-size: 0.75rem;
-            color: var(--gray-600);
-        }
+        .cluster-popup-item i { font-size: 1.2rem; color: var(--accent-teal); width: 30px; text-align: center; }
+        .cluster-popup-item.has-panorama i { color: #28a745; }
+        .cluster-popup-item-content h5 { font-size: 0.95rem; font-weight: 600; color: var(--gray-700); margin-bottom: 2px; }
+        .cluster-popup-item-content small { font-size: 0.75rem; color: var(--gray-600); }
 
         .denah-sidebar { margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 20px; }
         .denah-sidebar h4 { color: var(--primary-blue); margin-bottom: 15px; font-size: 1.2rem; }
@@ -851,8 +601,7 @@
             touch-action: manipulation;
         }
         .room-item:active, .room-item:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-teal);
+            transform: translateY(-2px); border-color: var(--accent-teal);
             box-shadow: 0 4px 12px rgba(0, 201, 177, 0.2);
         }
 
@@ -904,93 +653,83 @@
         .room-info-close:active { transform: scale(0.98); box-shadow: 0 6px 20px rgba(30, 60, 114, 0.4); }
 
         .denah-search-result-section {
-            background: var(--white);
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-            display: none;
-            animation: slideUp 0.4s ease;
+            background: var(--white); border-radius: 30px; padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); margin-bottom: 30px;
+            display: none; animation: slideUp 0.4s ease;
         }
         .denah-search-result-section.active { display: block; }
         .search-result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-200);
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px;
+            border-bottom: 2px solid var(--gray-200); flex-wrap: wrap; gap: 10px;
         }
         .search-result-header h3 {
-            color: var(--primary-blue);
-            font-size: 1.3rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0;
+            color: var(--primary-blue); font-size: 1.3rem; font-weight: 700;
+            display: flex; align-items: center; gap: 10px; margin: 0;
         }
         .search-result-header h3 i { color: var(--accent-teal); }
         .btn-reset-search {
-            background: var(--gray-200);
-            color: var(--gray-700);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+            background: var(--gray-200); color: var(--gray-700); border: none;
+            padding: 10px 20px; border-radius: 20px; font-weight: 600;
+            font-size: 0.9rem; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; transition: all 0.3s;
         }
-        .btn-reset-search:hover {
-            background: var(--gray-300);
-            transform: translateY(-1px);
-        }
+        .btn-reset-search:hover { background: var(--gray-300); transform: translateY(-1px); }
         .search-result-room-info {
             background: linear-gradient(135deg, var(--accent-teal), #00b39d);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            color: white; padding: 20px; border-radius: 15px;
+            margin-bottom: 20px; display: flex; align-items: center;
+            gap: 15px; flex-wrap: wrap;
         }
         .search-result-room-info .room-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            flex-shrink: 0;
+            width: 50px; height: 50px; background: rgba(255,255,255,0.2);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 1.4rem; flex-shrink: 0;
         }
         .search-result-room-info h4 { font-size: 1.2rem; margin-bottom: 4px; }
         .search-result-room-info p { font-size: 0.9rem; opacity: 0.95; margin: 0; }
 
-        .search-result-details {
-            margin-top: 25px;
-        }
+        .search-result-details { margin-top: 25px; }
         .details-title {
-            color: var(--primary-blue);
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: var(--primary-blue); font-size: 1.1rem; font-weight: 700;
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
         }
         .details-title i { color: var(--accent-teal); }
         .search-result-details .room-info-grid { margin-bottom: 20px; }
         .search-result-details .room-info-description { margin-bottom: 0; }
+
+        /* ============================================ */
+        /* ✅ SECRET ADMIN ACCESS - NOTIFICATION ONLY   */
+        /* ============================================ */
+        
+        .admin-access-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+        }
+        .admin-access-notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .admin-access-notification i {
+            color: var(--accent-teal);
+            font-size: 1.1rem;
+        }
 
         @media (max-width: 768px) {
             .nav-toggle { display: block; }
@@ -998,10 +737,8 @@
                 position: fixed; top: 70px; right: -100%;
                 flex-direction: column; background: var(--white);
                 width: 280px; height: calc(100vh - 70px);
-                padding: 35px 25px;
-                box-shadow: -5px 0 20px rgba(0,0,0,0.15);
-                transition: right 0.4s ease;
-                border-radius: 25px 0 0 25px;
+                padding: 35px 25px; box-shadow: -5px 0 20px rgba(0,0,0,0.15);
+                transition: right 0.4s ease; border-radius: 25px 0 0 25px;
                 justify-content: flex-start;
             }
             .nav-menu.active { right: 0; }
@@ -1049,35 +786,21 @@
             
             .pnlm-compass { display: none !important; }
             
-            .denah-cluster-pin {
-                width: 44px; height: 44px;
-                font-size: 20px;
-            }
-            .denah-cluster-pin .cluster-count {
-                width: 20px; height: 20px;
-                font-size: 11px;
-            }
+            .denah-cluster-pin { width: 44px; height: 44px; font-size: 20px; }
+            .denah-cluster-pin .cluster-count { width: 20px; height: 20px; font-size: 11px; }
 
-            /* ✅ PIN HASIL PENCARIAN LEBIH KECIL DI MOBILE (×1.5 zoom = ±27px di layar) */
             .denah-zoom-layer .denah-cluster-pin.search-result {
-                width: 18px;
-                height: 18px;
-                font-size: 9px;
-                border-width: 2px;
+                width: 18px; height: 18px; font-size: 9px; border-width: 2px;
             }
             .denah-zoom-layer .denah-cluster-pin.search-result .denah-cluster-tooltip {
-                font-size: 0.65rem;
-                padding: 6px 9px;
-                margin-bottom: 4px;
-                border-radius: 8px;
-                max-width: 150px;
+                font-size: 0.65rem; padding: 6px 9px;
+                margin-bottom: 4px; border-radius: 8px; max-width: 150px;
             }
             .denah-zoom-layer .denah-cluster-pin.search-result .denah-cluster-tooltip::after {
                 border-width: 4px;
             }
             .denah-cluster-pin.search-result {
-                animation-name: pulse-search-mobile;
-                border-width: 2px;
+                animation-name: pulse-search-mobile; border-width: 2px;
             }
 
             .denah-search-result-section { padding: 20px; border-radius: 20px; }
@@ -1102,20 +825,13 @@
             
             .scene-type-badge { display: none; }
             
-            .cluster-popup {
-                padding: 20px;
-                max-height: 80vh;
-            }
+            .cluster-popup { padding: 20px; max-height: 80vh; }
 
-            /* ✅ PIN PALING KECIL UNTUK LAYAR SEMPIT (×1.5 zoom = ±22px di layar) */
             .denah-zoom-layer .denah-cluster-pin.search-result {
-                width: 15px;
-                height: 15px;
-                font-size: 8px;
+                width: 15px; height: 15px; font-size: 8px;
             }
             .denah-zoom-layer .denah-cluster-pin.search-result .denah-cluster-tooltip {
-                font-size: 0.6rem;
-                padding: 5px 8px;
+                font-size: 0.6rem; padding: 5px 8px;
             }
 
             .denah-search-result-section { padding: 15px; margin: 5px 0 20px; }
@@ -1411,9 +1127,82 @@
         <div class="cs-tooltip">Chat via WhatsApp</div>
     </a>
 
+    {{-- ✅ NOTIFIKASI RAHASIA ADMIN (hanya muncul saat akses terpicu) --}}
+    <div class="admin-access-notification" id="adminAccessNotif">
+        <i class="fas fa-user-shield"></i>
+        <span>Mengalihkan ke Admin Panel...</span>
+    </div>
+
     <script defer src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     
     <script>
+    // ============================================
+    // 🔐 SECRET ADMIN ACCESS SYSTEM
+    // Hanya 2 metode: Keyboard Shortcut & Passphrase
+    // ============================================
+    
+    const ADMIN_LOGIN_URL = "{{ route('admin.login') }}";
+    
+    /**
+     * Menampilkan notifikasi rahasia admin lalu redirect ke login
+     */
+    function triggerSecretAdminAccess(method = 'unknown') {
+        const notif = document.getElementById('adminAccessNotif');
+        if (!notif) return;
+        
+        notif.classList.add('show');
+        
+        console.log(`%c🔐 Admin Access Triggered via: ${method}`, 'color: #00c9b1; font-weight: bold; font-size: 14px;');
+        
+        setTimeout(() => {
+            window.location.href = ADMIN_LOGIN_URL;
+        }, 1000);
+        
+        setTimeout(() => {
+            notif.classList.remove('show');
+        }, 900);
+    }
+    
+    /**
+     * ✅ METODE 1: Keyboard shortcut Ctrl+Shift+A (Win/Linux) / Cmd+Shift+A (Mac)
+     */
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+            e.preventDefault();
+            e.stopPropagation();
+            triggerSecretAdminAccess('keyboard-shortcut');
+            return false;
+        }
+    });
+    
+    /**
+     * ✅ METODE 2: Secret passphrase - Ketik "adminku" tanpa klik input apa pun
+     */
+    let secretBuffer = '';
+    const SECRET_PASSPHRASE = 'adminku';
+    
+    document.addEventListener('keypress', function(e) {
+        // Skip jika sedang fokus di input field (agar tidak terpicu saat user mencari ruangan)
+        if (document.activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+            return;
+        }
+        
+        secretBuffer += e.key.toLowerCase();
+        
+        if (secretBuffer.length > 20) {
+            secretBuffer = secretBuffer.slice(-20);
+        }
+        
+        if (secretBuffer.includes(SECRET_PASSPHRASE)) {
+            secretBuffer = '';
+            triggerSecretAdminAccess('secret-passphrase');
+        }
+    });
+    
+    // ============================================
+    // END SECRET ADMIN ACCESS SYSTEM
+    // ============================================
+
     document.querySelector('.nav-toggle')?.addEventListener('click', function() {
         document.querySelector('.nav-menu')?.classList.toggle('active');
     });
@@ -2013,10 +1802,6 @@
         }, 300);
     }
 
-    // ============================================
-    // ✅ FITUR PENCARIAN RUANGAN
-    // ============================================
-
     const searchHeroInput = document.getElementById('searchHeroInput');
     const searchHeroBtn = document.getElementById('searchHeroBtn');
     const searchDropdown = document.getElementById('searchDropdown');
@@ -2187,10 +1972,6 @@
         }
     }
 
-    // ============================================
-    // ✅ PAN / DRAG DENAH ZOOM (tetap 150%)
-    // ============================================
-
     const SEARCH_ZOOM_SCALE = 1.5;
     let searchPanX = 0;
     let searchPanY = 0;
@@ -2200,8 +1981,8 @@
         const container = document.getElementById('searchDenahContainer');
         if (!container) return { x: tx, y: ty };
         const rect = container.getBoundingClientRect();
-        const minX = rect.width - SEARCH_ZOOM_SCALE * rect.width;   // -0.5 * W
-        const minY = rect.height - SEARCH_ZOOM_SCALE * rect.height; // -0.5 * H
+        const minX = rect.width - SEARCH_ZOOM_SCALE * rect.width;
+        const minY = rect.height - SEARCH_ZOOM_SCALE * rect.height;
         return {
             x: Math.min(0, Math.max(minX, tx)),
             y: Math.min(0, Math.max(minY, ty))
@@ -2290,10 +2071,6 @@
         }, 150));
     }
 
-    // ============================================
-    // END PAN / DRAG
-    // ============================================
-
     function selectSearchResult(room) {
         searchDropdown.classList.remove('active');
         searchHeroInput.value = room.name;
@@ -2335,7 +2112,7 @@
         if (layer) {
             layer.classList.add('no-transition');
             layer.style.transform = 'translate(0px, 0px) scale(1)';
-            void layer.offsetWidth; // force reflow
+            void layer.offsetWidth;
             layer.classList.remove('no-transition');
         }
 
