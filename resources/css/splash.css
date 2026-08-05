@@ -1,0 +1,428 @@
+/* ===== CSS VARIABLES - SAMA PERSIS DENGAN HOME PAGE ===== */
+:root {
+    --primary-blue: #1e3c72;
+    --secondary-blue: #2a5298;
+    --accent-teal: #00c9b1;
+    --white: #ffffff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --shadow-sm: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-md: 0 10px 25px rgba(0,0,0,0.15);
+    --shadow-lg: 0 15px 40px rgba(0,0,0,0.2);
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    /* ✅ Background gradient SAMA PERSIS dengan home page */
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    color: var(--white);
+}
+
+/* ===== BACKGROUND CIRCLES - SAMA DENGAN HOME PAGE ===== */
+.splash-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.splash-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.3;
+    animation: float 20s infinite linear;
+}
+
+.circle-1 {
+    width: 500px;
+    height: 500px;
+    top: -200px;
+    left: -100px;
+    background: radial-gradient(circle, var(--accent-teal), transparent 70%);
+}
+
+.circle-2 {
+    width: 600px;
+    height: 600px;
+    bottom: -250px;
+    right: -150px;
+    background: radial-gradient(circle, var(--accent-teal), transparent 70%);
+    animation-direction: reverse;
+    animation-duration: 25s;
+}
+
+.circle-3 {
+    width: 350px;
+    height: 350px;
+    top: 40%;
+    right: -100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
+    animation-duration: 15s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(50px, -30px) rotate(90deg); }
+    50% { transform: translate(100px, 0) rotate(180deg); }
+    75% { transform: translate(50px, 30px) rotate(270deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* ===== WRAPPER & CONTENT ===== */
+.splash-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.splash-content {
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== LOGO SECTION ===== */
+.logo-section {
+    margin-bottom: 2.5rem;
+    animation: slideIn 0.6s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.logo-icon {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    /* ✅ Gradient logo pakai accent-teal yang sama */
+    background: linear-gradient(135deg, var(--accent-teal), var(--primary-blue));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 
+        0 0 0 4px rgba(0, 201, 177, 0.3),
+        var(--shadow-lg);
+    position: relative;
+    z-index: 2;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.logo-icon i {
+    font-size: 2.5rem;
+    color: var(--white);
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.3), var(--shadow-lg); 
+    }
+    50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 0 0 8px rgba(0, 201, 177, 0.5), var(--shadow-lg); 
+    }
+}
+
+.logo-glow {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 201, 177, 0.4) 0%, transparent 70%);
+    animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+.school-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+    /* ✅ Text gradient dengan warna brand */
+    background: linear-gradient(90deg, var(--white) 0%, var(--accent-teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.3;
+}
+
+.school-type {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.5px;
+}
+
+/* ===== LOADING SECTION ===== */
+.loading-section {
+    margin: 2rem 0;
+    animation: fadeIn 0.8s ease-out 0.3s both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.loading-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.loading-bar-track {
+    flex: 1;
+    max-width: 280px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loading-bar-fill {
+    height: 100%;
+    width: 0%;
+    /* ✅ Loading bar gradient sama dengan brand */
+    background: linear-gradient(90deg, var(--accent-teal), var(--primary-blue));
+    border-radius: 10px;
+    transition: width 0.1s ease-out;
+    position: relative;
+}
+
+.loading-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.loading-percentage {
+    min-width: 45px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent-teal);
+    font-variant-numeric: tabular-nums;
+}
+
+.loading-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.loading-dots::after {
+    content: '.';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* ===== TAGLINE ===== */
+.tagline-section {
+    margin: 1.5rem 0 2rem;
+    animation: fadeIn 0.8s ease-out 0.6s both;
+}
+
+.tagline-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.5;
+    padding: 0 1rem;
+}
+
+/* ===== FOOTER ===== */
+.splash-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    animation: fadeIn 0.8s ease-out 0.9s both;
+}
+
+.footer-divider {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.footer-small {
+    font-size: 0.75rem;
+}
+
+/* ===== SKIP BUTTON ===== */
+.skip-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.skip-btn:hover {
+    background: var(--accent-teal);
+    border-color: var(--accent-teal);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    color: var(--white);
+}
+
+.skip-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+    .school-name {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+    
+    .school-type {
+        font-size: 0.9rem;
+    }
+    
+    .logo-icon {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .logo-icon i {
+        font-size: 2rem;
+    }
+    
+    .tagline-text {
+        font-size: 1rem;
+        padding: 0 0.5rem;
+    }
+    
+    .loading-bar-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .loading-bar-track {
+        max-width: 100%;
+    }
+    
+    .skip-btn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .school-name {
+        font-size: 1.15rem;
+    }
+    
+    .logo-icon {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .logo-icon i {
+        font-size: 1.75rem;
+    }
+}
+
+/* ===== TRANSITION OUT ===== */
+.splash-exit {
+    animation: fadeOut 0.5s ease-in forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: scale(1.02);
+    }
+}
+
+.splash-bg.splash-exit {
+    animation: bgFadeOut 0.5s ease-in forwards;
+}
+
+@keyframes bgFadeOut {
+    to { opacity: 0; }
+}
