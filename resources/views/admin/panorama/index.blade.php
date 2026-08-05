@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Kelola Panorama - Admin</title>
     <link rel="icon" type="image/png" href="{{ asset('image/b/Logo ViTour 11.png') }}">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -19,7 +19,7 @@
     <style>
         :root { --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; }
         body { background: #f8f9fa; font-family: 'Poppins', sans-serif; margin: 0; }
-        
+
         .sidebar {
             position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
             background: var(--primary-blue); color: white; display: flex;
@@ -30,15 +30,15 @@
         .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
         .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.5); }
 
-        .sidebar a { 
-            color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px; 
-            display: block; border-radius: 8px; margin: 4px 0; transition: background 0.2s, color 0.2s; 
+        .sidebar a {
+            color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px;
+            display: block; border-radius: 8px; margin: 4px 0; transition: background 0.2s, color 0.2s;
         }
         .sidebar a:hover, .sidebar a.active { background: var(--secondary-blue); color: white; }
-        
-        .sidebar .logout-btn { 
-            background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; 
-            text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: background 0.2s; 
+
+        .sidebar .logout-btn {
+            background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px;
+            text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: background 0.2s;
         }
         .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
 
@@ -46,15 +46,15 @@
             width: 100%; height: auto; max-height: 60px; object-fit: contain;
             padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px;
         }
-        
+
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
         .navbar-admin { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1020; }
-        
+
         .section-card { border: none; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 1.5rem; overflow: hidden; background: white; }
         .section-card .table { margin: 0; }
         .section-card .table th { background: #f8f9fa; font-weight: 600; color: #495057; padding: 1rem; border-bottom: 1px solid #dee2e6; }
         .section-card .table td { vertical-align: middle; padding: 1rem; }
-        
+
         .btn-action { padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; margin: 0 2px; border: none; cursor: pointer; transition: transform 0.2s; }
         .btn-action:hover { transform: translateY(-1px); }
         .btn-edit { background: #17a2b8; color: white; }
@@ -63,30 +63,122 @@
         .btn-toggle.active { background: #28a745; }
         .badge-status-aktif { background: #28a745; color: white; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
         .badge-status-nonaktif { background: #6c757d; color: white; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
-        
-        .btn-primary-custom { 
-            background: var(--primary-blue); color: white; border-radius: 25px; padding: 0.6rem 1.5rem; 
-            border: none; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; transition: background 0.3s; 
+
+        .btn-primary-custom {
+            background: var(--primary-blue); color: white; border-radius: 25px; padding: 0.6rem 1.5rem;
+            border: none; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; transition: background 0.3s;
         }
         .btn-primary-custom:hover { background: var(--secondary-blue); color: white; }
-        
-        .preview-thumb { 
-            width: 80px; height: 50px; object-fit: cover; border-radius: 8px; 
-            border: 1px solid #dee2e6; background: #f8f9fa; 
+
+        .preview-thumb {
+            width: 80px; height: 50px; object-fit: cover; border-radius: 8px;
+            border: 1px solid #dee2e6; background: #f8f9fa;
         }
-        
+
         .empty-state { text-align: center; padding: 3rem 1rem; color: #6c757d; }
         .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
-        
+
         .pagination { gap: 6px; }
-        .pagination .page-item .page-link { 
-            min-width: 38px; height: 38px; border-radius: 8px; border: 1px solid #dee2e6; 
-            display: flex; align-items: center; justify-content: center; color: var(--primary-blue); 
-            font-weight: 500; transition: 0.2s; padding: 0 12px; background: white; 
+        .pagination .page-item .page-link {
+            min-width: 38px; height: 38px; border-radius: 8px; border: 1px solid #dee2e6;
+            display: flex; align-items: center; justify-content: center; color: var(--primary-blue);
+            font-weight: 500; transition: 0.2s; padding: 0 12px; background: white;
         }
         .pagination .page-item .page-link:hover { background: #f1f3f5; color: var(--secondary-blue); }
         .pagination .page-item.active .page-link { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
         .pagination .page-item.disabled .page-link { opacity: 0.5; cursor: not-allowed; }
+
+        /* ======= SEARCH & FILTER STYLES ======= */
+        .search-filter-wrapper {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            align-items: stretch;
+        }
+        .search-input-wrapper { position: relative; }
+        .search-input-wrapper i.search-icon {
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: #adb5bd; pointer-events: none;
+        }
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 0.75rem 4.5rem 0.75rem 2.75rem;
+            border: 2px solid #e9ecef; border-radius: 12px;
+            font-family: inherit; font-size: 0.95rem;
+            transition: all 0.25s ease; background: #f8f9fa;
+        }
+        .search-input-wrapper input:focus {
+            outline: none; border-color: var(--accent-teal); background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
+        }
+        .search-input-wrapper input::placeholder { color: #adb5bd; }
+
+        .search-input-wrapper .search-spinner {
+            position: absolute; right: 2.75rem; top: 50%; transform: translateY(-50%);
+            color: var(--accent-teal); display: none;
+        }
+        .search-input-wrapper .search-spinner.show { display: block; }
+
+        .search-input-wrapper .clear-search {
+            position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+            background: transparent; border: none; color: #adb5bd;
+            cursor: pointer; display: none; padding: 4px 8px;
+            border-radius: 50%; transition: 0.2s;
+        }
+        .search-input-wrapper .clear-search:hover { background: #e9ecef; color: #dc3545; }
+        .search-input-wrapper .clear-search.show { display: block; }
+
+        .filter-select {
+            padding: 0.75rem 2rem 0.75rem 1rem;
+            border: 2px solid #e9ecef; border-radius: 12px;
+            background: #f8f9fa; font-family: inherit; font-size: 0.9rem;
+            color: #495057; cursor: pointer; transition: all 0.25s ease; min-width: 160px;
+        }
+        .filter-select:focus {
+            outline: none; border-color: var(--accent-teal); background: #fff;
+            box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
+        }
+
+        .search-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding: 0.5rem 0.25rem;
+            font-size: 0.875rem; color: #6c757d; flex-wrap: wrap; gap: 0.5rem;
+        }
+        .search-meta .result-count strong { color: var(--primary-blue); font-weight: 600; }
+        .search-meta .reset-btn {
+            background: transparent; border: 1px solid #dee2e6;
+            padding: 0.35rem 0.9rem; border-radius: 20px;
+            color: #6c757d; cursor: pointer; font-size: 0.85rem;
+            transition: 0.2s; display: inline-flex; align-items: center; gap: 0.35rem;
+            text-decoration: none;
+        }
+        .search-meta .reset-btn:hover {
+            background: #f8f9fa; color: var(--primary-blue); border-color: var(--primary-blue);
+        }
+        .search-meta .search-hint { font-size: 0.78rem; color: #adb5bd; }
+        .search-meta .search-hint kbd {
+            background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px;
+            padding: 1px 6px; font-size: 0.72rem;
+            font-family: 'SFMono-Regular', Menlo, monospace; color: #495057;
+        }
+
+        .active-filter-badge {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            background: #e7f5ff; color: #1971c2;
+            padding: 0.25rem 0.75rem; border-radius: 20px;
+            font-size: 0.78rem; font-weight: 500; margin-left: 0.5rem;
+        }
+
+        mark.highlight {
+            background: #fff3bf; color: #000;
+            padding: 1px 3px; border-radius: 3px; font-weight: 600;
+        }
+
+        @media (max-width: 576px) {
+            .search-filter-wrapper { grid-template-columns: 1fr; }
+            .filter-select { width: 100%; }
+        }
 
         @media (max-width: 767px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
@@ -100,6 +192,20 @@
     </style>
 </head>
 <body>
+    @php
+        // Helper highlight kata kunci pencarian (aman dari XSS karena di-e() dulu)
+        $searchKeyword = trim((string) request('search'));
+        $highlight = function ($text) use ($searchKeyword) {
+            $safe = e($text);
+            if ($searchKeyword === '') return $safe;
+            return preg_replace(
+                '/(' . preg_quote(e($searchKeyword), '/') . ')/iu',
+                '<mark class="highlight">$1</mark>',
+                $safe
+            );
+        };
+    @endphp
+
     <div class="overlay" id="sidebarOverlay"></div>
     <div class="container-fluid p-0">
         <div class="row g-0">
@@ -156,7 +262,7 @@
                         </a>
                     </div>
                 </nav>
-                
+
                 <div class="p-4">
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -171,7 +277,58 @@
                         </div>
                     @endif
 
-                    <div class="section-card">
+                    <div class="section-card p-3">
+                        {{-- ====== FORM PENCARIAN (GET → diproses controller, mencari ke SEMUA halaman) ====== --}}
+                        <form method="GET" action="{{ route('admin.panorama.index') }}" id="searchForm">
+                            <div class="search-filter-wrapper">
+                                <div class="search-input-wrapper">
+                                    <i class="fas fa-search search-icon"></i>
+                                    <input type="text" id="searchInput" name="search"
+                                           value="{{ $searchKeyword }}"
+                                           placeholder="Cari nama panorama atau ID (mencari ke semua halaman)..."
+                                           autocomplete="off">
+                                    <span class="search-spinner" id="searchSpinner">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </span>
+                                    <button type="button" id="clearSearchBtn"
+                                            class="clear-search {{ $searchKeyword !== '' ? 'show' : '' }}"
+                                            title="Hapus pencarian">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <select name="status" id="filterStatus" class="filter-select" onchange="this.form.submit()">
+                                    <option value="">Semua Status</option>
+                                    <option value="aktif" {{ request('status') === 'aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="nonaktif" {{ request('status') === 'nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                </select>
+                            </div>
+                        </form>
+
+                        <div class="search-meta">
+                            <div class="result-count">
+                                @if($searchKeyword !== '' || request('status'))
+                                    Ditemukan <strong>{{ $panoramas->total() }}</strong> panorama
+                                    @if($searchKeyword !== '')
+                                        <span class="active-filter-badge"><i class="fas fa-search"></i> "{{ $searchKeyword }}"</span>
+                                    @endif
+                                    @if(request('status'))
+                                        <span class="active-filter-badge"><i class="fas fa-filter"></i> {{ ucfirst(request('status')) }}</span>
+                                    @endif
+                                @else
+                                    Total <strong>{{ $panoramas->total() }}</strong> panorama
+                                    &middot; menampilkan {{ $panoramas->firstItem() ?? 0 }}&ndash;{{ $panoramas->lastItem() ?? 0 }}
+                                @endif
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="search-hint"><kbd>Ctrl</kbd>+<kbd>K</kbd> untuk fokus</span>
+                                @if($searchKeyword !== '' || request('status'))
+                                    <a href="{{ route('admin.panorama.index') }}" class="reset-btn" title="Reset semua filter">
+                                        <i class="fas fa-undo"></i> Reset
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="table-responsive">
                             <table class="table table-hover align-middle mb-0">
                                 <thead>
@@ -187,8 +344,8 @@
                                         <tr>
                                             <td>
                                                 @if($item->image_path)
-                                                    <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}" 
-                                                         class="preview-thumb" width="80" height="50" 
+                                                    <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}"
+                                                         class="preview-thumb" width="80" height="50"
                                                          loading="lazy" decoding="async">
                                                 @else
                                                     <div class="preview-thumb d-flex align-items-center justify-content-center bg-light">
@@ -197,8 +354,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <div class="fw-bold">{{ $item->name }}</div>
-                                                <small class="text-muted">ID: #{{ $item->id }}</small>
+                                                <div class="fw-bold">{!! $highlight($item->name) !!}</div>
+                                                <small class="text-muted">ID: #{!! $highlight($item->id) !!}</small>
                                             </td>
                                             <td>
                                                 @if($item->is_active)
@@ -212,13 +369,13 @@
                                                     <a href="{{ route('admin.panorama.edit', $item) }}" class="btn-action btn-edit" title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <button type="button" class="btn-action btn-toggle {{ $item->is_active ? 'active' : '' }}" 
-                                                            onclick="toggleStatus({{ $item->id }}, this)" 
+                                                    <button type="button" class="btn-action btn-toggle {{ $item->is_active ? 'active' : '' }}"
+                                                            onclick="toggleStatus({{ $item->id }}, this)"
                                                             title="{{ $item->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
                                                         <i class="fas fa-toggle-{{ $item->is_active ? 'on' : 'off' }}"></i>
                                                     </button>
                                                     <form action="{{ route('admin.panorama.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus panorama ini? Tindakan ini tidak dapat dibatalkan.')">
-                                                        @csrf 
+                                                        @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn-action btn-delete" title="Hapus">
                                                             <i class="fas fa-trash"></i>
@@ -231,9 +388,25 @@
                                         <tr>
                                             <td colspan="4" class="text-center py-5">
                                                 <div class="empty-state">
-                                                    <i class="fas fa-images"></i>
-                                                    <p class="mb-0">Belum ada data panorama</p>
-                                                    <a href="{{ route('admin.panorama.create') }}" class="btn btn-primary btn-sm mt-3">Tambah Pertama</a>
+                                                    @if($searchKeyword !== '' || request('status'))
+                                                        {{-- PEMBERITAHUAN: tidak ketemu di halaman mana pun --}}
+                                                        <i class="fas fa-search-minus"></i>
+                                                        <p class="mb-1 fw-semibold" style="color: #495057;">Tidak ada hasil yang ditemukan</p>
+                                                        <p class="small mb-3">
+                                                            @if($searchKeyword !== '')
+                                                                Panorama dengan kata kunci "<strong>{{ $searchKeyword }}</strong>"
+                                                                tidak ditemukan di semua halaman.
+                                                            @endif
+                                                            Coba kata kunci lain atau reset filter.
+                                                        </p>
+                                                        <a href="{{ route('admin.panorama.index') }}" class="btn btn-primary btn-sm">
+                                                            <i class="fas fa-undo me-1"></i>Reset Pencarian
+                                                        </a>
+                                                    @else
+                                                        <i class="fas fa-images"></i>
+                                                        <p class="mb-0">Belum ada data panorama</p>
+                                                        <a href="{{ route('admin.panorama.create') }}" class="btn btn-primary btn-sm mt-3">Tambah Pertama</a>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -257,9 +430,9 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.alert').forEach(alert => {
-            setTimeout(() => { 
-                const bsAlert = new bootstrap.Alert(alert); 
-                bsAlert.close(); 
+            setTimeout(() => {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
             }, 4000);
         });
 
@@ -293,12 +466,49 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // ======= PENCARIAN SERVER-SIDE DENGAN DEBOUNCE =======
+        // Saat admin mengetik, form otomatis submit (GET) setelah 500ms.
+        // Controller mencari ke SELURUH data di database (semua halaman).
+        const searchForm  = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn    = document.getElementById('clearSearchBtn');
+        const spinner     = document.getElementById('searchSpinner');
+        let debounceTimer = null;
+
+        searchInput.addEventListener('input', function () {
+            clearTimeout(debounceTimer);
+            clearBtn.classList.toggle('show', this.value.trim() !== '');
+
+            // Tampilkan spinner sebagai tanda sedang mencari
+            spinner.classList.add('show');
+
+            debounceTimer = setTimeout(() => {
+                spinner.classList.remove('show');
+                searchForm.submit(); // kirim ke controller → cari ke semua halaman
+            }, 500);
+        });
+
+        clearBtn.addEventListener('click', function () {
+            searchInput.value = '';
+            clearBtn.classList.remove('show');
+            searchForm.submit();
+        });
+
+        // Shortcut Ctrl+K / Cmd+K untuk fokus ke kolom pencarian
+        document.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+                searchInput.select();
+            }
+        });
     });
 
     function toggleStatus(id, btnElement) {
         const icon = btnElement.querySelector('i');
         const originalIconClass = icon.className;
-        
+
         icon.className = 'fas fa-spinner fa-spin';
         btnElement.disabled = true;
 
@@ -313,10 +523,20 @@
         .then(res => res.json())
         .then(data => {
             if(data.success) {
-                const isActive = data.is_active; 
+                const isActive = data.is_active;
                 btnElement.classList.toggle('active', isActive);
                 icon.className = isActive ? 'fas fa-toggle-on' : 'fas fa-toggle-off';
                 btnElement.title = isActive ? 'Nonaktifkan' : 'Aktifkan';
+
+                const row = btnElement.closest('tr');
+                if (row) {
+                    const badgeContainer = row.querySelector('td:nth-child(3)');
+                    if (badgeContainer) {
+                        badgeContainer.innerHTML = isActive
+                            ? '<span class="badge-status-aktif">Aktif</span>'
+                            : '<span class="badge-status-nonaktif">Nonaktif</span>';
+                    }
+                }
             } else {
                 throw new Error(data.message || 'Gagal mengubah status');
             }

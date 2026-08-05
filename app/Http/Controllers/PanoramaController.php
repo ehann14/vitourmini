@@ -11,33 +11,52 @@ class PanoramaController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Pencarian dilakukan ke SELURUH data di database (semua halaman).
      */
     public function index(Request $request)
     {
         $query = Panorama::query();
 
+        // === PENCARIAN (mencari ke semua halaman database) ===
+        // Cari di kolom: name, scene_id, dan id
         if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $search = trim($request->input('search'));
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('scene_id', 'like', "%{$search}%");
+                  ->orWhere('scene_id', 'like', "%{$search}%")
+                  ->orWhere('id', 'like', "%{$search}%");
             });
         }
 
+        // === FILTER TIPE (360 atau normal) ===
         if ($request->filled('type')) {
             $query->where('type', $request->type);
         }
 
+        // === FILTER STATUS ===
+        // ✅ FIX: View mengirim 'aktif' / 'nonaktif', jadi cek pakai 'aktif' (bukan 'active')
         if ($request->filled('status')) {
-            $query->where('is_active', $request->status === 'active');
+            if ($request->status === 'aktif') {
+                $query->where('is_active', true);
+            } elseif ($request->status === 'nonaktif') {
+                $query->where('is_active', false);
+            }
         }
 
-        $perPage = $request->get('per_page', 10);
+        // === PER PAGE (validasi agar aman dari input aneh) ===
+        $allowedPerPage = [10, 25, 50, 100];
+        $perPage = in_array((int) $request->get('per_page'), $allowedPerPage)
+            ? (int) $request->get('per_page')
+            : 10;
+
+        // ✅ PENTING: withQueryString() agar parameter search, status, type, per_page
+        // tetap terbawa saat admin klik pagination ke halaman 2, 3, 4, dst.
         $panoramas = $query
             ->orderByRaw('`order` IS NULL')
             ->orderBy('order', 'asc')
             ->orderBy('id', 'asc')
-            ->paginate($perPage);
+            ->paginate($perPage)
+            ->withQueryString(); // ← INI YANG MEMBUAT PENCARIAN BEKERJA KE SEMUA HALAMAN
 
         return view('admin.panorama.index', compact('panoramas'));
     }
@@ -109,7 +128,7 @@ class PanoramaController extends Controller
     public function edit($id)
     {
         $panorama = Panorama::findOrFail($id);
-        
+
         $allPanoramas = Panorama::where('id', '!=', $id)
             ->orderBy('order', 'asc')
             ->orderBy('id', 'asc')
@@ -205,17 +224,27 @@ class PanoramaController extends Controller
 
     /**
      * Toggle status aktif/nonaktif via AJAX.
+     * ✅ FIX: Kembalikan is_active yang baru agar frontend bisa sync
      */
     public function toggleStatus($id, Request $request)
     {
         try {
             $panorama = Panorama::findOrFail($id);
-            $panorama->update(['is_active' => $request->boolean('is_active')]);
-            
-            return response()->json(['success' => true]);
+
+            // Toggle: balik nilai is_active saat ini
+            $newStatus = !$panorama->is_active;
+            $panorama->update(['is_active' => $newStatus]);
+
+            return response()->json([
+                'success'   => true,
+                'is_active' => $newStatus,
+            ]);
         } catch (\Exception $e) {
             Log::error('Toggle Status Error: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Gagal mengubah status'], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal mengubah status',
+            ], 500);
         }
     }
 
@@ -254,14 +283,14 @@ class PanoramaController extends Controller
 
             foreach ($validated['ids'] as $id) {
                 $panorama = Panorama::findOrFail($id);
-                
+
                 if ($panorama->image_path) {
                     $filePath = public_path($panorama->image_path);
                     if (file_exists($filePath)) {
                         unlink($filePath);
                     }
                 }
-                
+
                 $panorama->delete();
             }
 
