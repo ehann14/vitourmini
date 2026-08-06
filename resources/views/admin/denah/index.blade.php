@@ -57,114 +57,62 @@
             margin-bottom: 1.25rem;
             align-items: stretch;
         }
-        .search-input-wrapper {
-            position: relative;
-        }
+        .search-input-wrapper { position: relative; }
         .search-input-wrapper i.search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #adb5bd;
-            pointer-events: none;
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: #adb5bd; pointer-events: none;
         }
         .search-input-wrapper input {
-            width: 100%;
-            padding: 0.75rem 2.5rem 0.75rem 2.75rem;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            transition: all 0.25s ease;
-            background: #f8f9fa;
+            width: 100%; padding: 0.75rem 2.5rem 0.75rem 2.75rem;
+            border: 2px solid #e9ecef; border-radius: 12px; font-family: inherit;
+            font-size: 0.95rem; transition: all 0.25s ease; background: #f8f9fa;
         }
         .search-input-wrapper input:focus {
-            outline: none;
-            border-color: var(--accent-teal);
-            background: #fff;
+            outline: none; border-color: var(--accent-teal); background: #fff;
             box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
         }
         .search-input-wrapper .clear-search {
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: #adb5bd;
-            cursor: pointer;
-            display: none;
-            padding: 4px 8px;
-            border-radius: 50%;
-            transition: 0.2s;
+            position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+            background: transparent; border: none; color: #adb5bd; cursor: pointer;
+            display: none; padding: 4px 8px; border-radius: 50%; transition: 0.2s;
         }
         .search-input-wrapper .clear-search:hover { background: #e9ecef; color: #dc3545; }
         .search-input-wrapper .clear-search.show { display: block; }
 
         .filter-select {
-            padding: 0.75rem 2rem 0.75rem 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            background: #f8f9fa;
-            font-family: inherit;
-            font-size: 0.9rem;
-            color: #495057;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            min-width: 140px;
+            padding: 0.75rem 2rem 0.75rem 1rem; border: 2px solid #e9ecef; border-radius: 12px;
+            background: #f8f9fa; font-family: inherit; font-size: 0.9rem; color: #495057;
+            cursor: pointer; transition: all 0.25s ease; min-width: 140px;
         }
         .filter-select:focus {
-            outline: none;
-            border-color: var(--accent-teal);
-            background: #fff;
+            outline: none; border-color: var(--accent-teal); background: #fff;
             box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
         }
 
         .search-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding: 0.5rem 0.25rem;
-            font-size: 0.875rem;
-            color: #6c757d;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding: 0.5rem 0.25rem; font-size: 0.875rem;
+            color: #6c757d; flex-wrap: wrap; gap: 0.5rem;
         }
         .search-meta .result-count strong { color: var(--primary-blue); font-weight: 600; }
         .search-meta .reset-btn {
-            background: transparent;
-            border: 1px solid #dee2e6;
-            padding: 0.35rem 0.9rem;
-            border-radius: 20px;
-            color: #6c757d;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
+            background: transparent; border: 1px solid #dee2e6; padding: 0.35rem 0.9rem;
+            border-radius: 20px; color: #6c757d; cursor: pointer; font-size: 0.85rem;
+            transition: 0.2s; display: inline-flex; align-items: center; gap: 0.35rem;
         }
         .search-meta .reset-btn:hover {
-            background: #f8f9fa;
-            color: var(--primary-blue);
-            border-color: var(--primary-blue);
+            background: #f8f9fa; color: var(--primary-blue); border-color: var(--primary-blue);
         }
 
         .no-result-row td { text-align: center; padding: 2.5rem 1rem !important; color: #6c757d; }
         .no-result-row i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
 
         mark.highlight {
-            background: #fff3bf;
-            color: #000;
-            padding: 1px 3px;
-            border-radius: 3px;
-            font-weight: 600;
+            background: #fff3bf; color: #000; padding: 1px 3px;
+            border-radius: 3px; font-weight: 600;
         }
 
-        @media (max-width: 992px) {
-            .search-filter-wrapper { grid-template-columns: 1fr 1fr; }
-        }
+        @media (max-width: 992px) { .search-filter-wrapper { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 576px) {
             .search-filter-wrapper { grid-template-columns: 1fr; }
             .filter-select { width: 100%; }
@@ -196,9 +144,6 @@
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home me-2"></i>Dashboard</a>
                     <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}"><i class="fas fa-images me-2"></i>Kelola Panorama</a>
                     <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}"><i class="fas fa-map-marked-alt me-2"></i>Kelola Denah</a>
-                    <a href="{{ route('admin.comments.index') }}" class="{{ request()->routeIs('admin.comments.*') ? 'active' : '' }}"><i class="fas fa-comments me-2"></i>Kelola Komentar
-                        @if(isset($pendingCommentsCount) && $pendingCommentsCount > 0)<span class="badge bg-danger rounded-pill ms-2">{{ $pendingCommentsCount }}</span>@endif
-                    </a>
                     <a href="{{ route('home') }}" target="_blank"><i class="fas fa-external-link-alt me-2"></i>Lihat Website</a>
                 </nav>
                 <div class="p-3 border-top mt-auto" style="border-color: rgba(255,255,255,0.2) !important;">
@@ -246,7 +191,6 @@
                             </select>
                             <select id="filterGedung" class="filter-select">
                                 <option value="">Semua Gedung</option>
-                                {{-- Diisi otomatis dari data --}}
                             </select>
                         </div>
 
@@ -346,12 +290,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // --- Alert auto close ---
         document.querySelectorAll('.alert').forEach(alert => {
             setTimeout(() => { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 5000);
         });
 
-        // --- Sidebar toggle ---
         var sidebar = document.querySelector('.sidebar');
         var overlay = document.getElementById('sidebarOverlay');
         var toggleBtn = document.getElementById('sidebarToggleBtn');
@@ -389,12 +331,10 @@
         const emptyRow = document.querySelector('.empty-data-row');
         const originalTexts = new Map();
 
-        // Simpan text asli untuk highlight
         document.querySelectorAll('.searchable-text').forEach(el => {
             originalTexts.set(el, el.textContent);
         });
 
-        // Isi opsi dropdown gedung secara dinamis dari data yang ada
         function populateGedungFilter() {
             const gedungSet = new Set();
             rows.forEach(row => {
@@ -404,18 +344,15 @@
             Array.from(gedungSet).sort().forEach(g => {
                 const opt = document.createElement('option');
                 opt.value = g;
-                // Tampilkan dengan kapital huruf pertama
                 opt.textContent = g.charAt(0).toUpperCase() + g.slice(1);
                 filterGedung.appendChild(opt);
             });
         }
         populateGedungFilter();
 
-        // Update jumlah total
         totalCount.textContent = rows.length;
         resultCount.textContent = rows.length;
 
-        // Debounce untuk performance
         function debounce(fn, delay) {
             let t;
             return function(...args) {
@@ -424,12 +361,10 @@
             };
         }
 
-        // Escape regex
         function escapeRegex(str) {
             return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
-        // Highlight text yang cocok
         function highlightText(el, keyword) {
             const original = originalTexts.get(el);
             if (!original) return;
@@ -441,18 +376,15 @@
             el.innerHTML = original.replace(regex, '<mark class="highlight">$1</mark>');
         }
 
-        // Fungsi filter utama
         function applyFilters() {
             const keyword = searchInput.value.trim().toLowerCase();
             const status = filterStatus.value;
             const panorama = filterPanorama.value;
             const gedung = filterGedung.value;
 
-            // Tampilkan / sembunyikan tombol clear
             clearSearchBtn.classList.toggle('show', keyword.length > 0);
 
             if (emptyRow) {
-                // Jika tidak ada data sama sekali, tampilkan empty state
                 emptyRow.style.display = rows.length === 0 ? '' : 'none';
             }
 
@@ -476,7 +408,6 @@
                 const visible = matchKeyword && matchStatus && matchPanorama && matchGedung;
                 row.style.display = visible ? '' : 'none';
 
-                // Highlight text yang searchable
                 row.querySelectorAll('.searchable-text').forEach(el => {
                     highlightText(el, keyword);
                 });
@@ -486,7 +417,6 @@
 
             resultCount.textContent = visibleCount;
 
-            // Tampilkan pesan "tidak ada hasil" bila ada data tapi semua tersembunyi
             if (rows.length > 0 && visibleCount === 0) {
                 noResultBox.style.display = 'block';
                 denahTable.style.display = 'none';
@@ -496,7 +426,6 @@
             }
         }
 
-        // Event listener
         searchInput.addEventListener('input', debounce(applyFilters, 150));
         [filterStatus, filterPanorama, filterGedung].forEach(el => {
             el.addEventListener('change', applyFilters);
@@ -516,7 +445,6 @@
             applyFilters();
         });
 
-        // Shortcut Ctrl+K / Cmd+K untuk fokus ke search
         document.addEventListener('keydown', function(e) {
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();
@@ -528,7 +456,6 @@
             }
         });
 
-        // Inisialisasi awal
         applyFilters();
     });
     </script>

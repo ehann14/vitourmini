@@ -226,12 +226,6 @@
                     <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}">
                         <i class="fas fa-map-marked-alt me-2"></i>Kelola Denah
                     </a>
-                    <a href="{{ route('admin.comments.index') }}" class="{{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
-                        <i class="fas fa-comments me-2"></i>Kelola Komentar
-                        @if(isset($pendingCommentsCount) && $pendingCommentsCount > 0)
-                            <span class="badge bg-danger rounded-pill ms-2">{{ $pendingCommentsCount }}</span>
-                        @endif
-                    </a>
                     <a href="{{ route('home') }}" target="_blank" rel="noopener">
                         <i class="fas fa-external-link-alt me-2"></i>Lihat Website
                     </a>
@@ -468,8 +462,6 @@
         });
 
         // ======= PENCARIAN SERVER-SIDE DENGAN DEBOUNCE =======
-        // Saat admin mengetik, form otomatis submit (GET) setelah 500ms.
-        // Controller mencari ke SELURUH data di database (semua halaman).
         const searchForm  = document.getElementById('searchForm');
         const searchInput = document.getElementById('searchInput');
         const clearBtn    = document.getElementById('clearSearchBtn');
@@ -480,12 +472,11 @@
             clearTimeout(debounceTimer);
             clearBtn.classList.toggle('show', this.value.trim() !== '');
 
-            // Tampilkan spinner sebagai tanda sedang mencari
             spinner.classList.add('show');
 
             debounceTimer = setTimeout(() => {
                 spinner.classList.remove('show');
-                searchForm.submit(); // kirim ke controller → cari ke semua halaman
+                searchForm.submit();
             }, 500);
         });
 
@@ -495,7 +486,6 @@
             searchForm.submit();
         });
 
-        // Shortcut Ctrl+K / Cmd+K untuk fokus ke kolom pencarian
         document.addEventListener('keydown', function (e) {
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();
