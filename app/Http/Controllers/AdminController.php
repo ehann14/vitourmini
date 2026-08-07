@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Panorama;
-use App\Models\Comment;
 use App\Models\Denah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,17 +15,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-        // ✅ FIFO AUTO-DELETE: Pastikan maksimal 10 komentar approved di database
-        $approvedCount = Comment::where('is_approved', true)->count();
-        
-        if ($approvedCount > 10) {
-            $toDelete = $approvedCount - 10;
-            Comment::where('is_approved', true)
-                ->oldest()
-                ->limit($toDelete)
-                ->delete();
-        }
-
         // === Panorama Stats ===
         $totalPanoramas = Panorama::count();
         $activePanoramas = Panorama::where('is_active', true)->count();
@@ -34,23 +22,28 @@ class AdminController extends Controller
 
         // === Denah Stats ===
         $totalDenahs = Denah::count();
-
-        // === Comment Stats ===
-        $totalComments = Comment::count();
-        $pendingCommentsCount = Comment::where('is_approved', false)->count();
-        $pendingComments = Comment::where('is_approved', false)
+        
+        // ✅ Ambil denah (titik pin) terbaru yang memiliki koordinat valid
+        // dengan relasi panorama untuk preview gambar
+        $recentDenahs = Denah::with('panorama')
+            ->hasPosition() // hanya yang punya position_x & y
             ->latest()
-            ->take(4)
+            ->take(6)
             ->get();
+
+        // === Group denah by gedung untuk statistik tambahan ===
+        $denahByGedung = Denah::selectRaw('gedung, count(*) as total')
+            ->whereNotNull('gedung')
+            ->groupBy('gedung')
+            ->pluck('total', 'gedung');
 
         return view('admin.dashboard', compact(
             'totalPanoramas', 
             'activePanoramas', 
             'recentPanoramas',
             'totalDenahs',
-            'totalComments',
-            'pendingCommentsCount',
-            'pendingComments'
+            'recentDenahs',
+            'denahByGedung'
         ));
     }
 

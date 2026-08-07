@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Denah;
 use App\Models\Panorama;
-use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -22,13 +21,9 @@ class DenahController extends Controller
             ->get();
         
         $panoramas = Panorama::where('is_active', true)->get();
-        
-        $comments = Comment::where('is_approved', true)
-            ->orderBy('created_at', 'desc')
-            ->limit(10)
-            ->get();
-        
-        return view('denah', compact('denahs', 'panoramas', 'comments'));
+
+        // ✅ FIX: Return view dengan data yang diperlukan
+        return view('denah', compact('denahs', 'panoramas'));
     }
 
     /**
@@ -381,7 +376,7 @@ class DenahController extends Controller
     private function getGedungList()
     {
         return [
-            'Lapangan', 'Taman',
+            'Lapangan', 'Taman', 'Toilet',
             'Gedung A', 'Gedung B', 'Gedung C', 'Gedung D', 
             'Gedung E', 'Gedung F', 'Gedung G', 'Gedung H', 
             'Gedung I', 'Gedung J', 'Gedung K', 'Gedung L'
