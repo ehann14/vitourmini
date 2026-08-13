@@ -9,51 +9,105 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('vitour-theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            } catch (e) { document.documentElement.setAttribute('data-bs-theme', 'light'); }
+        })();
+    </script>
+
     <style>
-        :root { --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; --white: #ffffff; }
-        body { background: #f8f9fa; font-family: 'Poppins', sans-serif; }
-        
-        .sidebar {
-            position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
-            background: var(--primary-blue); color: white; display: flex;
-            flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden;
-            transition: transform 0.3s ease;
+        :root {
+            --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; --white: #ffffff;
+            --body-bg: #f8f9fa; --card-bg: #ffffff; --text-color: #212529; --muted-color: #6c757d;
+            --heading-color: #1e3c72; --border-color: #eee; --thead-bg: #f8f9fa;
+            --chip-bg: #f8f9fa; --chip-border: #e9ecef; --chip-color: #495057;
+            --input-bg: #fff; --input-focus-bg: #fff;
+            --hint-bg: #e7f3ff; --hint-border: var(--accent-teal);
+            --info-section-bg-1: #f8f9fa; --info-section-bg-2: #e9ecef;
+            --picker-bg: #f8f9fa; --picker-border: #dee2e6;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
         }
+        [data-bs-theme="dark"] {
+            --body-bg: #121826; --card-bg: #1a2234; --text-color: #e9ecef; --muted-color: #adb5bd;
+            --heading-color: #8ab4ff; --border-color: #2c3548; --thead-bg: #212b40;
+            --chip-bg: #232d42; --chip-border: #35405a; --chip-color: #ced4da;
+            --input-bg: #232d42; --input-focus-bg: #1a2234;
+            --hint-bg: #1e2f4a; --hint-border: var(--accent-teal);
+            --info-section-bg-1: #1e2739; --info-section-bg-2: #17202f;
+            --picker-bg: #232d42; --picker-border: #35405a;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
+            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
+            color-scheme: dark;
+        }
+
+        body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .image-picker-container, .room-info-section, .position-hint {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
+        [data-bs-theme="dark"] .sidebar { background: #141c30; }
+        [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
         .sidebar a { color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin: 4px 0; transition: all 0.3s; }
         .sidebar a:hover, .sidebar a.active { background: var(--secondary-blue); color: white; }
         .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
         .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        
-        .sidebar-logo {
-            width: 100%; height: auto; max-height: 60px; object-fit: contain;
-            padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px;
-        }
+        .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
 
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
 
-        .navbar-admin { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 1rem 2rem; }
-        .form-card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 2rem; margin-bottom: 2rem; }
-        .form-label { font-weight: 600; color: #6c757d; margin-bottom: 0.5rem; }
-        .form-control:focus, .form-select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
+        .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
+
+        .theme-toggle-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 1px solid var(--border-color); background: var(--chip-bg);
+            color: var(--heading-color); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
+        }
+        .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+
+        .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
+        .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
+        .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
+        .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
+        .form-control::placeholder, .form-select::placeholder { color: var(--muted-color); }
+        [data-bs-theme="dark"] .form-select option { background: var(--card-bg); color: var(--text-color); }
+
         .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
         .btn-primary-custom:hover { background: var(--secondary-blue); transform: translateY(-2px); color: white; }
         .btn-secondary-custom { background: #e9ecef; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: #6c757d; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-secondary-custom:hover { background: #dee2e6; color: #495057; }
+        [data-bs-theme="dark"] .btn-secondary-custom { background: var(--chip-bg); color: var(--muted-color); }
+        [data-bs-theme="dark"] .btn-secondary-custom:hover { background: var(--chip-border); color: var(--text-color); }
         .btn-danger-custom { background: #dc3545; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 500; color: white; transition: all 0.3s; }
         .btn-danger-custom:hover { background: #bd2130; color: white; }
+
         .alert-error-custom { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
-        .form-text { font-size: 0.85rem; color: #6c757d; }
-        .position-hint { background: #e7f3ff; border-left: 4px solid var(--accent-teal); padding: 12px; border-radius: 8px; margin-top: 8px; }
-        
-        .image-picker-container { position: relative; width: 100%; border: 2px dashed var(--gray-300); border-radius: 12px; overflow: hidden; cursor: crosshair; background: #f8f9fa; }
+        [data-bs-theme="dark"] .alert-error-custom { background: #3d1f23; border-color: #5c2930; color: #f5b5bd; }
+        .form-text { font-size: 0.85rem; color: var(--muted-color); }
+        .position-hint { background: var(--hint-bg); border-left: 4px solid var(--hint-border); padding: 12px; border-radius: 8px; margin-top: 8px; color: var(--text-color); }
+
+        .image-picker-container { position: relative; width: 100%; border: 2px dashed var(--picker-border); border-radius: 12px; overflow: hidden; cursor: crosshair; background: var(--picker-bg); }
         .image-picker-container img { width: 100%; height: auto; display: block; user-select: none; pointer-events: none; }
         .picker-pin { position: absolute; width: 24px; height: 24px; background: var(--accent-teal); border: 3px solid white; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,0.3); pointer-events: none; transition: all 0.2s; }
         .picker-pin::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: white; border-radius: 50%; }
         .picker-coordinates { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.75); color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; pointer-events: none; }
-        .room-info-section { background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 25px; border-radius: 16px; margin-top: 20px; border: 2px solid var(--gray-200); }
-        .room-info-section h5 { color: var(--primary-blue); margin-bottom: 20px; font-weight: 700; }
+        [data-bs-theme="dark"] .picker-coordinates { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+
+        .room-info-section {
+            background: linear-gradient(135deg, var(--info-section-bg-1), var(--info-section-bg-2));
+            padding: 25px; border-radius: 16px; margin-top: 20px; border: 2px solid var(--chip-border);
+        }
+        .room-info-section h5 { color: var(--heading-color); margin-bottom: 20px; font-weight: 700; }
 
         @media (max-width: 767px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
@@ -73,9 +127,7 @@
             <div class="sidebar p-0">
                 <div class="p-3 border-bottom" style="border-color: rgba(255,255,255,0.2) !important; position: relative;">
                     <img src="{{ asset('image/b/Logo ViTour 11.png') }}" alt="ViTour Logo" class="sidebar-logo">
-                    <button class="btn btn-sm btn-link text-white d-md-none sidebar-toggle-btn" id="sidebarCloseBtn" style="position: absolute; top: 10px; right: 10px;">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <button class="btn btn-sm btn-link text-white d-md-none sidebar-toggle-btn" id="sidebarCloseBtn" style="position: absolute; top: 10px; right: 10px;"><i class="fas fa-times"></i></button>
                 </div>
                 <nav class="mt-3 p-2 flex-grow-1">
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home me-2"></i>Dashboard</a>
@@ -95,9 +147,14 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center gap-3">
                             <button class="btn btn-sm btn-outline-primary d-md-none sidebar-toggle-btn" id="sidebarToggleBtn"><i class="fas fa-bars"></i></button>
-                            <h4 class="mb-0 fw-bold" style="color: var(--primary-blue);"><i class="fas fa-edit me-2"></i>Edit Titik Denah</h4>
+                            <h4 class="mb-0 fw-bold" style="color: var(--heading-color);"><i class="fas fa-edit me-2"></i>Edit Titik Denah</h4>
                         </div>
-                        <a href="{{ route('admin.denah.index') }}" class="btn-secondary-custom"><i class="fas fa-arrow-left"></i>Kembali</a>
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
+                                <i class="fas fa-moon" id="themeIcon"></i>
+                            </button>
+                            <a href="{{ route('admin.denah.index') }}" class="btn-secondary-custom"><i class="fas fa-arrow-left"></i>Kembali</a>
+                        </div>
                     </div>
                 </nav>
 
@@ -304,13 +361,30 @@
         if(closeBtn) closeBtn.addEventListener('click', toggleSidebar);
         if(overlay) overlay.addEventListener('click', toggleSidebar);
         document.querySelectorAll('.sidebar a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                if(window.innerWidth < 768 && sidebar.classList.contains('show')) toggleSidebar();
-            });
+            link.addEventListener('click', function() { if(window.innerWidth < 768 && sidebar.classList.contains('show')) toggleSidebar(); });
         });
         window.addEventListener('resize', function() {
             if(window.innerWidth >= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
         });
+
+        // ✅ TOGGLE TEMA
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        function updateThemeIcon() {
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            if (themeIcon) themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            if (themeToggleBtn) themeToggleBtn.title = isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap';
+        }
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function () {
+                const current = document.documentElement.getAttribute('data-bs-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', next);
+                try { localStorage.setItem('vitour-theme', next); } catch (e) {}
+                updateThemeIcon();
+            });
+        }
+        updateThemeIcon();
     });
     </script>
 </body>

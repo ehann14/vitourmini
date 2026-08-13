@@ -16,44 +16,71 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        :root { --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; }
-        body { background: #f8f9fa; font-family: 'Poppins', sans-serif; margin: 0; }
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('vitour-theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            } catch (e) { document.documentElement.setAttribute('data-bs-theme', 'light'); }
+        })();
+    </script>
 
-        .sidebar {
-            position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
-            background: var(--primary-blue); color: white; display: flex;
-            flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden;
-            transition: transform 0.3s ease;
+    <style>
+        :root {
+            --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1;
+            --body-bg: #f8f9fa; --card-bg: #ffffff; --text-color: #212529; --muted-color: #6c757d;
+            --heading-color: #1e3c72; --border-color: #dee2e6; --chip-bg: #f8f9fa; --chip-border: #e9ecef;
+            --chip-color: #495057; --input-bg: #f8f9fa; --input-focus-bg: #fff;
+            --table-head-bg: #f8f9fa; --table-border: #dee2e6;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            --kbd-bg: #f1f3f5; --kbd-border: #dee2e6; --kbd-color: #495057;
+            --filter-badge-bg: #e7f5ff; --filter-badge-color: #1971c2;
         }
+        [data-bs-theme="dark"] {
+            --body-bg: #121826; --card-bg: #1a2234; --text-color: #e9ecef; --muted-color: #adb5bd;
+            --heading-color: #8ab4ff; --border-color: #2c3548; --chip-bg: #232d42; --chip-border: #35405a;
+            --chip-color: #ced4da; --input-bg: #232d42; --input-focus-bg: #1a2234;
+            --table-head-bg: #212b40; --table-border: #35405a;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
+            --kbd-bg: #2c3548; --kbd-border: #35405a; --kbd-color: #ced4da;
+            --filter-badge-bg: #1e2f4a; --filter-badge-color: #8ab4ff;
+            color-scheme: dark;
+        }
+
+        body { background: var(--body-bg); font-family: 'Poppins', sans-serif; margin: 0; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
+        .navbar-admin, .section-card, .theme-toggle-btn, .search-input-wrapper input, .filter-select, .pagination .page-item .page-link, .search-meta .reset-btn {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
+        [data-bs-theme="dark"] .sidebar { background: #141c30; }
+        [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
         .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.5); }
-
-        .sidebar a {
-            color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px;
-            display: block; border-radius: 8px; margin: 4px 0; transition: background 0.2s, color 0.2s;
-        }
+        .sidebar a { color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin: 4px 0; transition: background 0.2s, color 0.2s; }
         .sidebar a:hover, .sidebar a.active { background: var(--secondary-blue); color: white; }
-
-        .sidebar .logout-btn {
-            background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px;
-            text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: background 0.2s;
-        }
+        .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
         .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-
-        .sidebar-logo {
-            width: 100%; height: auto; max-height: 60px; object-fit: contain;
-            padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px;
-        }
+        .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
 
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
-        .navbar-admin { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1020; }
+        .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1020; }
 
-        .section-card { border: none; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 1.5rem; overflow: hidden; background: white; }
-        .section-card .table { margin: 0; }
-        .section-card .table th { background: #f8f9fa; font-weight: 600; color: #495057; padding: 1rem; border-bottom: 1px solid #dee2e6; }
-        .section-card .table td { vertical-align: middle; padding: 1rem; }
+        .theme-toggle-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 1px solid var(--border-color); background: var(--chip-bg);
+            color: var(--heading-color); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
+        }
+        .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+
+        .section-card { border: none; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 1.5rem; overflow: hidden; background: var(--card-bg); }
+        .section-card .table { margin: 0; color: var(--text-color); }
+        .section-card .table th { background: var(--table-head-bg); font-weight: 600; color: var(--text-color); padding: 1rem; border-bottom: 1px solid var(--table-border); }
+        .section-card .table td { vertical-align: middle; padding: 1rem; border-color: var(--border-color); }
 
         .btn-action { padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; margin: 0 2px; border: none; cursor: pointer; transition: transform 0.2s; }
         .btn-action:hover { transform: translateY(-1px); }
@@ -64,122 +91,86 @@
         .badge-status-aktif { background: #28a745; color: white; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
         .badge-status-nonaktif { background: #6c757d; color: white; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
 
-        .btn-primary-custom {
-            background: var(--primary-blue); color: white; border-radius: 25px; padding: 0.6rem 1.5rem;
-            border: none; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; transition: background 0.3s;
-        }
+        .btn-primary-custom { background: var(--primary-blue); color: white; border-radius: 25px; padding: 0.6rem 1.5rem; border: none; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; transition: background 0.3s; }
         .btn-primary-custom:hover { background: var(--secondary-blue); color: white; }
 
-        .preview-thumb {
-            width: 80px; height: 50px; object-fit: cover; border-radius: 8px;
-            border: 1px solid #dee2e6; background: #f8f9fa;
-        }
+        .preview-thumb { width: 80px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-color); background: var(--chip-bg); }
 
-        .empty-state { text-align: center; padding: 3rem 1rem; color: #6c757d; }
+        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--muted-color); }
         .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
 
         .pagination { gap: 6px; }
         .pagination .page-item .page-link {
-            min-width: 38px; height: 38px; border-radius: 8px; border: 1px solid #dee2e6;
+            min-width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border-color);
             display: flex; align-items: center; justify-content: center; color: var(--primary-blue);
-            font-weight: 500; transition: 0.2s; padding: 0 12px; background: white;
+            font-weight: 500; transition: 0.2s; padding: 0 12px; background: var(--card-bg);
         }
-        .pagination .page-item .page-link:hover { background: #f1f3f5; color: var(--secondary-blue); }
+        .pagination .page-item .page-link:hover { background: var(--chip-bg); color: var(--secondary-blue); }
         .pagination .page-item.active .page-link { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
-        .pagination .page-item.disabled .page-link { opacity: 0.5; cursor: not-allowed; }
+        .pagination .page-item.disabled .page-link { opacity: 0.5; cursor: not-allowed; background: var(--chip-bg); }
 
-        /* ======= SEARCH & FILTER STYLES ======= */
-        .search-filter-wrapper {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            align-items: stretch;
-        }
+        .search-filter-wrapper { display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; margin-bottom: 1rem; align-items: stretch; }
         .search-input-wrapper { position: relative; }
-        .search-input-wrapper i.search-icon {
-            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-            color: #adb5bd; pointer-events: none;
-        }
+        .search-input-wrapper i.search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #adb5bd; pointer-events: none; }
         .search-input-wrapper input {
-            width: 100%;
-            padding: 0.75rem 4.5rem 0.75rem 2.75rem;
-            border: 2px solid #e9ecef; border-radius: 12px;
-            font-family: inherit; font-size: 0.95rem;
-            transition: all 0.25s ease; background: #f8f9fa;
+            width: 100%; padding: 0.75rem 4.5rem 0.75rem 2.75rem;
+            border: 2px solid var(--chip-border); border-radius: 12px;
+            font-family: inherit; font-size: 0.95rem; background: var(--input-bg); color: var(--text-color);
         }
-        .search-input-wrapper input:focus {
-            outline: none; border-color: var(--accent-teal); background: #fff;
-            box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
-        }
+        .search-input-wrapper input:focus { outline: none; border-color: var(--accent-teal); background: var(--input-focus-bg); box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1); }
         .search-input-wrapper input::placeholder { color: #adb5bd; }
-
-        .search-input-wrapper .search-spinner {
-            position: absolute; right: 2.75rem; top: 50%; transform: translateY(-50%);
-            color: var(--accent-teal); display: none;
-        }
+        .search-input-wrapper .search-spinner { position: absolute; right: 2.75rem; top: 50%; transform: translateY(-50%); color: var(--accent-teal); display: none; }
         .search-input-wrapper .search-spinner.show { display: block; }
-
         .search-input-wrapper .clear-search {
             position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
             background: transparent; border: none; color: #adb5bd;
             cursor: pointer; display: none; padding: 4px 8px;
             border-radius: 50%; transition: 0.2s;
         }
-        .search-input-wrapper .clear-search:hover { background: #e9ecef; color: #dc3545; }
+        .search-input-wrapper .clear-search:hover { background: var(--chip-border); color: #dc3545; }
         .search-input-wrapper .clear-search.show { display: block; }
 
         .filter-select {
             padding: 0.75rem 2rem 0.75rem 1rem;
-            border: 2px solid #e9ecef; border-radius: 12px;
-            background: #f8f9fa; font-family: inherit; font-size: 0.9rem;
-            color: #495057; cursor: pointer; transition: all 0.25s ease; min-width: 160px;
+            border: 2px solid var(--chip-border); border-radius: 12px;
+            background: var(--input-bg); font-family: inherit; font-size: 0.9rem;
+            color: var(--text-color); cursor: pointer; min-width: 160px;
         }
-        .filter-select:focus {
-            outline: none; border-color: var(--accent-teal); background: #fff;
-            box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1);
-        }
+        .filter-select:focus { outline: none; border-color: var(--accent-teal); background: var(--input-focus-bg); box-shadow: 0 0 0 4px rgba(0, 201, 177, 0.1); }
+        [data-bs-theme="dark"] .filter-select option { background: var(--card-bg); color: var(--text-color); }
 
         .search-meta {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 1rem; padding: 0.5rem 0.25rem;
-            font-size: 0.875rem; color: #6c757d; flex-wrap: wrap; gap: 0.5rem;
+            font-size: 0.875rem; color: var(--muted-color); flex-wrap: wrap; gap: 0.5rem;
         }
-        .search-meta .result-count strong { color: var(--primary-blue); font-weight: 600; }
+        .search-meta .result-count strong { color: var(--heading-color); font-weight: 600; }
         .search-meta .reset-btn {
-            background: transparent; border: 1px solid #dee2e6;
+            background: transparent; border: 1px solid var(--chip-border);
             padding: 0.35rem 0.9rem; border-radius: 20px;
-            color: #6c757d; cursor: pointer; font-size: 0.85rem;
+            color: var(--muted-color); cursor: pointer; font-size: 0.85rem;
             transition: 0.2s; display: inline-flex; align-items: center; gap: 0.35rem;
             text-decoration: none;
         }
-        .search-meta .reset-btn:hover {
-            background: #f8f9fa; color: var(--primary-blue); border-color: var(--primary-blue);
-        }
+        .search-meta .reset-btn:hover { background: var(--chip-bg); color: var(--heading-color); border-color: var(--heading-color); }
         .search-meta .search-hint { font-size: 0.78rem; color: #adb5bd; }
         .search-meta .search-hint kbd {
-            background: #f1f3f5; border: 1px solid #dee2e6; border-radius: 4px;
+            background: var(--kbd-bg); border: 1px solid var(--kbd-border); border-radius: 4px;
             padding: 1px 6px; font-size: 0.72rem;
-            font-family: 'SFMono-Regular', Menlo, monospace; color: #495057;
+            font-family: 'SFMono-Regular', Menlo, monospace; color: var(--kbd-color);
         }
 
         .active-filter-badge {
             display: inline-flex; align-items: center; gap: 0.35rem;
-            background: #e7f5ff; color: #1971c2;
+            background: var(--filter-badge-bg); color: var(--filter-badge-color);
             padding: 0.25rem 0.75rem; border-radius: 20px;
             font-size: 0.78rem; font-weight: 500; margin-left: 0.5rem;
         }
 
-        mark.highlight {
-            background: #fff3bf; color: #000;
-            padding: 1px 3px; border-radius: 3px; font-weight: 600;
-        }
+        mark.highlight { background: #fff3bf; color: #000; padding: 1px 3px; border-radius: 3px; font-weight: 600; }
+        [data-bs-theme="dark"] mark.highlight { background: #d4a017; color: #fff; }
 
-        @media (max-width: 576px) {
-            .search-filter-wrapper { grid-template-columns: 1fr; }
-            .filter-select { width: 100%; }
-        }
-
+        @media (max-width: 576px) { .search-filter-wrapper { grid-template-columns: 1fr; } .filter-select { width: 100%; } }
         @media (max-width: 767px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.show { transform: translateX(0); }
@@ -193,7 +184,6 @@
 </head>
 <body>
     @php
-        // Helper highlight kata kunci pencarian (aman dari XSS karena di-e() dulu)
         $searchKeyword = trim((string) request('search'));
         $highlight = function ($text) use ($searchKeyword) {
             $safe = e($text);
@@ -217,25 +207,14 @@
                     </button>
                 </div>
                 <nav class="mt-3 p-2 flex-grow-1">
-                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home me-2"></i>Dashboard
-                    </a>
-                    <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}">
-                        <i class="fas fa-images me-2"></i>Kelola Panorama
-                    </a>
-                    <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}">
-                        <i class="fas fa-map-marked-alt me-2"></i>Kelola Denah
-                    </a>
-                    <a href="{{ route('home') }}" target="_blank" rel="noopener">
-                        <i class="fas fa-external-link-alt me-2"></i>Lihat Website
-                    </a>
+                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home me-2"></i>Dashboard</a>
+                    <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}"><i class="fas fa-images me-2"></i>Kelola Panorama</a>
+                    <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}"><i class="fas fa-map-marked-alt me-2"></i>Kelola Denah</a>
+                    <a href="{{ route('home') }}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-2"></i>Lihat Website</a>
                 </nav>
                 <div class="p-3 border-top mt-auto" style="border-color: rgba(255,255,255,0.2) !important;">
-                    <form method="POST" action="{{ route('admin.logout') }}">
-                        @csrf
-                        <button type="submit" class="logout-btn">
-                            <i class="fas fa-sign-out-alt me-2"></i>Logout
-                        </button>
+                    <form method="POST" action="{{ route('admin.logout') }}">@csrf
+                        <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
                     </form>
                 </div>
             </aside>
@@ -247,13 +226,18 @@
                             <button class="btn btn-sm btn-outline-primary d-md-none sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Buka Sidebar">
                                 <i class="fas fa-bars"></i>
                             </button>
-                            <h4 class="mb-0 fw-bold" style="color: var(--primary-blue);">
+                            <h4 class="mb-0 fw-bold" style="color: var(--heading-color);">
                                 <i class="fas fa-images me-2"></i>Kelola Panorama
                             </h4>
                         </div>
-                        <a href="{{ route('admin.panorama.create') }}" class="btn-primary-custom">
-                            <i class="fas fa-plus"></i>Tambah Baru
-                        </a>
+                        <div class="d-flex align-items-center gap-3">
+                            <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
+                                <i class="fas fa-moon" id="themeIcon"></i>
+                            </button>
+                            <a href="{{ route('admin.panorama.create') }}" class="btn-primary-custom">
+                                <i class="fas fa-plus"></i>Tambah Baru
+                            </a>
+                        </div>
                     </div>
                 </nav>
 
@@ -272,7 +256,6 @@
                     @endif
 
                     <div class="section-card p-3">
-                        {{-- ====== FORM PENCARIAN (GET → diproses controller, mencari ke SEMUA halaman) ====== --}}
                         <form method="GET" action="{{ route('admin.panorama.index') }}" id="searchForm">
                             <div class="search-filter-wrapper">
                                 <div class="search-input-wrapper">
@@ -342,7 +325,7 @@
                                                          class="preview-thumb" width="80" height="50"
                                                          loading="lazy" decoding="async">
                                                 @else
-                                                    <div class="preview-thumb d-flex align-items-center justify-content-center bg-light">
+                                                    <div class="preview-thumb d-flex align-items-center justify-content-center" style="background:var(--chip-bg)">
                                                         <i class="fas fa-image text-muted"></i>
                                                     </div>
                                                 @endif
@@ -383,9 +366,8 @@
                                             <td colspan="4" class="text-center py-5">
                                                 <div class="empty-state">
                                                     @if($searchKeyword !== '' || request('status'))
-                                                        {{-- PEMBERITAHUAN: tidak ketemu di halaman mana pun --}}
                                                         <i class="fas fa-search-minus"></i>
-                                                        <p class="mb-1 fw-semibold" style="color: #495057;">Tidak ada hasil yang ditemukan</p>
+                                                        <p class="mb-1 fw-semibold" style="color: var(--text-color);">Tidak ada hasil yang ditemukan</p>
                                                         <p class="small mb-3">
                                                             @if($searchKeyword !== '')
                                                                 Panorama dengan kata kunci "<strong>{{ $searchKeyword }}</strong>"
@@ -424,10 +406,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.alert').forEach(alert => {
-            setTimeout(() => {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-            }, 4000);
+            setTimeout(() => { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 4000);
         });
 
         const sidebar = document.querySelector('.sidebar');
@@ -461,6 +440,25 @@
             }
         });
 
+        // ======= TOGGLE TEMA =======
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        function updateThemeIcon() {
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            if (themeIcon) themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            if (themeToggleBtn) themeToggleBtn.title = isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap';
+        }
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function () {
+                const current = document.documentElement.getAttribute('data-bs-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', next);
+                try { localStorage.setItem('vitour-theme', next); } catch (e) {}
+                updateThemeIcon();
+            });
+        }
+        updateThemeIcon();
+
         // ======= PENCARIAN SERVER-SIDE DENGAN DEBOUNCE =======
         const searchForm  = document.getElementById('searchForm');
         const searchInput = document.getElementById('searchInput');
@@ -471,9 +469,7 @@
         searchInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             clearBtn.classList.toggle('show', this.value.trim() !== '');
-
             spinner.classList.add('show');
-
             debounceTimer = setTimeout(() => {
                 spinner.classList.remove('show');
                 searchForm.submit();

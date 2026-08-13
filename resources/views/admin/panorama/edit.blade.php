@@ -9,50 +9,94 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('vitour-theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            } catch (e) { document.documentElement.setAttribute('data-bs-theme', 'light'); }
+        })();
+    </script>
+
     <style>
-        :root { --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; --white: #ffffff; }
-        body { background: #f8f9fa; font-family: 'Poppins', sans-serif; }
-        
-        .sidebar {
-            position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
-            background: var(--primary-blue); color: white; display: flex;
-            flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden;
-            transition: transform 0.3s ease;
+        :root {
+            --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; --white: #ffffff;
+            --body-bg: #f8f9fa; --card-bg: #ffffff; --text-color: #212529; --muted-color: #6c757d;
+            --heading-color: #1e3c72; --border-color: #dee2e6; --chip-bg: #f8f9fa; --chip-border: #e9ecef;
+            --chip-color: #495057; --input-bg: #fff; --input-focus-bg: #fff;
+            --canvas-bg: #e9ecef; --modal-bg: #ffffff;
+            --table-head-bg: #f8f9fa; --table-border: #dee2e6; --table-row-border: #e9ecef;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
         }
+        [data-bs-theme="dark"] {
+            --body-bg: #121826; --card-bg: #1a2234; --text-color: #e9ecef; --muted-color: #adb5bd;
+            --heading-color: #8ab4ff; --border-color: #2c3548; --chip-bg: #232d42; --chip-border: #35405a;
+            --chip-color: #ced4da; --input-bg: #232d42; --input-focus-bg: #1a2234;
+            --canvas-bg: #1a2234; --modal-bg: #1a2234;
+            --table-head-bg: #212b40; --table-border: #35405a; --table-row-border: #2c3548;
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
+            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
+            color-scheme: dark;
+        }
+
+        body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
+        [data-bs-theme="dark"] .sidebar { background: #141c30; }
+        [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
         .sidebar a { color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin: 4px 0; transition: all 0.3s; }
         .sidebar a:hover, .sidebar a.active { background: var(--secondary-blue); color: white; }
         .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
         .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        
-        .sidebar-logo {
-            width: 100%; height: auto; max-height: 60px; object-fit: contain;
-            padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px;
-        }
-        
-        .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
+        .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
 
-        .navbar-admin { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 1rem 2rem; }
-        .form-card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 2rem; margin-bottom: 2rem; }
-        .form-label { font-weight: 600; color: #6c757d; margin-bottom: 0.5rem; }
-        .form-control:focus, .form-select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
+        .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
+        .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
+
+        .theme-toggle-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 1px solid var(--border-color); background: var(--chip-bg);
+            color: var(--heading-color); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
+        }
+        .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+
+        .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
+        .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
+        .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
+        .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
+        .form-control::placeholder { color: var(--muted-color); }
+        [data-bs-theme="dark"] .form-select option { background: var(--card-bg); color: var(--text-color); }
+
         .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
         .btn-primary-custom:hover { background: var(--secondary-blue); transform: translateY(-2px); color: white; }
         .btn-secondary-custom { background: #e9ecef; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: #6c757d; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-secondary-custom:hover { background: #dee2e6; color: #495057; }
+        [data-bs-theme="dark"] .btn-secondary-custom { background: var(--chip-bg); color: var(--muted-color); }
+        [data-bs-theme="dark"] .btn-secondary-custom:hover { background: var(--chip-border); color: var(--text-color); }
         .btn-danger-custom { background: #dc3545; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 500; color: white; transition: all 0.3s; }
         .btn-danger-custom:hover { background: #bd2130; color: white; }
+
         .alert-custom { border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
         .alert-success-custom { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
         .alert-error-custom { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
-        .form-text { font-size: 0.85rem; color: #6c757d; }
+        [data-bs-theme="dark"] .alert-error-custom { background: #3d1f23; border-color: #5c2930; color: #f5b5bd; }
+        .form-text { font-size: 0.85rem; color: var(--muted-color); }
         .file-size-error { color: #dc3545; font-weight: 600; display: none; margin-top: 0.5rem; }
         .file-size-error.show { display: block; }
 
-        .image-canvas-wrapper { position: relative; display: inline-block; width: 100%; border-radius: 12px; overflow: hidden; cursor: crosshair; background: #e9ecef; min-height: 200px; }
+        .image-canvas-wrapper { position: relative; display: inline-block; width: 100%; border-radius: 12px; overflow: hidden; cursor: crosshair; background: var(--canvas-bg); min-height: 200px; }
         .image-canvas-wrapper img { width: 100%; display: block; border-radius: 12px; user-select: none; pointer-events: none; }
-        .canvas-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; color: #6c757d; gap: 0.75rem; }
+        .canvas-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; color: var(--muted-color); gap: 0.75rem; }
         .canvas-placeholder i { font-size: 3rem; opacity: 0.35; }
 
         .hotspot-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; z-index: 10; display: flex; flex-direction: column; align-items: center; transition: transform 0.15s; }
@@ -61,6 +105,7 @@
         .hotspot-pin .pin-head i { transform: rotate(45deg); font-size: 11px; color: white; }
         .hotspot-pin .pin-line { width: 2px; height: 6px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
         .hotspot-pin .pin-label { background: rgba(0,0,0,0.75); color: white; font-size: 11px; padding: 2px 7px; border-radius: 4px; white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; margin-top: 3px; pointer-events: none; }
+        [data-bs-theme="dark"] .hotspot-pin .pin-label { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
         .hotspot-pin .pin-remove { position: absolute; top: -6px; right: -6px; width: 16px; height: 16px; background: #dc3545; border-radius: 50%; border: none; color: white; font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; opacity: 0; transition: opacity 0.2s; }
         .hotspot-pin:hover .pin-remove { opacity: 1; }
 
@@ -69,18 +114,18 @@
 
         .hotspot-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
         .hotspot-modal-overlay.show { opacity: 1; pointer-events: all; }
-        .hotspot-modal { background: white; border-radius: 16px; padding: 1.75rem; width: 440px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.2); transform: translateY(20px); transition: transform 0.2s; }
+        .hotspot-modal { background: var(--modal-bg); border-radius: 16px; padding: 1.75rem; width: 440px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.4); transform: translateY(20px); transition: transform 0.2s; color: var(--text-color); }
         .hotspot-modal-overlay.show .hotspot-modal { transform: translateY(0); }
-        .hotspot-modal h6 { font-weight: 700; color: var(--primary-blue); margin-bottom: 1.25rem; }
+        .hotspot-modal h6 { font-weight: 700; color: var(--heading-color); margin-bottom: 1.25rem; }
         .modal-btn-row { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
 
-        .hotspot-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.75rem; }
-        .hotspot-table th { background: #f8f9fa; padding: 8px 12px; text-align: left; font-weight: 600; color: #495057; border-bottom: 1px solid #dee2e6; }
-        .hotspot-table td { padding: 8px 12px; border-bottom: 1px solid #e9ecef; vertical-align: middle; }
+        .hotspot-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.75rem; color: var(--text-color); }
+        .hotspot-table th { background: var(--table-head-bg); padding: 8px 12px; text-align: left; font-weight: 600; color: var(--text-color); border-bottom: 1px solid var(--table-border); }
+        .hotspot-table td { padding: 8px 12px; border-bottom: 1px solid var(--table-row-border); vertical-align: middle; }
         .hotspot-table tr:last-child td { border-bottom: none; }
         .badge-hotspot { background: var(--accent-teal); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .canvas-tip { font-size: 0.8rem; color: #6c757d; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-        .image-replace-toggle { font-size: 0.85rem; color: var(--primary-blue); cursor: pointer; font-weight: 600; }
+        .canvas-tip { font-size: 0.8rem; color: var(--muted-color); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+        .image-replace-toggle { font-size: 0.85rem; color: var(--heading-color); cursor: pointer; font-weight: 600; }
         .image-replace-toggle:hover { text-decoration: underline; }
 
         @media (max-width: 767px) {
@@ -101,23 +146,13 @@
         <div class="sidebar p-0">
             <div class="p-3 border-bottom" style="border-color: rgba(255,255,255,0.2) !important; position: relative;">
                 <img src="{{ asset('image/b/Logo ViTour 11.png') }}" alt="ViTour Logo" class="sidebar-logo">
-                <button class="btn btn-sm btn-link text-white d-md-none sidebar-toggle-btn" id="sidebarCloseBtn" style="position: absolute; top: 10px; right: 10px;">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="btn btn-sm btn-link text-white d-md-none sidebar-toggle-btn" id="sidebarCloseBtn" style="position: absolute; top: 10px; right: 10px;"><i class="fas fa-times"></i></button>
             </div>
             <nav class="mt-3 p-2 flex-grow-1">
-                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="fas fa-home me-2"></i>Dashboard
-                </a>
-                <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}">
-                    <i class="fas fa-images me-2"></i>Kelola Panorama
-                </a>
-                <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}">
-                    <i class="fas fa-map-marked-alt me-2"></i>Kelola Denah
-                </a>
-                <a href="{{ route('home') }}" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>Lihat Website
-                </a>
+                <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home me-2"></i>Dashboard</a>
+                <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}"><i class="fas fa-images me-2"></i>Kelola Panorama</a>
+                <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}"><i class="fas fa-map-marked-alt me-2"></i>Kelola Denah</a>
+                <a href="{{ route('home') }}" target="_blank"><i class="fas fa-external-link-alt me-2"></i>Lihat Website</a>
             </nav>
             <div class="p-3 border-top mt-auto" style="border-color: rgba(255,255,255,0.2) !important;">
                 <form method="POST" action="{{ route('admin.logout') }}">@csrf
@@ -131,9 +166,14 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center gap-3">
                         <button class="btn btn-sm btn-outline-primary d-md-none sidebar-toggle-btn" id="sidebarToggleBtn"><i class="fas fa-bars"></i></button>
-                        <h4 class="mb-0 fw-bold" style="color: var(--primary-blue);"><i class="fas fa-edit me-2"></i>Edit Panorama</h4>
+                        <h4 class="mb-0 fw-bold" style="color: var(--heading-color);"><i class="fas fa-edit me-2"></i>Edit Panorama</h4>
                     </div>
-                    <a href="{{ route('admin.panorama.index') }}" class="btn-secondary-custom"><i class="fas fa-arrow-left"></i>Kembali</a>
+                    <div class="d-flex align-items-center gap-3">
+                        <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>
+                        <a href="{{ route('admin.panorama.index') }}" class="btn-secondary-custom"><i class="fas fa-arrow-left"></i>Kembali</a>
+                    </div>
                 </div>
             </nav>
 
@@ -170,7 +210,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Scene ID</label>
-                                <input type="text" class="form-control" value="{{ $panorama->scene_id }}" readonly style="background:#f8f9fa;cursor:not-allowed">
+                                <input type="text" class="form-control" value="{{ $panorama->scene_id }}" readonly style="background:var(--chip-bg);cursor:not-allowed;color:var(--muted-color)">
                                 <small class="form-text">Scene ID tidak dapat diubah setelah dibuat</small>
                             </div>
                             <div class="col-md-6">
@@ -448,6 +488,25 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         if(window.innerWidth >= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
     });
+
+    // ✅ TOGGLE TEMA
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    function updateThemeIcon() {
+        const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+        if (themeIcon) themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        if (themeToggleBtn) themeToggleBtn.title = isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap';
+    }
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function () {
+            const current = document.documentElement.getAttribute('data-bs-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-bs-theme', next);
+            try { localStorage.setItem('vitour-theme', next); } catch (e) {}
+            updateThemeIcon();
+        });
+    }
+    updateThemeIcon();
 });
 </script>
 </body>
