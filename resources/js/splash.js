@@ -1,154 +1,102 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // ===== CONFIG =====
-    const CONFIG = {
-        duration: 3000,           // Total durasi splash (ms)
-        redirectUrl: '/denah',  // URL tujuan setelah splash
-        enableSkip: false,         // Aktifkan tombol skip
-        rememberSession: true     // Ingat sesi (tidak tampilkan splash lagi di tab yang sama)
-    };
+// =====================================================
+// SPLASH SCREEN - VITOUR 11
+// =====================================================
+const REDIRECT_URL = '/denah'; // <-- ganti sesuai rute beranda kamu, misal '/home' atau '/tour'
 
-    // ===== ELEMENTS =====
-    const elements = {
-        loadingBar: document.getElementById('loadingBar'),
-        percentage: document.getElementById('percentage'),
-        loadingText: document.getElementById('loadingText'),
-        loadingDots: document.getElementById('loadingDots'),
-        skipBtn: document.getElementById('skipBtn'),
-        splashWrapper: document.querySelector('.splash-wrapper'),
-        splashBg: document.querySelector('.splash-bg')
-    };
+document.addEventListener('DOMContentLoaded', () => {
+    const bar         = document.getElementById('loadingBar');
+    const pct         = document.getElementById('percentage');
+    const loadingText = document.getElementById('loadingText');
+    const dots        = document.getElementById('loadingDots');
+    const skipBtn     = document.getElementById('skipBtn');
 
-    // ===== STATE =====
+    /* ---------- 1. Partikel bintang ---------- */
+    const starsBox = document.getElementById('stars');
+    if (starsBox) {
+        for (let i = 0; i < 70; i++) {
+            const s = document.createElement('span');
+            s.className = 'star';
+            const size = Math.random() * 2.2 + 1;
+            s.style.width = s.style.height = size + 'px';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.top  = Math.random() * 100 + '%';
+            s.style.animationDuration = (Math.random() * 4 + 2.5) + 's';
+            s.style.animationDelay = (Math.random() * 5) + 's';
+            starsBox.appendChild(s);
+        }
+    }
+
+    /* ---------- 2. Judul animasi per huruf ---------- */
+    const nameEl = document.getElementById('schoolName');
+    if (nameEl) {
+        const text = nameEl.textContent.trim();
+        nameEl.textContent = '';
+        [...text].forEach((ch, i) => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.innerHTML = ch === ' ' ? '&nbsp;' : ch;
+            span.style.animationDelay = (0.45 + i * 0.04) + 's';
+            nameEl.appendChild(span);
+        });
+    }
+
+    /* ---------- 3. Titik loading ---------- */
+    let dotCount = 0;
+    const dotsTimer = setInterval(() => {
+        dotCount = (dotCount + 1) % 4;
+        dots.textContent = '.'.repeat(dotCount);
+    }, 350);
+
+    /* ---------- 4. Teks status bergantian ---------- */
+    const messages = [
+        'Menyiapkan panorama',
+        'Memuat tur virtual',
+        'Menghubungkan ke server',
+        'Hampir selesai'
+    ];
+    let msgIdx = 0;
+    const msgTimer = setInterval(() => {
+        msgIdx = (msgIdx + 1) % messages.length;
+        loadingText.textContent = messages[msgIdx];
+    }, 1600);
+
+    /* ---------- 5. Progress bar ---------- */
     let progress = 0;
-    let animationInterval;
-    let isExiting = false;
+    let finished = false;
 
-    // ===== CHECK SESSION (Opsional) =====
-    if (CONFIG.rememberSession && sessionStorage.getItem('splash_seen_' + window.location.hostname)) {
-        redirectToHome();
-        return;
+    const progressTimer = setInterval(() => {
+        progress += Math.random() * 6 + 1.5; // increment acak biar terasa natural
+        if (progress > 100) progress = 100;
+        render();
+        if (progress >= 100) {
+            clearInterval(progressTimer);
+            finish();
+        }
+    }, 140);
+
+    function render() {
+        bar.style.width = progress + '%';
+        pct.textContent = Math.floor(progress) + '%';
     }
 
-    // ===== START LOADING ANIMATION =====
-    function startLoading() {
-        const startTime = Date.now();
-        
-        animationInterval = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const newProgress = Math.min(100, Math.floor((elapsed / CONFIG.duration) * 100));
-            
-            if (newProgress > progress) {
-                progress = newProgress;
-                updateUI(progress);
-            }
-            
-            if (progress >= 100) {
-                completeLoading();
-            }
-        }, 30);
-    }
-
-    // ===== UPDATE UI =====
-    function updateUI(value) {
-        if (elements.loadingBar) {
-            elements.loadingBar.style.width = value + '%';
-        }
-        if (elements.percentage) {
-            elements.percentage.textContent = value + '%';
-        }
-        
-        // Animasi dots
-        const dotCount = Math.floor(value / 25) % 4;
-        if (elements.loadingDots) {
-            elements.loadingDots.style.setProperty('--dots', '.'.repeat(dotCount));
-        }
-    }
-
-    // ===== COMPLETE & REDIRECT =====
-    function completeLoading() {
-        clearInterval(animationInterval);
-        
-        // Set session flag
-        if (CONFIG.rememberSession) {
-            sessionStorage.setItem('splash_seen_' + window.location.hostname, 'true');
-        }
-        
-        // Trigger exit animation
-        triggerExit();
-    }
-
-    // ===== EXIT ANIMATION =====
-    function triggerExit() {
-        if (isExiting) return;
-        isExiting = true;
-        
-        // Tambahkan class animasi
-        if (elements.splashWrapper) {
-            elements.splashWrapper.classList.add('splash-exit');
-        }
-        if (elements.splashBg) {
-            elements.splashBg.classList.add('splash-exit');
-        }
-        
-        // Redirect setelah animasi selesai
-        setTimeout(redirectToHome, 500);
-    }
-
-    // ===== REDIRECT =====
-    function redirectToHome() {
-        window.location.href = CONFIG.redirectUrl;
-    }
-
-    // ===== SKIP BUTTON =====
-    function setupSkipButton() {
-        if (!CONFIG.enableSkip || !elements.skipBtn) return;
-        
-        elements.skipBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Set session flag jika di-skip
-            if (CONFIG.rememberSession) {
-                sessionStorage.setItem('splash_seen_' + window.location.hostname, 'true');
-            }
-            
-            clearInterval(animationInterval);
-            triggerExit();
-        });
-        
-        // Tampilkan tombol setelah 1.5 detik
+    function finish() {
+        if (finished) return;
+        finished = true;
+        clearInterval(dotsTimer);
+        clearInterval(msgTimer);
+        loadingText.textContent = 'Selamat datang!';
+        dots.textContent = '';
+        render();
         setTimeout(() => {
-            if (elements.skipBtn) {
-                elements.skipBtn.style.opacity = '1';
-                elements.skipBtn.style.transform = 'translateY(0)';
-            }
-        }, 1500);
+            document.body.classList.add('splash-exit');
+            setTimeout(() => { window.location.href = REDIRECT_URL; }, 850);
+        }, 500);
     }
 
-    // ===== INIT =====
-    function init() {
-        // Setup initial state skip button
-        if (elements.skipBtn) {
-            elements.skipBtn.style.opacity = '0';
-            elements.skipBtn.style.transform = 'translateY(10px)';
-            elements.skipBtn.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-        }
-        
-        // Start animation
-        startLoading();
-        
-        // Setup skip button
-        setupSkipButton();
-        
-        // Handle visibility change (jika tab tidak aktif, pause animasi visual)
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden && animationInterval) {
-                clearInterval(animationInterval);
-            } else if (!document.hidden && progress < 100) {
-                startLoading();
-            }
-        });
-    }
-
-    // Jalankan
-    init();
+    /* ---------- 6. Tombol skip ---------- */
+    skipBtn.addEventListener('click', () => {
+        clearInterval(progressTimer);
+        progress = 100;
+        finish();
+    });
 });
