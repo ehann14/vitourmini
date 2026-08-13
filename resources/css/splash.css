@@ -1,14 +1,21 @@
 /* =====================================================
    SPLASH SCREEN - VITOUR 11 (Premium Redesign)
+   ✅ BACKGROUND DISESAMAKAN DENGAN HALAMAN DENAH:
+      linear-gradient(135deg, #1e3c72, #2a5298)
 ===================================================== */
 :root {
-    --bg-1: #060d1f;
-    --bg-2: #0b1f42;
-    --accent-1: #2dd4bf;
+    /* ✅ Palet warna disamakan dengan halaman Denah */
+    --primary-blue: #1e3c72;
+    --secondary-blue: #2a5298;
+    --accent-teal: #00c9b1;
+
+    --bg-1: #1e3c72;   /* sebelumnya #060d1f */
+    --bg-2: #2a5298;   /* sebelumnya #0b1f42 */
+    --accent-1: #00c9b1;  /* teal ViTour (sebelumnya #2dd4bf) */
     --accent-2: #38bdf8;
     --accent-3: #818cf8;
     --text: #eaf2ff;
-    --muted: #8fa3c8;
+    --muted: #b9c8e6;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,7 +23,8 @@ html, body { height: 100%; }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: var(--bg-1);
+    /* ✅ Sama dengan body halaman Denah */
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
     color: var(--text);
     overflow: hidden;
     user-select: none;
@@ -25,14 +33,16 @@ body {
 /* ---------- BACKGROUND ---------- */
 .splash-bg {
     position: fixed; inset: 0;
-    background: linear-gradient(160deg, var(--bg-2) 0%, var(--bg-1) 70%);
+    /* ✅ Gradasi biru identik dengan halaman Denah */
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     overflow: hidden;
     transition: opacity .8s ease;
 }
 
-.aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .45; animation: auroraMove 16s ease-in-out infinite alternate; }
-.aurora-1 { width: 60vmax; height: 60vmax; top: -25vmax; left: -18vmax; background: radial-gradient(circle, #1d4ed8 0%, transparent 65%); }
-.aurora-2 { width: 50vmax; height: 50vmax; bottom: -22vmax; right: -15vmax; background: radial-gradient(circle, #0f9488 0%, transparent 65%); animation-delay: -6s; }
+.aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .4; animation: auroraMove 16s ease-in-out infinite alternate; }
+/* ✅ Warna aurora disesuaikan agar menyatu dengan biru Denah */
+.aurora-1 { width: 60vmax; height: 60vmax; top: -25vmax; left: -18vmax; background: radial-gradient(circle, #2a5298 0%, transparent 65%); }
+.aurora-2 { width: 50vmax; height: 50vmax; bottom: -22vmax; right: -15vmax; background: radial-gradient(circle, #00c9b1 0%, transparent 65%); animation-delay: -6s; }
 .aurora-3 { width: 38vmax; height: 38vmax; top: 28%; left: 58%; background: radial-gradient(circle, #6366f1 0%, transparent 65%); animation-delay: -11s; }
 @keyframes auroraMove {
     from { transform: translate(0, 0) scale(1); }
@@ -46,13 +56,13 @@ body {
     50%      { opacity: .9; transform: translateY(-6px); }
 }
 
-/* Grid panorama 360° di bawah */
+/* Grid panorama 360° di bawah — ✅ warna garis pakai aksen teal Denah */
 .panorama-grid {
     position: absolute; left: -25%; right: -25%; bottom: -6%;
     height: 46%;
     background-image:
-        linear-gradient(rgba(56, 189, 248, .16) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(56, 189, 248, .16) 1.5px, transparent 1.5px);
+        linear-gradient(rgba(0, 201, 177, .18) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, rgba(0, 201, 177, .18) 1.5px, transparent 1.5px);
     background-size: 46px 46px;
     transform: perspective(600px) rotateX(62deg);
     transform-origin: top center;
@@ -62,19 +72,20 @@ body {
 }
 @keyframes gridMove { from { background-position-y: 0; } to { background-position-y: 46px; } }
 
+/* ✅ Vignette biru tua agar konten tetap kontras di atas background baru */
 .splash-gradient-overlay {
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 40%, rgba(4, 8, 20, .55) 100%);
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 22, 50, .55) 100%);
 }
 
 /* ---------- FLOATING ICONS ---------- */
 .floating-icons { position: fixed; inset: 0; pointer-events: none; z-index: 1; transition: opacity .8s ease; }
-.float-icon { position: absolute; color: rgba(125, 211, 252, .18); animation: floatIcon ease-in-out infinite alternate; }
+.float-icon { position: absolute; color: rgba(125, 211, 252, .2); animation: floatIcon ease-in-out infinite alternate; }
 .fi-1 { top: 18%; left: 12%;  font-size: 26px; animation-duration: 7s; }
-.fi-2 { top: 30%; right: 14%; font-size: 32px; animation-duration: 9s;   color: rgba(45, 212, 191, .16); }
-.fi-3 { bottom: 26%; left: 16%; font-size: 30px; animation-duration: 8s; color: rgba(129, 140, 248, .18); }
+.fi-2 { top: 30%; right: 14%; font-size: 32px; animation-duration: 9s;   color: rgba(0, 201, 177, .18); }
+.fi-3 { bottom: 26%; left: 16%; font-size: 30px; animation-duration: 8s; color: rgba(129, 140, 248, .2); }
 .fi-4 { bottom: 18%; right: 12%; font-size: 24px; animation-duration: 6.5s; }
-.fi-5 { top: 12%; right: 34%; font-size: 20px; animation-duration: 7.5s; color: rgba(45, 212, 191, .14); }
+.fi-5 { top: 12%; right: 34%; font-size: 20px; animation-duration: 7.5s; color: rgba(0, 201, 177, .16); }
 @keyframes floatIcon {
     from { transform: translateY(-12px) rotate(-6deg); }
     to   { transform: translateY(14px) rotate(8deg); }
@@ -96,7 +107,7 @@ body {
 
 .logo-glow {
     position: absolute; inset: -34px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(45, 212, 191, .35) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(0, 201, 177, .35) 0%, transparent 70%);
     animation: pulseGlow 3s ease-in-out infinite;
 }
 
@@ -114,7 +125,7 @@ body {
 .logo-icon {
     position: relative; width: 100%; height: 100%;
     border-radius: 50%; overflow: hidden;
-    background: #0a1a38;
+    background: #16305e; /* ✅ biru gelap serasi dengan background Denah */
     border: 5px solid rgba(255, 255, 255, .09);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 18px 45px rgba(0, 0, 0, .5);
@@ -137,7 +148,8 @@ body {
     font-size: clamp(1.5rem, 4.2vw, 2.5rem);
     font-weight: 800;
     letter-spacing: .05em;
-    background: linear-gradient(90deg, #7dd3fc 0%, #2dd4bf 50%, #818cf8 100%);
+    /* ✅ Teal tengah disamakan dengan accent-teal Denah */
+    background: linear-gradient(90deg, #7dd3fc 0%, #00c9b1 50%, #818cf8 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent;
 }
@@ -158,13 +170,13 @@ body {
 .loading-bar-container { display: flex; align-items: center; gap: 14px; }
 .loading-bar-track {
     flex: 1; height: 8px; border-radius: 99px; overflow: hidden;
-    background: rgba(255, 255, 255, .08);
+    background: rgba(255, 255, 255, .12);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, .45);
 }
 .loading-bar-fill {
     position: relative; height: 100%; width: 0%; border-radius: 99px; overflow: hidden;
     background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
-    box-shadow: 0 0 16px rgba(45, 212, 191, .65);
+    box-shadow: 0 0 16px rgba(0, 201, 177, .65);
     transition: width .25s ease;
 }
 .loading-bar-fill::after {
@@ -189,7 +201,7 @@ body {
     display: flex; align-items: center; justify-content: center; gap: 12px;
     color: var(--accent-1); margin-bottom: 12px; font-size: .85rem;
 }
-.tagline-divider span { display: block; height: 1px; width: 70px; background: linear-gradient(90deg, transparent, rgba(45, 212, 191, .6)); }
+.tagline-divider span { display: block; height: 1px; width: 70px; background: linear-gradient(90deg, transparent, rgba(0, 201, 177, .6)); }
 .tagline-divider span:last-child { transform: rotate(180deg); }
 .tagline-text { font-size: 1rem; font-weight: 500; color: #cfe3ff; letter-spacing: .04em; }
 
@@ -206,15 +218,15 @@ body {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 10px 20px; border-radius: 99px;
     border: 1px solid rgba(255, 255, 255, .18);
-    background: rgba(255, 255, 255, .06);
+    background: rgba(255, 255, 255, .08);
     backdrop-filter: blur(10px);
     color: var(--text); font-family: inherit; font-size: .85rem; letter-spacing: .06em;
     cursor: pointer; transition: .3s;
     animation: riseIn 1s 1.4s both;
 }
 .skip-btn:hover {
-    background: rgba(45, 212, 191, .15);
-    border-color: rgba(45, 212, 191, .5);
+    background: rgba(0, 201, 177, .18);
+    border-color: rgba(0, 201, 177, .5);
     transform: translateY(-2px);
 }
 
