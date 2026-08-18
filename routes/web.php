@@ -19,15 +19,24 @@ use App\Http\Controllers\ProfileController;
 // 🏠 PUBLIC ROUTES (Tanpa Auth)
 // ============================================
 
+// 1. Halaman awal: Splash Screen
 Route::get('/', function () {
     return view('splash');
 })->name('splash');
 
+// 2. TAMBAHAN BARU: Halaman Home (Welcome page dengan tombol "Mulai Perjalanan Virtual")
+Route::get('/home', function () {
+    return view('home'); // Pastikan file home.blade.php sudah ada di resources/views/
+})->name('home');
+
+// 3. Halaman Denah (Tujuan dari tombol di halaman Home)
 Route::get('/denah', [DenahController::class, 'show'])->name('denah');
 
+// 4. Alias /beranda diarahkan ke halaman home (bukan langsung ke denah)
 Route::get('/beranda', function () {
-    return redirect()->route('denah');
-})->name('home');
+    return redirect()->route('home');
+})->name('beranda');
+
 
 // ============================================
 // 🔌 API ROUTES (Public JSON Endpoints)
