@@ -466,7 +466,7 @@
     <div class="home-footer fade-in-up delay-3">
         <p>&copy; {{ date('Y') }} SMK Negeri 11 Bandung</p>
         <span class="footer-divider">•</span>
-        <p class="footer-small">Virtual Tour Panorama • Powered by Ehan</p>
+        <p class="footer-small">Virtual Tour Panorama</p>
     </div>
 
     <!-- JavaScript -->
