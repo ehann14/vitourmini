@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SMK Negeri 11 Bandung - Virtual Tour</title>
+    <title>ViTour11</title>
     <link rel="icon" type="image/png" href="{{ asset('image/b/Logo ViTour 11.png') }}">
     
     <!-- Fonts & Icons -->
@@ -70,6 +70,7 @@
             opacity: 0.25;
             animation: aurora-move 15s infinite alternate ease-in-out;
             pointer-events: none;
+            will-change: transform;
         }
 
         .aurora-1 {
@@ -139,6 +140,7 @@
             transform: perspective(500px) rotateX(60deg);
             animation: grid-move 20s linear infinite;
             pointer-events: none;
+            will-change: transform;
         }
 
         @keyframes grid-move {
@@ -406,11 +408,40 @@
             .school-name { font-size: 1.6rem; }
             .welcome-title { font-size: 0.9rem; }
         }
+
+        /* =========================================
+           ACCESSIBILITY FIX: prefers-reduced-motion
+           Matikan semua animasi dekoratif untuk user yang
+           mengaktifkan "Reduce Motion" di pengaturan OS/browser.
+           Konten tetap langsung terlihat (opacity: 1, transform: none)
+           tanpa efek fade/float/pulse/aurora/grid/twinkle.
+           ========================================= */
+        @media (prefers-reduced-motion: reduce) {
+            .aurora,
+            .panorama-grid,
+            .star,
+            .float-icon,
+            .home-logo,
+            .logo-glow-ring::before,
+            .logo-glow-ring::after,
+            .start-btn,
+            .start-btn:hover,
+            .btn-arrow,
+            .fade-in-up {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .fade-in-up {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Background dengan Gambar SMK 11 Night -->
-    <div class="home-bg">
+    <div class="home-bg" aria-hidden="true">
         <div class="aurora aurora-1"></div>
         <div class="aurora aurora-2"></div>
         <div class="aurora aurora-3"></div>
@@ -419,10 +450,10 @@
     </div>
 
     <!-- Dark Overlay agar teks tetap terbaca -->
-    <div class="home-overlay"></div>
+    <div class="home-overlay" aria-hidden="true"></div>
 
     <!-- Floating Icons -->
-    <div class="floating-icons">
+    <div class="floating-icons" aria-hidden="true">
         <i class="fas fa-location-dot float-icon fi-1"></i>
         <i class="fas fa-compass float-icon fi-2"></i>
         <i class="fas fa-street-view float-icon fi-3"></i>
@@ -473,9 +504,23 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const starsContainer = document.getElementById('starsContainer');
-            
+
+            // Hormati preferensi "Reduce Motion" user: kalau aktif,
+            // jangan render bintang sama sekali (animasi twinkle dimatikan via CSS,
+            // tapi tetap hemat DOM node dengan tidak membuatnya).
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
             function createStars() {
-                const starCount = 100;
+                if (prefersReducedMotion) {
+                    starsContainer.innerHTML = '';
+                    return;
+                }
+
+                // UX/Performance FIX: kurangi jumlah bintang di layar kecil (mobile)
+                // supaya lebih ringan — perangkat mobile umumnya juga performanya
+                // lebih terbatas dibanding desktop.
+                const isMobile = window.innerWidth <= 768;
+                const starCount = isMobile ? 40 : 100;
                 let starsHTML = '';
                 
                 for (let i = 0; i < starCount; i++) {
