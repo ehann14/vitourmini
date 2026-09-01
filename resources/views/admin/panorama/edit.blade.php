@@ -162,7 +162,6 @@
                     </div>
                 @endif
                 
-                {{-- ✅ PERBAIKAN: Blok error yang jelas dan mudah terlihat --}}
                 @if($errors->any())
                     <div class="alert-custom alert-error-custom">
                         <i class="fas fa-exclamation-circle me-2"></i><strong>Terjadi kesalahan:</strong>
@@ -182,13 +181,10 @@
                             <div class="col-md-6">
                                 <label class="form-label">Nama Panorama <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $panorama->name) }}" required placeholder="Contoh: Gerbang Utama">
-                                @error('name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Scene ID</label>
-                                {{-- ✅ Scene ID readonly, tidak punya atribut name agar tidak dikirim ke server dan memicu error validasi --}}
                                 <input type="text" class="form-control" value="{{ $panorama->scene_id }}" readonly style="background:var(--chip-bg);cursor:not-allowed;color:var(--muted-color)">
                                 <small class="form-text">Scene ID tidak dapat diubah setelah dibuat</small>
                             </div>
@@ -304,8 +300,11 @@
             <label class="form-label">Nama Tujuan <span class="text-danger">*</span></label>
             <input type="text" id="modalText" class="form-control" placeholder="Contoh: Ke Perpustakaan">
         </div>
+        
+        {{-- ✅ FITUR BARU: Input Pencarian untuk Dropdown --}}
         <div class="mb-2">
             <label class="form-label">Pilih Scene ID Tujuan</label>
+            <input type="text" id="searchSceneLink" class="form-control form-control-sm mb-2" placeholder="🔍 Ketik nama ruangan atau ID...">
             <select id="modalLink" class="form-select">
                 <option value="">— Tidak ada link —</option>
                 @foreach($allPanoramas ?? [] as $p)
@@ -316,6 +315,7 @@
             </select>
             <small class="form-text text-muted">Pilih panorama tujuan saat hotspot ini diklik</small>
         </div>
+
         <div class="modal-btn-row">
             <button class="btn btn-primary-custom btn-sm" id="modalSaveBtn"><i class="fas fa-check me-1"></i>Simpan Hotspot</button>
             <button class="btn btn-secondary-custom btn-sm" id="modalCancelBtn">Batal</button>
@@ -355,9 +355,21 @@ document.getElementById('imageCanvas').addEventListener('click', function(e) {
 function openModal() {
     document.getElementById('modalText').value = '';
     document.getElementById('modalLink').value = '';
+    
+    // ✅ Reset kolom pencarian dan tampilkan semua opsi dropdown saat modal dibuka
+    const searchInput = document.getElementById('searchSceneLink');
+    if (searchInput) {
+        searchInput.value = '';
+        const options = document.getElementById('modalLink').options;
+        for (let i = 0; i < options.length; i++) {
+            options[i].style.display = "";
+        }
+    }
+    
     document.getElementById('hotspotModal').classList.add('show');
     setTimeout(() => document.getElementById('modalText').focus(), 100);
 }
+
 function closeModal() { document.getElementById('hotspotModal').classList.remove('show'); }
 document.getElementById('modalCancelBtn').addEventListener('click', closeModal);
 document.getElementById('hotspotModal').addEventListener('click', e => { if(e.target === this) closeModal(); });
@@ -486,16 +498,34 @@ document.getElementById('deleteBtn').addEventListener('click', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // ✅ FITUR BARU: Auto-scroll ke pesan error jika ada, agar tidak terlewat
     const errorAlert = document.querySelector('.alert-error-custom');
     if (errorAlert) {
         errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // ✅ PERBAIKAN: Hanya auto-close alert SUKSES, JANGAN alert error validasi!
     document.querySelectorAll('.alert-success').forEach(function(alert) {
         setTimeout(function() { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 5000);
     });
+
+    // ✅ FITUR BARU: Pencarian realtime di dropdown Scene ID
+    const searchSceneLink = document.getElementById('searchSceneLink');
+    const modalLinkSelect = document.getElementById('modalLink');
+    
+    if (searchSceneLink && modalLinkSelect) {
+        searchSceneLink.addEventListener('input', function() {
+            const filter = this.value.toLowerCase();
+            const options = modalLinkSelect.options;
+            
+            for (let i = 0; i < options.length; i++) {
+                const txtValue = options[i].textContent || options[i].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    options[i].style.display = "";
+                } else {
+                    options[i].style.display = "none";
+                }
+            }
+        });
+    }
 
     hotspots = parseHotspots(document.getElementById('hotspots').value);
     renderPins(); 
