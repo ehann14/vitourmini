@@ -29,8 +29,7 @@
             --chip-color: #495057; --input-bg: #fff; --input-focus-bg: #fff;
             --canvas-bg: #e9ecef; --modal-bg: #ffffff;
             --table-head-bg: #f8f9fa; --table-border: #dee2e6; --table-row-border: #e9ecef;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.08); --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
         }
         [data-bs-theme="dark"] {
             --body-bg: #121826; --card-bg: #1a2234; --text-color: #e9ecef; --muted-color: #adb5bd;
@@ -38,16 +37,11 @@
             --chip-color: #ced4da; --input-bg: #232d42; --input-focus-bg: #1a2234;
             --canvas-bg: #1a2234; --modal-bg: #1a2234;
             --table-head-bg: #212b40; --table-border: #35405a; --table-row-border: #2c3548;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
-            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.45); --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
             color-scheme: dark;
         }
-
         body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
         .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
         [data-bs-theme="dark"] .sidebar { background: #141c30; }
         [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
@@ -58,47 +52,34 @@
         .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
         .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
-
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
         .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
-
-        .theme-toggle-btn {
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 1px solid var(--border-color); background: var(--chip-bg);
-            color: var(--heading-color); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
-        }
+        .theme-toggle-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--chip-bg); color: var(--heading-color); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; }
         .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
-
         .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
         .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
         .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
         .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
         .form-control::placeholder { color: var(--muted-color); }
         [data-bs-theme="dark"] .form-select option { background: var(--card-bg); color: var(--text-color); }
-
         .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
         .btn-primary-custom:hover { background: var(--secondary-blue); transform: translateY(-2px); color: white; }
         .btn-secondary-custom { background: #e9ecef; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: #6c757d; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-secondary-custom:hover { background: #dee2e6; color: #495057; }
         [data-bs-theme="dark"] .btn-secondary-custom { background: var(--chip-bg); color: var(--muted-color); }
         [data-bs-theme="dark"] .btn-secondary-custom:hover { background: var(--chip-border); color: var(--text-color); }
-        .btn-danger-custom { background: #dc3545; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 500; color: white; transition: all 0.3s; }
+        .btn-danger-custom { background: #dc3545; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
         .btn-danger-custom:hover { background: #bd2130; color: white; }
-
         .alert-custom { border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
-        .alert-success-custom { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
         .alert-error-custom { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
         [data-bs-theme="dark"] .alert-error-custom { background: #3d1f23; border-color: #5c2930; color: #f5b5bd; }
         .form-text { font-size: 0.85rem; color: var(--muted-color); }
         .file-size-error { color: #dc3545; font-weight: 600; display: none; margin-top: 0.5rem; }
         .file-size-error.show { display: block; }
-
         .image-canvas-wrapper { position: relative; display: inline-block; width: 100%; border-radius: 12px; overflow: hidden; cursor: crosshair; background: var(--canvas-bg); min-height: 200px; }
         .image-canvas-wrapper img { width: 100%; display: block; border-radius: 12px; user-select: none; pointer-events: none; }
         .canvas-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; color: var(--muted-color); gap: 0.75rem; }
         .canvas-placeholder i { font-size: 3rem; opacity: 0.35; }
-
         .hotspot-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; z-index: 10; display: flex; flex-direction: column; align-items: center; transition: transform 0.15s; }
         .hotspot-pin:hover { transform: translate(-50%, -100%) scale(1.15); }
         .hotspot-pin .pin-head { width: 28px; height: 28px; background: var(--accent-teal); border: 3px solid white; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 2px 8px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; }
@@ -108,26 +89,22 @@
         [data-bs-theme="dark"] .hotspot-pin .pin-label { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
         .hotspot-pin .pin-remove { position: absolute; top: -6px; right: -6px; width: 16px; height: 16px; background: #dc3545; border-radius: 50%; border: none; color: white; font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; opacity: 0; transition: opacity 0.2s; }
         .hotspot-pin:hover .pin-remove { opacity: 1; }
-
         .click-ripple { position: absolute; width: 30px; height: 30px; border: 2px solid var(--accent-teal); border-radius: 50%; transform: translate(-50%,-50%) scale(0); animation: ripple 0.4s ease-out forwards; pointer-events: none; z-index: 5; }
         @keyframes ripple { to { transform: translate(-50%,-50%) scale(2.5); opacity: 0; } }
-
         .hotspot-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
         .hotspot-modal-overlay.show { opacity: 1; pointer-events: all; }
         .hotspot-modal { background: var(--modal-bg); border-radius: 16px; padding: 1.75rem; width: 440px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.4); transform: translateY(20px); transition: transform 0.2s; color: var(--text-color); }
         .hotspot-modal-overlay.show .hotspot-modal { transform: translateY(0); }
         .hotspot-modal h6 { font-weight: 700; color: var(--heading-color); margin-bottom: 1.25rem; }
         .modal-btn-row { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
-
         .hotspot-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.75rem; color: var(--text-color); }
         .hotspot-table th { background: var(--table-head-bg); padding: 8px 12px; text-align: left; font-weight: 600; color: var(--text-color); border-bottom: 1px solid var(--table-border); }
         .hotspot-table td { padding: 8px 12px; border-bottom: 1px solid var(--table-row-border); vertical-align: middle; }
         .hotspot-table tr:last-child td { border-bottom: none; }
         .badge-hotspot { background: var(--accent-teal); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
         .canvas-tip { font-size: 0.8rem; color: var(--muted-color); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-        .image-replace-toggle { font-size: 0.85rem; color: var(--heading-color); cursor: pointer; font-weight: 600; }
-        .image-replace-toggle:hover { text-decoration: underline; }
-
+        .image-replace-toggle { font-size: 0.85rem; color: var(--heading-color); cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+        .image-replace-toggle:hover { text-decoration: underline; color: var(--accent-teal); }
         @media (max-width: 767px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.show { transform: translateX(0); }
@@ -184,32 +161,34 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
-                @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                @endif
+                
+                {{-- ✅ PERBAIKAN: Blok error yang jelas dan mudah terlihat --}}
                 @if($errors->any())
                     <div class="alert-custom alert-error-custom">
                         <i class="fas fa-exclamation-circle me-2"></i><strong>Terjadi kesalahan:</strong>
-                        <ul class="mb-0 mt-2">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
+                        <ul class="mb-0 mt-2">
+                            @foreach($errors->all() as $e)
+                                <li>{{ $e }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 @endif
 
                 <div class="form-card">
                     <form method="POST" action="{{ route('admin.panorama.update', $panorama->id) }}" enctype="multipart/form-data" id="panoramaForm">
                         @csrf @method('PUT')
-                        <input type="hidden" name="id" value="{{ $panorama->id }}">
-
+                        
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label class="form-label">Nama Panorama <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $panorama->name) }}" required placeholder="Contoh: Gerbang Utama">
-                                @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Scene ID</label>
+                                {{-- ✅ Scene ID readonly, tidak punya atribut name agar tidak dikirim ke server dan memicu error validasi --}}
                                 <input type="text" class="form-control" value="{{ $panorama->scene_id }}" readonly style="background:var(--chip-bg);cursor:not-allowed;color:var(--muted-color)">
                                 <small class="form-text">Scene ID tidak dapat diubah setelah dibuat</small>
                             </div>
@@ -220,13 +199,11 @@
                                     <option value="flat" {{ old('type', $panorama->type) == 'flat' || old('type', $panorama->type) == 'normal' ? 'selected' : '' }}>Gambar Normal</option>
                                 </select>
                                 @error('type')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                <small class="form-text">Pilih "Gambar Normal" untuk foto biasa (bukan 360°)</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Urutan Tampil</label>
                                 <input type="number" class="form-control @error('order') is-invalid @enderror" name="order" value="{{ old('order', $panorama->order) }}" min="0">
                                 @error('order')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                <small class="form-text">Semakin kecil angka, semakin awal ditampilkan</small>
                             </div>
 
                             <div class="col-12">
@@ -235,11 +212,11 @@
                                     <span class="badge-hotspot" id="hotspotCount">0 item</span>
                                 </label>
                                 <small class="form-text d-block mb-2">
-                                    <strong>Klik langsung di gambar</strong> untuk menambah hotspot. Hover pin untuk menghapus.
+                                    <strong>Klik langsung di gambar</strong> untuk menambah hotspot. Klik pin yang ada untuk mengedit.
                                 </small>
 
                                 <div class="image-canvas-wrapper has-image" id="imageCanvas">
-                                    @if($panorama->image_path && file_exists(public_path($panorama->image_path)))
+                                    @if($panorama->image_path && file_exists(public_path(str_replace('/storage/', 'storage/', $panorama->image_path))))
                                         <img src="{{ asset($panorama->image_path) }}" id="canvasImg" alt="{{ $panorama->name }}" draggable="false">
                                     @else
                                         <div class="canvas-placeholder" id="canvasPlaceholder">
@@ -250,7 +227,7 @@
                                 </div>
                                 <div class="canvas-tip">
                                     <i class="fas fa-info-circle" style="color:var(--accent-teal)"></i>
-                                    Klik pada gambar = tambah hotspot &nbsp;|&nbsp; Hover pin = hapus
+                                    Klik pada gambar = tambah hotspot &nbsp;|&nbsp; Klik pin = edit &nbsp;|&nbsp; Hover pin = hapus
                                 </div>
 
                                 <div id="hotspotTableWrapper" style="display:none; margin-top:1rem;">
@@ -273,12 +250,12 @@
 
                                 <div class="mt-3">
                                     <span class="image-replace-toggle" id="replaceToggle">
-                                        <i class="fas fa-sync me-1"></i>Ganti Gambar (opsional)
+                                        <i class="fas fa-sync me-1"></i> Ganti Gambar (Opsional)
                                     </span>
                                     <div id="replaceSection" style="display:none; margin-top:0.75rem;">
                                         <input type="file" class="form-control @error('image_path') is-invalid @enderror" id="image_path" name="image_path" accept="image/*">
                                         @error('image_path')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                        <small class="form-text">Format: JPG, PNG, JPEG. <strong>Maksimal 10 MB.</strong> Hotspot akan tetap tersimpan.</small>
+                                        <small class="form-text">Format: JPG, PNG, WebP. <strong>Maksimal 10 MB.</strong> Hotspot yang sudah ada akan tetap tersimpan.</small>
                                         <div id="fileSizeError" class="file-size-error">
                                             <i class="fas fa-exclamation-triangle me-1"></i>Ukuran file melebihi 10 MB!
                                         </div>
@@ -290,7 +267,6 @@
                                 <label class="form-label">Icon (Font Awesome)</label>
                                 <input type="text" class="form-control @error('icon') is-invalid @enderror" name="icon" value="{{ old('icon', $panorama->icon) }}" placeholder="fas fa-building">
                                 @error('icon')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                <small class="form-text"><a href="https://fontawesome.com/icons" target="_blank">Lihat semua icon →</a></small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Status</label>
@@ -385,15 +361,22 @@ function openModal() {
 function closeModal() { document.getElementById('hotspotModal').classList.remove('show'); }
 document.getElementById('modalCancelBtn').addEventListener('click', closeModal);
 document.getElementById('hotspotModal').addEventListener('click', e => { if(e.target === this) closeModal(); });
+
 document.getElementById('modalSaveBtn').addEventListener('click', function() {
     const text = document.getElementById('modalText').value.trim();
     if(!text) { document.getElementById('modalText').focus(); return; }
     const link = document.getElementById('modalLink').value;
     const data = { x: pendingX, y: pendingY, text, link: link || null, id: Date.now() };
-    if(editingIndex !== null && hotspots[editingIndex]) { data.id = hotspots[editingIndex].id; hotspots[editingIndex] = data; }
-    else { hotspots.push(data); }
+    
+    if(editingIndex !== null && hotspots[editingIndex]) { 
+        data.id = hotspots[editingIndex].id;
+        hotspots[editingIndex] = data; 
+    } else { 
+        hotspots.push(data); 
+    }
     closeModal(); renderPins(); renderTable(); syncJSON();
 });
+
 document.getElementById('modalText').addEventListener('keydown', e => { if(e.key === 'Enter') document.getElementById('modalSaveBtn').click(); });
 
 function renderPins() {
@@ -409,13 +392,19 @@ function renderPins() {
             <div class="pin-line"></div>
             ${hs.text ? `<div class="pin-label">${hs.text}</div>` : ''}
         `;
+        
         pin.querySelector('.pin-remove').addEventListener('click', function(e) {
             e.stopPropagation(); hotspots.splice(+this.dataset.index, 1); renderPins(); renderTable(); syncJSON();
         });
+        
         pin.addEventListener('click', function(e) {
             if(e.target.closest('.pin-remove')) return;
-            e.stopPropagation(); editingIndex = i; pendingX = hs.x; pendingY = hs.y;
-            document.getElementById('modalText').value = hs.text || ''; document.getElementById('modalLink').value = hs.link || '';
+            e.stopPropagation(); 
+            editingIndex = i; 
+            pendingX = hs.x; 
+            pendingY = hs.y;
+            document.getElementById('modalText').value = hs.text || ''; 
+            document.getElementById('modalLink').value = hs.link || '';
             openModal();
         });
         canvas.appendChild(pin);
@@ -434,39 +423,83 @@ function renderTable() {
             <td><span style="font-family:monospace;font-size:0.8rem">${hs.x}%, ${hs.y}%</span></td>
             <td>${hs.text}</td>
             <td>${hs.link ? `<span style="color:var(--accent-teal);font-weight:600">${hs.link}</span>` : '<span style="color:#aaa">—</span>'}</td>
-            <td><button type="button" style="background:#dc3545;color:white;border:none;border-radius:6px;padding:2px 8px;cursor:pointer" onclick="removeHotspot(${i})"><i class="fas fa-trash" style="font-size:11px"></i></button></td>
+            <td><button type="button" style="background:#dc3545;color:white;border:none;border-radius:6px;padding:4px 10px;cursor:pointer" onclick="removeHotspot(${i})"><i class="fas fa-trash" style="font-size:11px"></i></button></td>
         </tr>
     `).join('');
 }
-function removeHotspot(i) { if(confirm('Hapus hotspot ini?')) { hotspots.splice(i,1); renderPins(); renderTable(); syncJSON(); } }
+
+function removeHotspot(i) { 
+    if(confirm('Hapus hotspot ini?')) { 
+        hotspots.splice(i,1); 
+        renderPins(); 
+        renderTable(); 
+        syncJSON(); 
+    } 
+}
+
 function syncJSON() { document.getElementById('hotspots').value = JSON.stringify(hotspots); }
 
 document.getElementById('replaceToggle').addEventListener('click', function() {
-    const s = document.getElementById('replaceSection'); s.style.display = s.style.display === 'none' ? 'block' : 'none';
+    const s = document.getElementById('replaceSection'); 
+    s.style.display = s.style.display === 'none' ? 'block' : 'none';
 });
+
 document.getElementById('image_path').addEventListener('change', function() {
-    const err = document.getElementById('fileSizeError'), file = this.files[0]; err.classList.remove('show');
+    const err = document.getElementById('fileSizeError'), file = this.files[0]; 
+    err.classList.remove('show');
     if(!file) return;
-    if(file.size > 10485760) { err.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>Ukuran file ('+formatFileSize(file.size)+') melebihi 10 MB!'; err.classList.add('show'); this.value=''; return; }
+    if(file.size > 10485760) { 
+        err.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>Ukuran file ('+formatFileSize(file.size)+') melebihi 10 MB!'; 
+        err.classList.add('show'); 
+        this.value=''; 
+        return; 
+    }
     const reader = new FileReader();
     reader.onload = e => {
-        const canvas = document.getElementById('imageCanvas'); let img = document.getElementById('canvasImg');
-        if(!img) { canvas.innerHTML=''; img=document.createElement('img'); img.id='canvasImg'; img.draggable=false; canvas.appendChild(img); canvas.classList.add('has-image'); }
-        img.src = e.target.result; renderPins();
-    }; reader.readAsDataURL(file);
+        const canvas = document.getElementById('imageCanvas'); 
+        let img = document.getElementById('canvasImg');
+        if(!img) { 
+            canvas.innerHTML=''; 
+            img=document.createElement('img'); 
+            img.id='canvasImg'; 
+            img.draggable=false; 
+            canvas.appendChild(img); 
+            canvas.classList.add('has-image'); 
+        }
+        img.src = e.target.result; 
+        renderPins();
+    }; 
+    reader.readAsDataURL(file);
 });
-function formatFileSize(b){const k=1024,sz=['Bytes','KB','MB','GB'],i=Math.floor(Math.log(b)/Math.log(k));return parseFloat((b/Math.pow(k,i)).toFixed(2))+' '+sz[i];}
+
+function formatFileSize(b){
+    const k=1024, sz=['Bytes','KB','MB','GB'], i=Math.floor(Math.log(b)/Math.log(k));
+    return parseFloat((b/Math.pow(k,i)).toFixed(2))+' '+sz[i];
+}
 
 document.getElementById('deleteBtn').addEventListener('click', function() {
-    if(confirm('Yakin ingin menghapus panorama ini?')) {
-        const form = document.getElementById('deleteForm'); form.action = `/admin/panorama/${this.dataset.id}`; form.submit();
+    if(confirm('Yakin ingin menghapus panorama ini? Tindakan ini tidak dapat dibatalkan.')) {
+        const form = document.getElementById('deleteForm'); 
+        form.action = `/admin/panorama/${this.dataset.id}`; 
+        form.submit();
     }
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // ✅ FITUR BARU: Auto-scroll ke pesan error jika ada, agar tidak terlewat
+    const errorAlert = document.querySelector('.alert-error-custom');
+    if (errorAlert) {
+        errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ✅ PERBAIKAN: Hanya auto-close alert SUKSES, JANGAN alert error validasi!
+    document.querySelectorAll('.alert-success').forEach(function(alert) {
+        setTimeout(function() { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 5000);
+    });
+
     hotspots = parseHotspots(document.getElementById('hotspots').value);
-    renderPins(); renderTable();
-    document.querySelectorAll('.alert').forEach(a => setTimeout(()=>{const bs=new bootstrap.Alert(a);bs.close();},5000));
+    renderPins(); 
+    renderTable();
 
     var sidebar = document.querySelector('.sidebar');
     var overlay = document.getElementById('sidebarOverlay');
@@ -489,7 +522,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if(window.innerWidth >= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
     });
 
-    // ✅ TOGGLE TEMA
     const themeToggleBtn = document.getElementById('themeToggleBtn');
     const themeIcon = document.getElementById('themeIcon');
     function updateThemeIcon() {

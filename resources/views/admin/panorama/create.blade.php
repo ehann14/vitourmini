@@ -29,8 +29,7 @@
             --chip-color: #495057; --input-bg: #fff; --input-focus-bg: #fff;
             --canvas-bg: #e9ecef; --modal-bg: #ffffff;
             --table-head-bg: #f8f9fa; --table-border: #dee2e6; --table-row-border: #e9ecef;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.08); --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
         }
         [data-bs-theme="dark"] {
             --body-bg: #121826; --card-bg: #1a2234; --text-color: #e9ecef; --muted-color: #adb5bd;
@@ -38,16 +37,11 @@
             --chip-color: #ced4da; --input-bg: #232d42; --input-focus-bg: #1a2234;
             --canvas-bg: #1a2234; --modal-bg: #1a2234;
             --table-head-bg: #212b40; --table-border: #35405a; --table-row-border: #2c3548;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
-            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
+            --card-shadow: 0 2px 10px rgba(0,0,0,0.45); --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
             color-scheme: dark;
         }
-
         body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
         .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
         [data-bs-theme="dark"] .sidebar { background: #141c30; }
         [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
@@ -58,44 +52,32 @@
         .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
         .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
-
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
         .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
-
-        .theme-toggle-btn {
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 1px solid var(--border-color); background: var(--chip-bg);
-            color: var(--heading-color); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
-        }
+        .theme-toggle-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--chip-bg); color: var(--heading-color); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; }
         .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
-
         .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
         .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
         .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
         .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
         .form-control::placeholder { color: var(--muted-color); }
         [data-bs-theme="dark"] .form-select option { background: var(--card-bg); color: var(--text-color); }
-
         .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
         .btn-primary-custom:hover { background: var(--secondary-blue); transform: translateY(-2px); color: white; }
         .btn-secondary-custom { background: #e9ecef; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: #6c757d; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
         .btn-secondary-custom:hover { background: #dee2e6; color: #495057; }
         [data-bs-theme="dark"] .btn-secondary-custom { background: var(--chip-bg); color: var(--muted-color); }
         [data-bs-theme="dark"] .btn-secondary-custom:hover { background: var(--chip-border); color: var(--text-color); }
-
         .alert-custom { border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
         .alert-error-custom { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
         [data-bs-theme="dark"] .alert-error-custom { background: #3d1f23; border-color: #5c2930; color: #f5b5bd; }
         .form-text { font-size: 0.85rem; color: var(--muted-color); }
         .file-size-error { color: #dc3545; font-weight: 600; display: none; margin-top: 0.5rem; }
         .file-size-error.show { display: block; }
-
         .image-canvas-wrapper { position: relative; display: inline-block; width: 100%; border-radius: 12px; overflow: hidden; cursor: crosshair; background: var(--canvas-bg); min-height: 200px; }
         .image-canvas-wrapper img { width: 100%; display: block; border-radius: 12px; user-select: none; pointer-events: none; }
         .canvas-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 220px; color: var(--muted-color); gap: 0.75rem; }
         .canvas-placeholder i { font-size: 3rem; opacity: 0.35; }
-
         .hotspot-pin { position: absolute; transform: translate(-50%, -100%); cursor: pointer; z-index: 10; display: flex; flex-direction: column; align-items: center; transition: transform 0.15s; }
         .hotspot-pin:hover { transform: translate(-50%, -100%) scale(1.15); }
         .hotspot-pin .pin-head { width: 28px; height: 28px; background: var(--accent-teal); border: 3px solid white; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 2px 8px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; }
@@ -105,24 +87,20 @@
         [data-bs-theme="dark"] .hotspot-pin .pin-label { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
         .hotspot-pin .pin-remove { position: absolute; top: -6px; right: -6px; width: 16px; height: 16px; background: #dc3545; border-radius: 50%; border: none; color: white; font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; opacity: 0; transition: opacity 0.2s; }
         .hotspot-pin:hover .pin-remove { opacity: 1; }
-
         .click-ripple { position: absolute; width: 30px; height: 30px; border: 2px solid var(--accent-teal); border-radius: 50%; transform: translate(-50%,-50%) scale(0); animation: ripple 0.4s ease-out forwards; pointer-events: none; z-index: 5; }
         @keyframes ripple { to { transform: translate(-50%,-50%) scale(2.5); opacity: 0; } }
-
         .hotspot-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
         .hotspot-modal-overlay.show { opacity: 1; pointer-events: all; }
         .hotspot-modal { background: var(--modal-bg); border-radius: 16px; padding: 1.75rem; width: 440px; max-width: 95vw; box-shadow: 0 20px 60px rgba(0,0,0,0.4); transform: translateY(20px); transition: transform 0.2s; color: var(--text-color); }
         .hotspot-modal-overlay.show .hotspot-modal { transform: translateY(0); }
         .hotspot-modal h6 { font-weight: 700; color: var(--heading-color); margin-bottom: 1.25rem; }
         .modal-btn-row { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
-
         .hotspot-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.75rem; color: var(--text-color); }
         .hotspot-table th { background: var(--table-head-bg); padding: 8px 12px; text-align: left; font-weight: 600; color: var(--text-color); border-bottom: 1px solid var(--table-border); }
         .hotspot-table td { padding: 8px 12px; border-bottom: 1px solid var(--table-row-border); vertical-align: middle; }
         .hotspot-table tr:last-child td { border-bottom: none; }
         .badge-hotspot { background: var(--accent-teal); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
         .canvas-tip { font-size: 0.8rem; color: var(--muted-color); margin-top: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-
         @media (max-width: 767px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.show { transform: translateX(0); }
@@ -176,8 +154,17 @@
                     @if(session('success'))
                         <div class="alert alert-success alert-dismissible fade show"><i class="fas fa-check-circle me-2"></i>{{ session('success') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
                     @endif
+                    
+                    {{-- ✅ PERBAIKAN: Blok error yang jelas dan mudah terlihat --}}
                     @if($errors->any())
-                        <div class="alert-custom alert-error-custom"><i class="fas fa-exclamation-circle me-2"></i><strong>Terjadi kesalahan:</strong><ul class="mb-0 mt-2">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div>
+                        <div class="alert-custom alert-error-custom">
+                            <i class="fas fa-exclamation-circle me-2"></i><strong>Terjadi kesalahan:</strong>
+                            <ul class="mb-0 mt-2">
+                                @foreach($errors->all() as $e)
+                                    <li>{{ $e }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     @endif
 
                     <div class="form-card">
@@ -187,12 +174,16 @@
                                 <div class="col-md-6">
                                     <label class="form-label">Nama Panorama <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required placeholder="Contoh: Gerbang Utama">
-                                    @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Scene ID <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control @error('scene_id') is-invalid @enderror" name="scene_id" id="scene_id" value="{{ old('scene_id') }}" required placeholder="gerbang-utama">
-                                    @error('scene_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                    @error('scene_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                     <small class="form-text">Huruf kecil, tanpa spasi. Digunakan sebagai link antar panorama.</small>
                                 </div>
                                 <div class="col-md-6">
@@ -300,18 +291,25 @@
         const file = this.files[0];
         fileSizeError.classList.remove('show');
         if (!file) return;
+        
         if (file.size > 10485760) {
             fileSizeError.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>Ukuran file (' + formatFileSize(file.size) + ') melebihi 10 MB!';
             fileSizeError.classList.add('show');
             this.value = '';
             return;
         }
+        
+        hotspots = [];
+        renderPins();
+        renderTable();
+        syncJSON();
+
         const reader = new FileReader();
         reader.onload = e => {
             const canvas = document.getElementById('imageCanvas');
             canvas.innerHTML = `<img src="${e.target.result}" id="canvasImg" draggable="false">`;
-            canvas.classList.replace('no-image','has-image');
-            renderPins();
+            canvas.classList.remove('no-image');
+            canvas.classList.add('has-image');
         };
         reader.readAsDataURL(this.files[0]);
     });
@@ -383,16 +381,31 @@
         if(confirm('Hapus hotspot ini?')) { hotspots.splice(i, 1); renderPins(); renderTable(); syncJSON(); }
     }
     function syncJSON() { document.getElementById('hotspots').value = JSON.stringify(hotspots); }
-    document.getElementById('scene_id').addEventListener('input', function() { this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''); });
+    
+    document.getElementById('scene_id').addEventListener('input', function() { 
+        this.value = this.value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''); 
+    });
+    
     document.getElementById('panoramaForm').addEventListener('submit', function(e) {
         const file = document.getElementById('image_path').files[0];
-        if (file && file.size > 10485760) { e.preventDefault(); alert('Ukuran file gambar melebihi 10 MB.'); }
+        if (file && file.size > 10485760) { 
+            e.preventDefault(); 
+            alert('Ukuran file gambar melebihi 10 MB.'); 
+        }
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.alert').forEach(function(alert) {
+        // ✅ FITUR BARU: Auto-scroll ke pesan error jika ada, agar tidak terlewat
+        const errorAlert = document.querySelector('.alert-error-custom');
+        if (errorAlert) {
+            errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // ✅ PERBAIKAN: Hanya auto-close alert SUKSES, JANGAN alert error validasi!
+        document.querySelectorAll('.alert-success').forEach(function(alert) {
             setTimeout(function() { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 5000);
         });
+
         var sidebar = document.querySelector('.sidebar');
         var overlay = document.getElementById('sidebarOverlay');
         var toggleBtn = document.getElementById('sidebarToggleBtn');
@@ -414,7 +427,6 @@
             if(window.innerWidth >= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
         });
 
-        // ✅ TOGGLE TEMA
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         function updateThemeIcon() {

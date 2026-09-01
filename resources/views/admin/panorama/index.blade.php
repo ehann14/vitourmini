@@ -262,7 +262,7 @@
                                     <i class="fas fa-search search-icon"></i>
                                     <input type="text" id="searchInput" name="search"
                                            value="{{ $searchKeyword }}"
-                                           placeholder="Cari nama panorama atau ID (mencari ke semua halaman)..."
+                                           placeholder="Cari nama panorama atau ID (Tekan Enter untuk mencari)..."
                                            autocomplete="off">
                                     <span class="search-spinner" id="searchSpinner">
                                         <i class="fas fa-spinner fa-spin"></i>
@@ -297,7 +297,7 @@
                                 @endif
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <span class="search-hint"><kbd>Ctrl</kbd>+<kbd>K</kbd> untuk fokus</span>
+                                <span class="search-hint"><kbd>Enter</kbd> untuk mencari</span>
                                 @if($searchKeyword !== '' || request('status'))
                                     <a href="{{ route('admin.panorama.index') }}" class="reset-btn" title="Reset semua filter">
                                         <i class="fas fa-undo"></i> Reset
@@ -459,29 +459,35 @@
         }
         updateThemeIcon();
 
-        // ======= PENCARIAN SERVER-SIDE DENGAN DEBOUNCE =======
+        // ======= PENCARIAN HANYA SAAT TEKAN ENTER =======
         const searchForm  = document.getElementById('searchForm');
         const searchInput = document.getElementById('searchInput');
         const clearBtn    = document.getElementById('clearSearchBtn');
         const spinner     = document.getElementById('searchSpinner');
-        let debounceTimer = null;
 
+        // 1. Tampilkan/sembunyikan tombol clear berdasarkan isi input (tanpa submit)
         searchInput.addEventListener('input', function () {
-            clearTimeout(debounceTimer);
             clearBtn.classList.toggle('show', this.value.trim() !== '');
-            spinner.classList.add('show');
-            debounceTimer = setTimeout(() => {
-                spinner.classList.remove('show');
-                searchForm.submit();
-            }, 500);
         });
 
+        // 2. Submit form HANYA saat tombol Enter ditekan
+        searchInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Mencegah perilaku default browser
+                spinner.classList.add('show'); // Tampilkan animasi loading
+                searchForm.submit(); // Kirim data ke server
+            }
+        });
+
+        // 3. Tombol clear tetap berfungsi untuk mereset dan submit
         clearBtn.addEventListener('click', function () {
             searchInput.value = '';
             clearBtn.classList.remove('show');
+            spinner.classList.add('show');
             searchForm.submit();
         });
 
+        // 4. Shortcut Ctrl+K untuk fokus ke kolom pencarian
         document.addEventListener('keydown', function (e) {
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();
