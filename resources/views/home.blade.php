@@ -24,15 +24,19 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Mencegah scroll */
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--dark-bg);
             color: #ffffff;
-            min-height: 100dvh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             position: relative;
-            overflow-x: hidden;
         }
 
         /* Background Image */
@@ -64,6 +68,7 @@
             align-items: center;
             justify-content: center;
             padding: 24px;
+            min-height: 0; /* Penting agar flex child tidak overflow */
         }
 
         /* Content Area (TANPA KOTAK / TRANSPARAN) */
@@ -72,44 +77,43 @@
             max-width: 700px;
             width: 100%;
             padding: 20px;
-            /* Tidak ada background, border, atau box-shadow */
         }
 
         /* Logo */
         .home-logo {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             object-fit: contain;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             filter: drop-shadow(0 8px 32px rgba(20, 184, 166, 0.25));
         }
 
         /* Typography dengan Text Shadow agar Terbaca Jelas di Atas Gambar */
         .welcome-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--primary-teal);
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            margin-bottom: 16px;
+            margin-bottom: 10px;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
         }
 
         .school-name {
-            font-size: 3rem;
-            font-weight: 800; /* Font tebal sesuai preferensi */
+            font-size: 2.5rem;
+            font-weight: 800;
             color: #ffffff;
             line-height: 1.1;
-            margin-bottom: 24px;
+            margin-bottom: 16px;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
         }
 
         .welcome-subtitle {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 400;
             color: #e2e8f0;
-            line-height: 1.7;
-            margin-bottom: 48px;
+            line-height: 1.6;
+            margin-bottom: 32px;
             max-width: 520px;
             margin-left: auto;
             margin-right: auto;
@@ -122,11 +126,11 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            padding: 18px 48px;
+            padding: 16px 40px;
             background: linear-gradient(135deg, var(--primary-teal), var(--primary-blue));
             color: white;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             border-radius: 16px;
             border: none;
@@ -155,8 +159,8 @@
         }
 
         .hint-text {
-            margin-top: 28px;
-            font-size: 0.9rem;
+            margin-top: 20px;
+            font-size: 0.85rem;
             color: #94a3b8;
             display: flex;
             align-items: center;
@@ -167,19 +171,20 @@
 
         .hint-text i {
             color: var(--primary-teal);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         /* Footer */
         .home-footer {
             text-align: center;
-            padding: 32px 24px;
+            padding: 16px 24px;
             color: #64748b;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 500;
             letter-spacing: 0.02em;
             position: relative;
             z-index: 10;
+            flex-shrink: 0;
         }
 
         /* Animasi Masuk yang Halus & Elegan */
@@ -203,24 +208,32 @@
         /* Responsive Design */
         @media (max-width: 640px) {
             .home-content {
-                padding: 16px;
+                padding: 12px;
             }
             .school-name {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
             .welcome-subtitle {
-                font-size: 1rem;
-                margin-bottom: 36px;
+                font-size: 0.9rem;
+                margin-bottom: 24px;
             }
             .start-btn {
                 width: 100%;
-                padding: 16px 24px;
-                font-size: 1rem;
+                padding: 14px 24px;
+                font-size: 0.95rem;
             }
             .home-logo {
-                width: 100px;
-                height: 100px;
-                margin-bottom: 24px;
+                width: 80px;
+                height: 80px;
+                margin-bottom: 16px;
+            }
+            .welcome-title {
+                font-size: 0.7rem;
+                margin-bottom: 8px;
+            }
+            .hint-text {
+                font-size: 0.75rem;
+                margin-top: 14px;
             }
         }
 
@@ -255,7 +268,7 @@
                 <h1 class="welcome-title">Selamat Datang di</h1>
                 <h2 class="school-name">SMK NEGERI 11 BANDUNG</h2>
                 <p class="welcome-subtitle">
-                    Jelajahi setiap sudut sekolah kami secara interaktif dan imersif melalui pengalaman virtual tour panorama yang modern.
+                    Jelajahi setiap sudut sekolah secara interaktif dan imersif melalui pengalaman virtual tour panorama yang modern.
                 </p>
             </div>
 

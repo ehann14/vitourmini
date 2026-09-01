@@ -57,10 +57,9 @@
                     <div class="loading-bar-track">
                         <div class="loading-bar-fill" id="loadingBar"></div>
                     </div>
-                    <div class="loading-percentage" id="percentage">0%</div>
                 </div>
                 <div class="loading-status">
-                    <span id="loadingText">Memuat</span>
+                    <span id="loadingText">Memuat data</span>
                     <span class="loading-dots" id="loadingDots"></span>
                 </div>
             </div>
