@@ -9,9 +9,55 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ✅ Script inisialisasi tema untuk mencegah flicker saat reload -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('vitour-theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            } catch (e) {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+            }
+        })();
+    </script>
+
     <style>
-        :root { --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; }
-        body { background: #f8f9fa; font-family: 'Poppins', sans-serif; }
+        :root { 
+            --primary-blue: #1e3c72; 
+            --secondary-blue: #2a5298; 
+            --accent-teal: #00c9b1; 
+            --body-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #212529;
+            --muted-color: #6c757d;
+            --heading-color: #1e3c72;
+            --border-color: #f8f9fa;
+            --input-bg: #ffffff;
+            --input-border: #dee2e6;
+        }
+
+        /* ✅ Variabel Mode Gelap */
+        [data-bs-theme="dark"] {
+            --body-bg: #121826;
+            --card-bg: #1a2234;
+            --text-color: #e9ecef;
+            --muted-color: #adb5bd;
+            --heading-color: #8ab4ff;
+            --border-color: #2c3548;
+            --input-bg: #232d42;
+            --input-border: #35405a;
+            color-scheme: dark;
+        }
+
+        body { 
+            background: var(--body-bg); 
+            font-family: 'Poppins', sans-serif; 
+            color: var(--text-color); 
+            transition: background-color 0.3s ease, color 0.3s ease; 
+        }
         
         .sidebar {
             position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
@@ -19,6 +65,10 @@
             flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden;
             transition: transform 0.3s ease;
         }
+        [data-bs-theme="dark"] .sidebar { background: #141c30; }
+        [data-bs-theme="dark"] .sidebar a:hover, 
+        [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
+        
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
         .sidebar a { color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin: 4px 0; transition: all 0.3s; }
@@ -33,15 +83,74 @@
 
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
 
-        .navbar-admin { background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 1rem 2rem; }
-        .profile-card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 2rem; margin-bottom: 2rem; }
-        .form-label { font-weight: 600; color: #6c757d; margin-bottom: 0.5rem; }
-        .form-control:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
+        .navbar-admin { 
+            background: var(--card-bg); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+            padding: 1rem 2rem; 
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        [data-bs-theme="dark"] .navbar-admin { box-shadow: 0 2px 10px rgba(0,0,0,0.45); }
+
+        .profile-card { 
+            background: var(--card-bg); 
+            border-radius: 16px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+            padding: 2rem; 
+            margin-bottom: 2rem; 
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        [data-bs-theme="dark"] .profile-card { box-shadow: 0 4px 20px rgba(0,0,0,0.45); }
+
+        .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
+        .form-control { 
+            background: var(--input-bg); 
+            border: 1px solid var(--input-border); 
+            color: var(--text-color); 
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        .form-control:focus { 
+            border-color: var(--primary-blue); 
+            box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); 
+            color: var(--text-color);
+        }
+        .form-control[readonly] {
+            background: var(--body-bg) !important;
+            color: var(--muted-color);
+            cursor: not-allowed;
+        }
+        .form-text { color: var(--muted-color); }
+
         .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
         .btn-primary-custom:hover { background: var(--secondary-blue); transform: translateY(-2px); color: white; }
-        .btn-secondary-custom { background: #e9ecef; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: #6c757d; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
-        .btn-secondary-custom:hover { background: #dee2e6; color: #495057; }
-        .profile-header { text-align: center; padding: 2rem 0; border-bottom: 2px solid #f8f9fa; margin-bottom: 2rem; }
+        
+        .btn-secondary-custom { 
+            background: var(--body-bg); 
+            border: 1px solid var(--input-border); 
+            padding: 0.6rem 1.5rem; 
+            border-radius: 25px; 
+            font-weight: 600; 
+            color: var(--text-color); 
+            transition: all 0.3s; 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem; 
+        }
+        .btn-secondary-custom:hover { background: var(--input-border); color: var(--text-color); }
+
+        /* ✅ Tombol Toggle Tema */
+        .theme-toggle-btn {
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 1px solid var(--input-border);
+            background: var(--body-bg);
+            color: var(--heading-color);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--input-border); }
+
+        .profile-header { text-align: center; padding: 2rem 0; border-bottom: 2px solid var(--border-color); margin-bottom: 2rem; transition: border-color 0.3s ease; }
         .profile-avatar { 
             width: 120px; height: 120px; border-radius: 50%; 
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); 
@@ -49,13 +158,27 @@
             font-size: 3rem; font-weight: 700; margin: 0 auto 1rem; 
             box-shadow: 0 4px 15px rgba(30,60,114,0.3);
         }
-        .profile-name { font-size: 1.5rem; font-weight: 700; color: var(--primary-blue); margin-bottom: 0.5rem; }
-        .profile-email { color: #6c757d; font-size: 0.95rem; }
-        .section-title { font-size: 1.1rem; font-weight: 600; color: var(--primary-blue); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #f8f9fa; }
+        .profile-name { font-size: 1.5rem; font-weight: 700; color: var(--heading-color); margin-bottom: 0.5rem; transition: color 0.3s ease; }
+        .profile-email { color: var(--muted-color); font-size: 0.95rem; }
+        
+        .section-title { 
+            font-size: 1.1rem; font-weight: 600; color: var(--heading-color); 
+            margin-bottom: 1.5rem; padding-bottom: 0.75rem; 
+            border-bottom: 2px solid var(--border-color); 
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+        
         .password-strength { height: 4px; border-radius: 2px; margin-top: 0.5rem; transition: all 0.3s; width: 0; }
         .password-strength.weak { background: #dc3545; width: 33%; }
         .password-strength.medium { background: #ffc107; width: 66%; }
         .password-strength.strong { background: #28a745; width: 100%; }
+
+        /* Alert Info Dark Mode */
+        [data-bs-theme="dark"] .alert-info {
+            background-color: rgba(13, 202, 240, 0.15);
+            color: #0dcaf0;
+            border-color: rgba(13, 202, 240, 0.3);
+        }
 
         @media (max-width: 767px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
@@ -83,8 +206,11 @@
                 <nav class="mt-3 p-2 flex-grow-1">
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home me-2"></i>Dashboard</a>
                     <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}"><i class="fas fa-images me-2"></i>Kelola Panorama</a>
-                    <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}"><i class="fas fa-map-marked-alt me-2"></i>Kelola Denah</a>
-                        @if(isset($pendingCommentsCount) && $pendingCommentsCount > 0)<span class="badge bg-danger rounded-pill ms-2">{{ $pendingCommentsCount }}</span>@endif
+                    <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}">
+                        <i class="fas fa-map-marked-alt me-2"></i>Kelola Denah
+                        @if(isset($pendingCommentsCount) && $pendingCommentsCount > 0)
+                            <span class="badge bg-danger rounded-pill ms-2">{{ $pendingCommentsCount }}</span>
+                        @endif
                     </a>
                     <a href="{{ route('home') }}" target="_blank"><i class="fas fa-external-link-alt me-2"></i>Lihat Website</a>
                 </nav>
@@ -103,13 +229,19 @@
                             <button class="btn btn-sm btn-outline-primary d-md-none sidebar-toggle-btn" id="sidebarToggleBtn">
                                 <i class="fas fa-bars"></i>
                             </button>
-                            <h4 class="mb-0 fw-bold" style="color: var(--primary-blue);">
+                            <h4 class="mb-0 fw-bold" style="color: var(--heading-color); transition: color 0.3s ease;">
                                 <i class="fas fa-user-circle me-2"></i>Profile Admin
                             </h4>
                         </div>
-                        <a href="{{ route('admin.dashboard') }}" class="btn-secondary-custom">
-                            <i class="fas fa-arrow-left"></i>Kembali ke Dashboard
-                        </a>
+                        <div class="d-flex align-items-center gap-3">
+                            <!-- ✅ Tombol Toggle Mode Gelap/Terang -->
+                            <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
+                                <i class="fas fa-moon" id="themeIcon"></i>
+                            </button>
+                            <a href="{{ route('admin.dashboard') }}" class="btn-secondary-custom">
+                                <i class="fas fa-arrow-left"></i><span class="d-none d-sm-inline">Kembali ke Dashboard</span>
+                            </a>
+                        </div>
                     </div>
                 </nav>
 
@@ -176,12 +308,12 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Role</label>
-                                        <input type="text" class="form-control" value="Admin" readonly style="background:#f8f9fa;cursor:not-allowed">
+                                        <input type="text" class="form-control" value="Admin" readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">ID User</label>
-                                        <input type="text" class="form-control" value="#{{ auth()->user()->id }}" readonly style="background:#f8f9fa;cursor:not-allowed">
+                                        <input type="text" class="form-control" value="#{{ auth()->user()->id }}" readonly>
                                     </div>
 
                                     <div class="d-grid">
@@ -302,8 +434,9 @@
         }
     }
 
-    // Sidebar Toggle Logic
+    // Sidebar & Theme Toggle Logic
     document.addEventListener('DOMContentLoaded', function () {
+        // 1. Sidebar Logic
         const sidebar = document.querySelector('.sidebar');
         const overlay = document.getElementById('sidebarOverlay');
         const toggleBtn = document.getElementById('sidebarToggleBtn');
@@ -335,8 +468,29 @@
             }
         });
 
-        // Auto-dismiss alerts
-        document.querySelectorAll('.alert').forEach(alert => {
+        // 2. ✅ FITUR TOGGLE MODE GELAP/TERANG
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function updateThemeIcon() {
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            if (themeIcon) themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            if (themeToggleBtn) themeToggleBtn.title = isDark ? 'Ganti ke mode terang' : 'Ganti ke mode gelap';
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function () {
+                const current = document.documentElement.getAttribute('data-bs-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-bs-theme', next);
+                try { localStorage.setItem('vitour-theme', next); } catch (e) {}
+                updateThemeIcon();
+            });
+        }
+        updateThemeIcon(); // Inisialisasi ikon saat load
+
+        // 3. Auto-dismiss alerts (hanya success)
+        document.querySelectorAll('.alert-success').forEach(alert => {
             setTimeout(() => { 
                 const bsAlert = new bootstrap.Alert(alert); 
                 bsAlert.close(); 
