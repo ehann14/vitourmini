@@ -9,6 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ✅ Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         (function () {
@@ -76,13 +78,11 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* ✅ Transisi HANYA pada properti yang berubah (hemat GPU) */
         .navbar-admin, .stat-card, .section-card, .section-header,
-        .denah-pin-card, .facility-chip, .theme-toggle-btn {
+        .denah-pin-card, .facility-chip, .theme-toggle-btn, .chart-card {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
-        /* ✅ SIDEBAR */
         .sidebar {
             position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
             background: var(--primary-blue); color: white; display: flex; flex-direction: column;
@@ -112,20 +112,17 @@
             padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px;
         }
 
-        /* ✅ MAIN CONTENT */
         .main-content {
             margin-left: 16.666667%; min-height: 100vh;
             display: flex; flex-direction: column;
         }
 
-        /* ✅ NAVBAR - Padding adaptif */
         .navbar-admin {
             background: var(--card-bg); box-shadow: var(--card-shadow);
             padding: 0.75rem 1rem; position: sticky; top: 0; z-index: 1020;
         }
         @media (min-width: 768px) { .navbar-admin { padding: 1rem 2rem; } }
 
-        /* ✅ TOMBOL TOGGLE TEMA */
         .theme-toggle-btn {
             width: 38px; height: 38px; border-radius: 50%;
             border: 1px solid var(--border-color); background: var(--chip-bg);
@@ -135,7 +132,6 @@
         }
         .theme-toggle-btn:hover { transform: rotate(15deg); background: var(--chip-border); }
 
-        /* ✅ STAT CARDS */
         .stat-card {
             border: none; border-radius: 12px; box-shadow: var(--card-shadow);
             background: var(--card-bg);
@@ -151,7 +147,6 @@
         [data-bs-theme="dark"] .bg-blue-light { background: rgba(138,180,255,0.15); color: #8ab4ff; }
         .bg-info-light { background: rgba(13,202,240,0.15); color: #0dcaf0; }
 
-        /* ✅ SECTION CARD - content-visibility untuk performa */
         .section-card {
             border: none; border-radius: 16px; box-shadow: var(--card-shadow);
             margin-bottom: 1.5rem; background: var(--card-bg);
@@ -180,13 +175,11 @@
         .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--muted-color); }
         .empty-state i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
 
-        /* ✅ PREVIEW THUMB - Optimized */
         .preview-thumb {
             width: 60px; height: 40px; object-fit: cover; border-radius: 6px;
             border: 1px solid var(--thumb-border); background: var(--thumb-bg);
         }
 
-        /* ✅ DENAH PIN CARD - Tanpa backdrop-filter (berat GPU) */
         .denah-pin-card {
             border: none; border-radius: 12px; box-shadow: var(--card-shadow);
             overflow: hidden; background: var(--card-bg); height: 100%;
@@ -207,7 +200,6 @@
         }
         .denah-pin-card:hover .denah-pin-image-wrapper img { transform: scale(1.03); }
 
-        /* ✅ BADGE - Menggunakan background solid, BUKAN backdrop-filter */
         .denah-location-badge {
             position: absolute; bottom: 8px; left: 8px;
             background: var(--badge-bg-rgba);
@@ -267,7 +259,21 @@
         }
         .profile-avatar:hover { transform: scale(1.08); color: var(--accent-teal); }
 
-        /* ✅ RESPONSIVE BREAKPOINTS */
+        /* ✅ CHART CARD STYLES */
+        .chart-card {
+            border: none; border-radius: 16px; box-shadow: var(--card-shadow);
+            background: var(--card-bg); padding: 1.5rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        @media (max-width: 767px) {
+            .chart-container { height: 250px; }
+        }
+
         @media (max-width: 575.98px) {
             .section-header { padding: 0.85rem 1rem; }
             .section-header h5 { font-size: 1rem; }
@@ -403,6 +409,22 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- ✅ CHART: Jumlah Ruangan per Gedung -->
+                    @if(isset($denahByGedung) && $denahByGedung->count() > 0)
+                    <div class="row g-4 mb-4">
+                        <div class="col-12">
+                            <div class="chart-card">
+                                <h5 class="fw-bold mb-3" style="color: var(--heading-color);">
+                                    <i class="fas fa-chart-bar me-2"></i>Jumlah Ruangan per Gedung
+                                </h5>
+                                <div class="chart-container">
+                                    <canvas id="gedungChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
 
                     <!-- ✅ Panorama Terbaru -->
                     <div class="row g-4 mb-4">
@@ -556,24 +578,6 @@
                                         @endforeach
                                     </div>
 
-                                    @if(isset($denahByGedung) && $denahByGedung->count() > 0)
-                                    <div class="mt-4 pt-3 border-top">
-                                        <h6 class="fw-bold mb-3" style="color: var(--heading-color);">
-                                            <i class="fas fa-chart-bar me-2"></i>Statistik per Gedung
-                                        </h6>
-                                        <div class="row g-2">
-                                            @foreach($denahByGedung as $gedung => $total)
-                                            <div class="col-6 col-md-3">
-                                                <div class="gedung-stat-item d-flex justify-content-between align-items-center">
-                                                    <span class="small fw-semibold">{{ $gedung }}</span>
-                                                    <span class="badge" style="background: var(--accent-teal);">{{ $total }}</span>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                    @endif
-
                                     <div class="text-center mt-4">
                                         <a href="{{ route('admin.denah.index') }}" class="btn btn-outline-primary btn-sm">
                                             <i class="fas fa-th-list me-1"></i>Lihat Semua Titik Denah
@@ -665,6 +669,137 @@
                     }
                 }, { once: true });
             });
+
+            // === ✅ CHART: Jumlah Ruangan per Gedung ===
+            @if(isset($denahByGedung) && $denahByGedung->count() > 0)
+            const ctx = document.getElementById('gedungChart').getContext('2d');
+            
+            // Prepare data from PHP
+            const gedungLabels = @json($denahByGedung->keys()->toArray());
+            const gedungData = @json($denahByGedung->values()->toArray());
+            
+            // Get current theme
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            
+            // Color scheme
+            const colors = {
+                light: {
+                    bars: 'rgba(30, 60, 114, 0.8)',
+                    barsHover: 'rgba(0, 201, 177, 0.9)',
+                    grid: 'rgba(0, 0, 0, 0.1)',
+                    text: '#6c757d'
+                },
+                dark: {
+                    bars: 'rgba(138, 180, 255, 0.8)',
+                    barsHover: 'rgba(0, 201, 177, 0.9)',
+                    grid: 'rgba(255, 255, 255, 0.1)',
+                    text: '#adb5bd'
+                }
+            };
+            
+            const scheme = isDark ? colors.dark : colors.light;
+            
+            const gedungChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: gedungLabels,
+                    datasets: [{
+                        label: 'Jumlah Ruangan',
+                        data: gedungData,
+                        backgroundColor: scheme.bars,
+                        hoverBackgroundColor: scheme.barsHover,
+                        borderRadius: 8,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? 'rgba(26, 34, 52, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+                            titleColor: isDark ? '#e9ecef' : '#212529',
+                            bodyColor: isDark ? '#ced4da' : '#495057',
+                            borderColor: isDark ? '#35405a' : '#dee2e6',
+                            borderWidth: 1,
+                            padding: 12,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Ruangan: ' + context.parsed.y;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                color: scheme.text,
+                                font: {
+                                    family: 'Poppins',
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                color: scheme.grid,
+                                drawBorder: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Jumlah Ruangan',
+                                color: scheme.text,
+                                font: {
+                                    family: 'Poppins',
+                                    size: 12,
+                                    weight: '600'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: scheme.text,
+                                font: {
+                                    family: 'Poppins',
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+            
+            // Update chart when theme changes
+            window.addEventListener('themeChanged', function() {
+                const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+                const scheme = isDark ? colors.dark : colors.light;
+                
+                gedungChart.data.datasets[0].backgroundColor = scheme.bars;
+                gedungChart.data.datasets[0].hoverBackgroundColor = scheme.barsHover;
+                gedungChart.options.plugins.tooltip.backgroundColor = isDark ? 'rgba(26, 34, 52, 0.95)' : 'rgba(255, 255, 255, 0.95)';
+                gedungChart.options.plugins.tooltip.titleColor = isDark ? '#e9ecef' : '#212529';
+                gedungChart.options.plugins.tooltip.bodyColor = isDark ? '#ced4da' : '#495057';
+                gedungChart.options.plugins.tooltip.borderColor = isDark ? '#35405a' : '#dee2e6';
+                gedungChart.options.scales.y.ticks.color = scheme.text;
+                gedungChart.options.scales.y.grid.color = scheme.grid;
+                gedungChart.options.scales.y.title.color = scheme.text;
+                gedungChart.options.scales.x.ticks.color = scheme.text;
+                
+                gedungChart.update();
+            });
+            @endif
         });
     </script>
 </body>
