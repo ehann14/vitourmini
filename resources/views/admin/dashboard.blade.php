@@ -132,6 +132,27 @@
         }
         .theme-toggle-btn:hover { transform: rotate(15deg); background: var(--chip-border); }
 
+        /* ✅ REALTIME CLOCK STYLES */
+        .realtime-clock-wrapper {
+            background: var(--chip-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .realtime-clock {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.5px;
+            min-width: 65px;
+            text-align: center;
+        }
+
         .stat-card {
             border: none; border-radius: 12px; box-shadow: var(--card-shadow);
             background: var(--card-bg);
@@ -346,6 +367,12 @@
                             </h5>
                         </div>
                         <div class="d-flex align-items-center gap-2">
+                            <!-- ✅ JAM REAL TIME -->
+                            <div class="d-none d-sm-flex realtime-clock-wrapper">
+                                <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
+                                <span id="realtime-clock" class="realtime-clock">00:00:00</span>
+                            </div>
+
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
                             </button>
@@ -659,6 +686,21 @@
                 });
             }
             updateThemeIcon();
+
+            // === ✅ JAM REAL TIME ===
+            function updateRealtimeClock() {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                const clockElement = document.getElementById('realtime-clock');
+                if (clockElement) {
+                    clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+                }
+            }
+            // Update segera saat load, lalu setiap 1 detik
+            updateRealtimeClock();
+            setInterval(updateRealtimeClock, 1000);
 
             // === FALLBACK GAMBAR YANG AMAN (mencegah infinite loop) ===
             document.querySelectorAll('img').forEach(img => {
