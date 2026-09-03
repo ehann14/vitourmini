@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- ✅ Script inisialisasi tema untuk mencegah flicker saat reload -->
+    <!-- Script inisialisasi tema untuk mencegah flicker saat reload -->
     <script>
         (function () {
             try {
@@ -39,7 +39,7 @@
             --input-border: #dee2e6;
         }
 
-        /* ✅ Variabel Mode Gelap */
+        /* Variabel Mode Gelap */
         [data-bs-theme="dark"] {
             --body-bg: #121826;
             --card-bg: #1a2234;
@@ -91,7 +91,7 @@
         }
         [data-bs-theme="dark"] .navbar-admin { box-shadow: 0 2px 10px rgba(0,0,0,0.45); }
 
-        /* ✅ REALTIME CLOCK STYLES */
+        /* REALTIME CLOCK STYLES */
         .realtime-clock-wrapper {
             background: var(--body-bg);
             border: 1px solid var(--input-border);
@@ -159,7 +159,7 @@
         }
         .btn-secondary-custom:hover { background: var(--input-border); color: var(--text-color); }
 
-        /* ✅ Tombol Toggle Tema */
+        /* Tombol Toggle Tema */
         .theme-toggle-btn {
             width: 40px; height: 40px; border-radius: 50%;
             border: 1px solid var(--input-border);
@@ -255,13 +255,13 @@
                             </h4>
                         </div>
                         <div class="d-flex align-items-center gap-3">
-                            <!-- ✅ JAM REAL TIME -->
+                            <!-- JAM REAL TIME -->
                             <div class="d-none d-sm-flex realtime-clock-wrapper">
                                 <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
                                 <span id="realtime-clock" class="realtime-clock">00:00:00</span>
                             </div>
 
-                            <!-- ✅ Tombol Toggle Mode Gelap/Terang -->
+                            <!-- Tombol Toggle Mode Gelap/Terang -->
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
                             </button>
@@ -448,15 +448,15 @@
             hint.className = 'form-text';
         } else if (strength <= 1) {
             strengthBar.classList.add('weak');
-            hint.textContent = ' Lemah - Tambahkan huruf besar, angka, atau simbol';
+            hint.textContent = 'Lemah - Tambahkan huruf besar, angka, atau simbol';
             hint.className = 'form-text text-danger';
         } else if (strength === 2 || strength === 3) {
             strengthBar.classList.add('medium');
-            hint.textContent = '🟡 Sedang - Hampir kuat!';
+            hint.textContent = 'Sedang - Hampir kuat!';
             hint.className = 'form-text text-warning';
         } else if (strength === 4) {
             strengthBar.classList.add('strong');
-            hint.textContent = '🟢 Kuat - Password aman!';
+            hint.textContent = 'Kuat - Password aman!';
             hint.className = 'form-text text-success';
         }
     }
@@ -495,7 +495,7 @@
             }
         });
 
-        // 2. ✅ JAM REAL TIME
+        // 2. JAM REAL TIME
         function updateRealtimeClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -510,7 +510,7 @@
         updateRealtimeClock();
         setInterval(updateRealtimeClock, 1000);
 
-        // 3. ✅ FITUR TOGGLE MODE GELAP/TERANG
+        // 3. FITUR TOGGLE MODE GELAP/TERANG
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
 
