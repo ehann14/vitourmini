@@ -42,7 +42,7 @@
         }
 
         body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .form-card, .theme-toggle-btn, .search-input-wrapper input, .filter-select, .search-meta .reset-btn {
+        .navbar-admin, .form-card, .theme-toggle-btn, .search-input-wrapper input, .filter-select, .search-meta .reset-btn, .realtime-clock-wrapper {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -61,7 +61,6 @@
 
         .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
 
-        /* ✅ TOMBOL TOGGLE TEMA */
         .theme-toggle-btn {
             width: 40px; height: 40px; border-radius: 50%;
             border: 1px solid var(--border-color); background: var(--chip-bg);
@@ -69,6 +68,25 @@
             cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
         }
         .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+
+        .realtime-clock-wrapper {
+            background: var(--chip-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .realtime-clock {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.5px;
+            min-width: 65px;
+            text-align: center;
+        }
 
         .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
         .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
@@ -91,7 +109,6 @@
         .empty-state { text-align: center; padding: 3rem 1rem; color: var(--muted-color); }
         .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
 
-        /* ======= SEARCH & FILTER STYLES ======= */
         .search-filter-wrapper { display: grid; grid-template-columns: 1fr auto auto auto; gap: 0.75rem; margin-bottom: 1.25rem; align-items: stretch; }
         .search-input-wrapper { position: relative; }
         .search-input-wrapper i.search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #adb5bd; pointer-events: none; }
@@ -182,6 +199,11 @@
                             <h4 class="mb-0 fw-bold" style="color: var(--heading-color);"><i class="fas fa-map-marked-alt me-2"></i>Kelola Denah Interaktif</h4>
                         </div>
                         <div class="d-flex align-items-center gap-3">
+                            <div class="d-none d-sm-flex realtime-clock-wrapper">
+                                <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
+                                <span id="realtime-clock" class="realtime-clock">00:00:00</span>
+                            </div>
+
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
                             </button>
@@ -330,7 +352,6 @@
             if(window.innerWidth >= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
         });
 
-        // ======= TOGGLE TEMA =======
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         function updateThemeIcon() {
@@ -349,7 +370,19 @@
         }
         updateThemeIcon();
 
-        // ======= SEARCH & FILTER LOGIC =======
+        function updateRealtimeClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const clockElement = document.getElementById('realtime-clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
+
         const searchInput = document.getElementById('searchInput');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
         const filterStatus = document.getElementById('filterStatus');

@@ -48,7 +48,7 @@
         }
 
         body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .image-picker-container, .room-info-section, .position-hint {
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .image-picker-container, .room-info-section, .position-hint, .realtime-clock-wrapper {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -64,7 +64,6 @@
         .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
 
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
-
         .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
 
         .theme-toggle-btn {
@@ -75,16 +74,29 @@
         }
         .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
 
+        .realtime-clock-wrapper {
+            background: var(--chip-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .realtime-clock {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.5px;
+            min-width: 65px;
+            text-align: center;
+        }
+
         .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
         .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
-        .form-control, .form-select {
-            background: var(--input-bg); border: 1px solid var(--chip-border);
-            color: var(--text-color);
-        }
-        .form-control:focus, .form-select:focus {
-            background: var(--input-focus-bg); color: var(--text-color);
-            border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25);
-        }
+        .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
+        .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
         .form-control::placeholder, .form-select::placeholder { color: var(--muted-color); }
         [data-bs-theme="dark"] .form-select option { background: var(--card-bg); color: var(--text-color); }
 
@@ -154,6 +166,11 @@
                             <h4 class="mb-0 fw-bold" style="color: var(--heading-color);"><i class="fas fa-plus-circle me-2"></i>Tambah Titik Denah</h4>
                         </div>
                         <div class="d-flex align-items-center gap-3">
+                            <div class="d-none d-sm-flex realtime-clock-wrapper">
+                                <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
+                                <span id="realtime-clock" class="realtime-clock">00:00:00</span>
+                            </div>
+
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
                             </button>
@@ -355,7 +372,6 @@
             if(window.innerWidth >= 768) { sidebar.classList.remove('show'); overlay.classList.remove('show'); document.body.style.overflow = ''; }
         });
 
-        // ✅ TOGGLE TEMA
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         function updateThemeIcon() {
@@ -373,6 +389,19 @@
             });
         }
         updateThemeIcon();
+
+        function updateRealtimeClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const clockElement = document.getElementById('realtime-clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
     });
     </script>
 </body>
