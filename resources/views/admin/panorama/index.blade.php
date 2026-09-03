@@ -50,7 +50,7 @@
         }
 
         body { background: var(--body-bg); font-family: 'Poppins', sans-serif; margin: 0; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .section-card, .theme-toggle-btn, .search-input-wrapper input, .filter-select, .pagination .page-item .page-link, .search-meta .reset-btn {
+        .navbar-admin, .section-card, .theme-toggle-btn, .search-input-wrapper input, .filter-select, .pagination .page-item .page-link, .search-meta .reset-btn, .realtime-clock-wrapper {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -76,6 +76,25 @@
             cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
         }
         .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+
+        .realtime-clock-wrapper {
+            background: var(--chip-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .realtime-clock {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.5px;
+            min-width: 65px;
+            text-align: center;
+        }
 
         .section-card { border: none; border-radius: 16px; box-shadow: var(--card-shadow); margin-bottom: 1.5rem; overflow: hidden; background: var(--card-bg); }
         .section-card .table { margin: 0; color: var(--text-color); }
@@ -231,6 +250,11 @@
                             </h4>
                         </div>
                         <div class="d-flex align-items-center gap-3">
+                            <div class="d-none d-sm-flex realtime-clock-wrapper">
+                                <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
+                                <span id="realtime-clock" class="realtime-clock">00:00:00</span>
+                            </div>
+
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
                             </button>
@@ -440,7 +464,6 @@
             }
         });
 
-        // ======= TOGGLE TEMA =======
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
         function updateThemeIcon() {
@@ -459,27 +482,36 @@
         }
         updateThemeIcon();
 
-        // ======= PENCARIAN HANYA SAAT TEKAN ENTER =======
+        function updateRealtimeClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const clockElement = document.getElementById('realtime-clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
+
         const searchForm  = document.getElementById('searchForm');
         const searchInput = document.getElementById('searchInput');
         const clearBtn    = document.getElementById('clearSearchBtn');
         const spinner     = document.getElementById('searchSpinner');
 
-        // 1. Tampilkan/sembunyikan tombol clear berdasarkan isi input (tanpa submit)
         searchInput.addEventListener('input', function () {
             clearBtn.classList.toggle('show', this.value.trim() !== '');
         });
 
-        // 2. Submit form HANYA saat tombol Enter ditekan
         searchInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
-                e.preventDefault(); // Mencegah perilaku default browser
-                spinner.classList.add('show'); // Tampilkan animasi loading
-                searchForm.submit(); // Kirim data ke server
+                e.preventDefault();
+                spinner.classList.add('show');
+                searchForm.submit();
             }
         });
 
-        // 3. Tombol clear tetap berfungsi untuk mereset dan submit
         clearBtn.addEventListener('click', function () {
             searchInput.value = '';
             clearBtn.classList.remove('show');
@@ -487,7 +519,6 @@
             searchForm.submit();
         });
 
-        // 4. Shortcut Ctrl+K untuk fokus ke kolom pencarian
         document.addEventListener('keydown', function (e) {
             if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                 e.preventDefault();

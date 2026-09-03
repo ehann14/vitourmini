@@ -41,7 +41,7 @@
             color-scheme: dark;
         }
         body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .hotspot-modal, .hotspot-table, .image-canvas-wrapper, .realtime-clock-wrapper { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
         .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
         [data-bs-theme="dark"] .sidebar { background: #141c30; }
         [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
@@ -56,6 +56,26 @@
         .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
         .theme-toggle-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--chip-bg); color: var(--heading-color); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; }
         .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+        
+        .realtime-clock-wrapper {
+            background: var(--chip-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .realtime-clock {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.5px;
+            min-width: 65px;
+            text-align: center;
+        }
+
         .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
         .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
         .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
@@ -142,6 +162,11 @@
                             <h4 class="mb-0 fw-bold" style="color: var(--heading-color);"><i class="fas fa-plus-circle me-2"></i>Tambah Panorama Baru</h4>
                         </div>
                         <div class="d-flex align-items-center gap-3">
+                            <div class="d-none d-sm-flex realtime-clock-wrapper">
+                                <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
+                                <span id="realtime-clock" class="realtime-clock">00:00:00</span>
+                            </div>
+
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
                             </button>
@@ -230,7 +255,7 @@
                                     <label class="form-label">Icon (Font Awesome)</label>
                                     <input type="text" class="form-control @error('icon') is-invalid @enderror" name="icon" value="{{ old('icon', 'fas fa-image') }}" placeholder="fas fa-building">
                                     @error('icon')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                                    <small class="form-text"><a href="https://fontawesome.com/icons" target="_blank">Lihat semua icon →</a></small>
+                                    <small class="form-text"><a href="https://fontawesome.com/icons" target="_blank">Lihat semua icon</a></small>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Status</label>
@@ -260,10 +285,9 @@
                 <input type="text" id="modalText" class="form-control" placeholder="Contoh: Ke Perpustakaan">
             </div>
             
-            {{-- ✅ FITUR BARU: Input Pencarian untuk Dropdown --}}
             <div class="mb-2">
                 <label class="form-label">Pilih Scene ID Tujuan</label>
-                <input type="text" id="searchSceneLink" class="form-control form-control-sm mb-2" placeholder="🔍 Ketik nama ruangan atau ID...">
+                <input type="text" id="searchSceneLink" class="form-control form-control-sm mb-2" placeholder="Ketik nama ruangan atau ID...">
                 <select id="modalLink" class="form-select">
                     <option value="">— Tidak ada link —</option>
                     @foreach($panoramas ?? [] as $p)
@@ -338,7 +362,6 @@
         document.getElementById('modalText').value = '';
         document.getElementById('modalLink').value = '';
         
-        // ✅ Reset kolom pencarian dan tampilkan semua opsi dropdown saat modal dibuka
         const searchInput = document.getElementById('searchSceneLink');
         if (searchInput) {
             searchInput.value = '';
@@ -416,7 +439,6 @@
             setTimeout(function() { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 5000);
         });
 
-        // ✅ FITUR BARU: Pencarian realtime di dropdown Scene ID
         const searchSceneLink = document.getElementById('searchSceneLink');
         const modalLinkSelect = document.getElementById('modalLink');
         
@@ -435,6 +457,19 @@
                 }
             });
         }
+
+        function updateRealtimeClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const clockElement = document.getElementById('realtime-clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
 
         var sidebar = document.querySelector('.sidebar');
         var overlay = document.getElementById('sidebarOverlay');
