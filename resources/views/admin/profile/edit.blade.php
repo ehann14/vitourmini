@@ -91,6 +91,27 @@
         }
         [data-bs-theme="dark"] .navbar-admin { box-shadow: 0 2px 10px rgba(0,0,0,0.45); }
 
+        /* ✅ REALTIME CLOCK STYLES */
+        .realtime-clock-wrapper {
+            background: var(--body-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 20px;
+            padding: 5px 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .realtime-clock {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.5px;
+            min-width: 65px;
+            text-align: center;
+        }
+
         .profile-card { 
             background: var(--card-bg); 
             border-radius: 16px; 
@@ -234,6 +255,12 @@
                             </h4>
                         </div>
                         <div class="d-flex align-items-center gap-3">
+                            <!-- ✅ JAM REAL TIME -->
+                            <div class="d-none d-sm-flex realtime-clock-wrapper">
+                                <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
+                                <span id="realtime-clock" class="realtime-clock">00:00:00</span>
+                            </div>
+
                             <!-- ✅ Tombol Toggle Mode Gelap/Terang -->
                             <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
                                 <i class="fas fa-moon" id="themeIcon"></i>
@@ -468,7 +495,22 @@
             }
         });
 
-        // 2. ✅ FITUR TOGGLE MODE GELAP/TERANG
+        // 2. ✅ JAM REAL TIME
+        function updateRealtimeClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const clockElement = document.getElementById('realtime-clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        }
+        // Update segera saat load, lalu setiap 1 detik
+        updateRealtimeClock();
+        setInterval(updateRealtimeClock, 1000);
+
+        // 3. ✅ FITUR TOGGLE MODE GELAP/TERANG
         const themeToggleBtn = document.getElementById('themeToggleBtn');
         const themeIcon = document.getElementById('themeIcon');
 
@@ -489,7 +531,7 @@
         }
         updateThemeIcon(); // Inisialisasi ikon saat load
 
-        // 3. Auto-dismiss alerts (hanya success)
+        // 4. Auto-dismiss alerts (hanya success)
         document.querySelectorAll('.alert-success').forEach(alert => {
             setTimeout(() => { 
                 const bsAlert = new bootstrap.Alert(alert); 
