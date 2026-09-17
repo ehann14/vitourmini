@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         // Konfigurasi redirect untuk middleware auth
         $middleware->redirectGuestsTo('/login');
         $middleware->redirectUsersTo('/admin/dashboard');
+
+        // ✅ Pencatat kunjungan pengunjung (statistik)
+        $middleware->web(append: [
+            \App\Http\Middleware\TrackVisitor::class,
+        ]);
         
         // Atau jika ingin pakai named route:
         // $middleware->redirectGuestsTo(fn () => route('login'));

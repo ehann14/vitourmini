@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PanoramaController;
 use App\Http\Controllers\DenahController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatistikController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +119,15 @@ Route::prefix('admin')
         Route::get('/', [ProfileController::class, 'edit'])->name('edit');
         Route::put('/', [ProfileController::class, 'update'])->name('update');
         Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password');
+    });
+
+    // ============================================
+    // 📊 STATISTIK PENGUNJUNG
+    // ============================================
+    Route::prefix('statistik')->name('statistik.')->group(function () {
+        Route::get('/', [StatistikController::class, 'index'])->name('index');
+        Route::get('/ekspor', [StatistikController::class, 'ekspor'])->name('ekspor');
+        Route::post('/bersihkan', [StatistikController::class, 'bersihkan'])->name('bersihkan');
     });
 
     Route::prefix('denah')->name('denah.')->group(function () {

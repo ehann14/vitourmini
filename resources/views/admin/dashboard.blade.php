@@ -341,6 +341,9 @@
                     <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}">
                         <i class="fas fa-map-marked-alt me-2"></i>Kelola Denah
                     </a>
+                    <a href="{{ route('admin.statistik.index') }}" class="{{ request()->routeIs('admin.statistik.*') ? 'active' : '' }}">
+                        <i class="fas fa-chart-pie me-2"></i>Statistik Pengunjung
+                    </a>
                     <a href="{{ route('home') }}" target="_blank" rel="noopener">
                         <i class="fas fa-external-link-alt me-2"></i>Lihat Website
                     </a>

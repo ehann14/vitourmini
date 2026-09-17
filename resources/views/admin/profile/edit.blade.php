@@ -233,6 +233,7 @@
                             <span class="badge bg-danger rounded-pill ms-2">{{ $pendingCommentsCount }}</span>
                         @endif
                     </a>
+                    <a href="{{ route('admin.statistik.index') }}" class="{{ request()->routeIs('admin.statistik.*') ? 'active' : '' }}"><i class="fas fa-chart-pie me-2"></i>Statistik Pengunjung</a>
                     <a href="{{ route('home') }}" target="_blank"><i class="fas fa-external-link-alt me-2"></i>Lihat Website</a>
                 </nav>
                 <div class="p-3 border-top mt-auto" style="border-color: rgba(255,255,255,0.2) !important;">
