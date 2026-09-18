@@ -1,250 +1,197 @@
 /* =====================================================
-   SPLASH SCREEN - VITOUR 11 (Premium Redesign)
-   ✅ BACKGROUND DISESAMAKAN DENGAN HALAMAN DENAH:
-      linear-gradient(135deg, #1e3c72, #2a5298)
+   SPLASH SCREEN - VITOUR 11
+   Gaya: modern & elegan, foto gedung sekolah + gradasi lembut
 ===================================================== */
 :root {
-    /* ✅ Palet warna disamakan dengan halaman Denah */
-    --primary-blue: #1e3c72;
-    --secondary-blue: #2a5298;
-    --accent-teal: #00c9b1;
-
-    --bg-1: #1e3c72;   /* sebelumnya #060d1f */
-    --bg-2: #2a5298;   /* sebelumnya #0b1f42 */
-    --accent-1: #00c9b1;  /* teal ViTour (sebelumnya #2dd4bf) */
-    --accent-2: #38bdf8;
-    --accent-3: #818cf8;
-    --text: #eaf2ff;
-    --muted: #b9c8e6;
+    --navy: #0f2547;
+    --navy-deep: #081327;
+    --teal: #1fd1b8;
+    --paper: #f5f8ff;
+    --muted: rgba(245, 248, 255, .68);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    /* ✅ Sama dengan body halaman Denah */
-    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--navy-deep);
+    color: var(--paper);
     overflow: hidden;
     user-select: none;
+    position: relative;
+    transition: opacity .6s ease;
 }
 
-/* ---------- BACKGROUND ---------- */
-.splash-bg {
-    position: fixed; inset: 0;
-    /* ✅ Gradasi biru identik dengan halaman Denah */
-    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
-    overflow: hidden;
-    transition: opacity .8s ease;
+/* ---------- FOTO BACKGROUND ---------- */
+.splash-photo {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
 }
-
-.aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .4; animation: auroraMove 16s ease-in-out infinite alternate; }
-/* ✅ Warna aurora disesuaikan agar menyatu dengan biru Denah */
-.aurora-1 { width: 60vmax; height: 60vmax; top: -25vmax; left: -18vmax; background: radial-gradient(circle, #2a5298 0%, transparent 65%); }
-.aurora-2 { width: 50vmax; height: 50vmax; bottom: -22vmax; right: -15vmax; background: radial-gradient(circle, #00c9b1 0%, transparent 65%); animation-delay: -6s; }
-.aurora-3 { width: 38vmax; height: 38vmax; top: 28%; left: 58%; background: radial-gradient(circle, #6366f1 0%, transparent 65%); animation-delay: -11s; }
-@keyframes auroraMove {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(6vmax, 4vmax) scale(1.18); }
-}
-
-.stars { position: absolute; inset: 0; }
-.star { position: absolute; background: #fff; border-radius: 50%; opacity: .12; animation: twinkle ease-in-out infinite; }
-@keyframes twinkle {
-    0%, 100% { opacity: .1; transform: translateY(0); }
-    50%      { opacity: .9; transform: translateY(-6px); }
-}
-
-/* Grid panorama 360° di bawah — ✅ warna garis pakai aksen teal Denah */
-.panorama-grid {
-    position: absolute; left: -25%; right: -25%; bottom: -6%;
-    height: 46%;
-    background-image:
-        linear-gradient(rgba(0, 201, 177, .18) 1.5px, transparent 1.5px),
-        linear-gradient(90deg, rgba(0, 201, 177, .18) 1.5px, transparent 1.5px);
-    background-size: 46px 46px;
-    transform: perspective(600px) rotateX(62deg);
-    transform-origin: top center;
-    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 35%, transparent 96%);
-            mask-image: linear-gradient(to bottom, transparent, #000 35%, transparent 96%);
-    animation: gridMove 2.6s linear infinite;
-}
-@keyframes gridMove { from { background-position-y: 0; } to { background-position-y: 46px; } }
-
-/* ✅ Vignette biru tua agar konten tetap kontras di atas background baru */
-.splash-gradient-overlay {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 40%, rgba(10, 22, 50, .55) 100%);
-}
-
-/* ---------- FLOATING ICONS ---------- */
-.floating-icons { position: fixed; inset: 0; pointer-events: none; z-index: 1; transition: opacity .8s ease; }
-.float-icon { position: absolute; color: rgba(125, 211, 252, .2); animation: floatIcon ease-in-out infinite alternate; }
-.fi-1 { top: 18%; left: 12%;  font-size: 26px; animation-duration: 7s; }
-.fi-2 { top: 30%; right: 14%; font-size: 32px; animation-duration: 9s;   color: rgba(0, 201, 177, .18); }
-.fi-3 { bottom: 26%; left: 16%; font-size: 30px; animation-duration: 8s; color: rgba(129, 140, 248, .2); }
-.fi-4 { bottom: 18%; right: 12%; font-size: 24px; animation-duration: 6.5s; }
-.fi-5 { top: 12%; right: 34%; font-size: 20px; animation-duration: 7.5s; color: rgba(0, 201, 177, .16); }
-@keyframes floatIcon {
-    from { transform: translateY(-12px) rotate(-6deg); }
-    to   { transform: translateY(14px) rotate(8deg); }
-}
-
-/* ---------- LAYOUT ---------- */
-.splash-wrapper {
-    position: relative; z-index: 2;
+.splash-photo img {
+    width: 100%;
     height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: saturate(1.05) brightness(.9);
+    transform: scale(1.06);
+    animation: photoZoom 14s ease-out forwards;
+}
+@keyframes photoZoom {
+    from { transform: scale(1.06); }
+    to   { transform: scale(1); }
+}
+
+.photo-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(8, 19, 39, .55) 0%, rgba(8, 19, 39, .25) 32%, rgba(8, 19, 39, .55) 62%, rgba(8, 19, 39, .96) 92%),
+        linear-gradient(100deg, rgba(8, 19, 39, .55) 0%, rgba(8, 19, 39, 0) 45%);
+}
+
+/* ---------- LAYOUT KONTEN ---------- */
+.splash-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5vh 6vw 7vh;
+}
+
+/* ---------- BAGIAN ATAS ---------- */
+.top-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    animation: fadeDown .7s ease .1s forwards;
+}
+.logo-badge {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    background: rgba(245, 248, 255, .1);
+    border: 1px solid rgba(245, 248, 255, .22);
+    backdrop-filter: blur(6px);
     display: flex; align-items: center; justify-content: center;
-    transition: opacity .8s ease, transform .8s ease, filter .8s ease;
+    padding: 7px;
 }
-.splash-content { text-align: center; padding: 24px; width: min(92%, 640px); }
-
-/* ---------- LOGO ---------- */
-.logo-section { animation: riseIn 1s cubic-bezier(.22, 1, .36, 1) both; }
-
-.logo-ring-wrapper { position: relative; width: 168px; height: 168px; margin: 0 auto 26px; }
-
-.logo-glow {
-    position: absolute; inset: -34px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(0, 201, 177, .35) 0%, transparent 70%);
-    animation: pulseGlow 3s ease-in-out infinite;
+.logo-badge img { width: 100%; height: 100%; object-fit: contain; }
+.top-label {
+    font-size: .82rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--muted);
 }
 
-.logo-ring {
-    position: absolute; inset: -7px; border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
-    animation: spin 5s linear infinite;
-}
-.logo-ring.ring-2 {
-    inset: -16px; background: transparent;
-    border: 1.5px dashed rgba(125, 211, 252, .35);
-    animation: spinReverse 14s linear infinite;
+/* ---------- BAGIAN BAWAH ---------- */
+.bottom-block { max-width: 640px; }
+
+.eyebrow {
+    font-size: .88rem;
+    font-weight: 500;
+    color: var(--teal);
+    letter-spacing: .02em;
+    margin-bottom: 6px;
+    opacity: 0;
+    animation: fadeUp .7s ease .25s forwards;
 }
 
-.logo-icon {
-    position: relative; width: 100%; height: 100%;
-    border-radius: 50%; overflow: hidden;
-    background: #16305e; /* ✅ biru gelap serasi dengan background Denah */
-    border: 5px solid rgba(255, 255, 255, .09);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 18px 45px rgba(0, 0, 0, .5);
-}
-.logo-img { width: 100%; height: 100%; object-fit: contain; animation: logoFloat 4s ease-in-out infinite; }
-
-@keyframes spin        { to { transform: rotate(360deg); } }
-@keyframes spinReverse { to { transform: rotate(-360deg); } }
-@keyframes pulseGlow {
-    0%, 100% { opacity: .6; transform: scale(1); }
-    50%      { opacity: 1; transform: scale(1.08); }
-}
-@keyframes logoFloat {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50%      { transform: translateY(-6px) scale(1.03); }
-}
-
-/* ---------- JUDUL ---------- */
 .school-name {
-    font-size: clamp(1.5rem, 4.2vw, 2.5rem);
+    font-size: clamp(2rem, 5.4vw, 3.4rem);
     font-weight: 800;
-    letter-spacing: .05em;
-    /* ✅ Teal tengah disamakan dengan accent-teal Denah */
-    background: linear-gradient(90deg, #7dd3fc 0%, #00c9b1 50%, #818cf8 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; color: transparent;
+    line-height: 1.08;
+    letter-spacing: -.01em;
+    color: var(--paper);
+    opacity: 0;
+    animation: fadeUp .7s ease .38s forwards;
 }
-.school-name .char {
-    display: inline-block; opacity: 0; transform: translateY(20px);
-    animation: charIn .7s cubic-bezier(.22, 1, .36, 1) forwards;
-}
-@keyframes charIn { to { opacity: 1; transform: translateY(0); } }
 
-.school-type {
-    color: var(--muted); font-size: .9rem; letter-spacing: .22em;
-    text-transform: uppercase; margin-top: 8px;
-    animation: riseIn 1s .5s cubic-bezier(.22, 1, .36, 1) both;
+.school-tag {
+    margin-top: 14px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp .7s ease .52s forwards;
 }
 
 /* ---------- LOADING ---------- */
-.loading-section { margin-top: 46px; animation: riseIn 1s .7s cubic-bezier(.22, 1, .36, 1) both; }
-.loading-bar-container { display: flex; align-items: center; gap: 14px; }
-.loading-bar-track {
-    flex: 1; height: 8px; border-radius: 99px; overflow: hidden;
-    background: rgba(255, 255, 255, .12);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .45);
-}
-.loading-bar-fill {
-    position: relative; height: 100%; width: 0%; border-radius: 99px; overflow: hidden;
-    background: linear-gradient(90deg, var(--accent-2), var(--accent-1));
-    box-shadow: 0 0 16px rgba(0, 201, 177, .65);
-    transition: width .25s ease;
-}
-.loading-bar-fill::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent);
-    transform: translateX(-100%);
-    animation: shimmer 1.5s ease infinite;
-}
-@keyframes shimmer { to { transform: translateX(100%); } }
-
-.loading-percentage {
-    min-width: 52px; text-align: right;
-    font-weight: 700; font-size: .95rem; color: var(--accent-1);
-    font-variant-numeric: tabular-nums;
-}
-.loading-status { margin-top: 14px; color: var(--muted); font-size: .88rem; letter-spacing: .08em; }
-.loading-dots { display: inline-block; min-width: 1.2em; text-align: left; }
-
-/* ---------- TAGLINE ---------- */
-.tagline-section { margin-top: 40px; animation: riseIn 1s .9s cubic-bezier(.22, 1, .36, 1) both; }
-.tagline-divider {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    color: var(--accent-1); margin-bottom: 12px; font-size: .85rem;
-}
-.tagline-divider span { display: block; height: 1px; width: 70px; background: linear-gradient(90deg, transparent, rgba(0, 201, 177, .6)); }
-.tagline-divider span:last-child { transform: rotate(180deg); }
-.tagline-text { font-size: 1rem; font-weight: 500; color: #cfe3ff; letter-spacing: .04em; }
-
-/* ---------- FOOTER ---------- */
-.splash-footer {
-    margin-top: 54px; display: flex; justify-content: center; align-items: center; gap: 10px;
-    color: var(--muted); font-size: .8rem;
-    animation: riseIn 1s 1.1s both;
+.load-row {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    opacity: 0;
+    animation: fadeUp .7s ease .66s forwards;
 }
 
-/* ---------- SKIP BUTTON ---------- */
+.load-bar-track {
+    flex: 1;
+    max-width: 260px;
+    height: 4px;
+    border-radius: 99px;
+    background: rgba(245, 248, 255, .18);
+    overflow: hidden;
+}
+.load-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 99px;
+    background: var(--teal);
+    transition: width .2s ease;
+}
+
+.load-text {
+    font-size: .84rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+.load-dots { display: inline-block; min-width: 1.1em; text-align: left; }
+
+/* ---------- TOMBOL SKIP ---------- */
 .skip-btn {
-    position: fixed; right: 26px; bottom: 26px; z-index: 3;
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 20px; border-radius: 99px;
-    border: 1px solid rgba(255, 255, 255, .18);
-    background: rgba(255, 255, 255, .08);
-    backdrop-filter: blur(10px);
-    color: var(--text); font-family: inherit; font-size: .85rem; letter-spacing: .06em;
-    cursor: pointer; transition: .3s;
-    animation: riseIn 1s 1.4s both;
+    position: fixed;
+    top: 5vh; right: 6vw;
+    z-index: 3;
+    font-family: inherit;
+    background: rgba(245, 248, 255, .1);
+    border: 1px solid rgba(245, 248, 255, .22);
+    backdrop-filter: blur(6px);
+    color: var(--paper);
+    font-size: .82rem;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+    opacity: 0;
+    animation: fadeDown .7s ease .2s forwards;
 }
 .skip-btn:hover {
-    background: rgba(0, 201, 177, .18);
-    border-color: rgba(0, 201, 177, .5);
-    transform: translateY(-2px);
+    background: rgba(31, 209, 184, .18);
+    border-color: rgba(31, 209, 184, .5);
 }
 
-/* ---------- ANIMASI UMUM ---------- */
-@keyframes riseIn {
-    from { opacity: 0; transform: translateY(26px); }
+/* ---------- ANIMASI ---------- */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ---------- TRANSISI KELUAR ---------- */
-body.splash-exit .splash-wrapper { opacity: 0; transform: scale(1.07); filter: blur(8px); }
-body.splash-exit .splash-bg,
-body.splash-exit .floating-icons,
-body.splash-exit .skip-btn { opacity: 0; }
+body.splash-exit { opacity: 0; }
 
 /* ---------- RESPONSIVE ---------- */
-@media (max-width: 480px) {
-    .logo-ring-wrapper { width: 132px; height: 132px; }
-    .loading-bar-container { gap: 10px; }
-    .splash-footer { flex-direction: column; gap: 4px; }
+@media (max-width: 560px) {
+    .splash-content { padding: 4vh 6vw 6vh; }
+    .skip-btn { top: 4vh; right: 6vw; padding: 8px 16px; }
+    .load-bar-track { max-width: 160px; }
 }
