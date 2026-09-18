@@ -690,15 +690,19 @@
             }
             updateThemeIcon();
 
-            // === ✅ JAM REAL TIME ===
+            // === ✅ JAM REAL TIME (WIB) ===
             function updateRealtimeClock() {
-                const now = new Date();
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
+                // Selalu tampilkan WIB (Asia/Jakarta), apa pun zona waktu perangkat
+                const bagian = new Intl.DateTimeFormat('id-ID', {
+                    timeZone: 'Asia/Jakarta',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    hour12: false
+                }).formatToParts(new Date());
+
+                const ambil = (tipe) => bagian.find(b => b.type === tipe)?.value ?? '00';
                 const clockElement = document.getElementById('realtime-clock');
                 if (clockElement) {
-                    clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+                    clockElement.textContent = `${ambil('hour')}:${ambil('minute')}:${ambil('second')}`;
                 }
             }
             // Update segera saat load, lalu setiap 1 detik

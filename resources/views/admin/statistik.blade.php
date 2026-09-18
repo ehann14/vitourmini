@@ -938,12 +938,19 @@
             }
             updateThemeIcon();
 
+            // === ✅ JAM REAL TIME (WIB) ===
             function updateClock() {
-                const now = new Date();
+                // Selalu tampilkan WIB (Asia/Jakarta), apa pun zona waktu perangkat
+                const bagian = new Intl.DateTimeFormat('id-ID', {
+                    timeZone: 'Asia/Jakarta',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    hour12: false
+                }).formatToParts(new Date());
+
+                const ambil = (tipe) => bagian.find(b => b.type === tipe)?.value ?? '00';
                 const el = document.getElementById('realtime-clock');
                 if (el) {
-                    el.textContent = [now.getHours(), now.getMinutes(), now.getSeconds()]
-                        .map(n => String(n).padStart(2, '0')).join(':');
+                    el.textContent = `${ambil('hour')}:${ambil('minute')}:${ambil('second')}`;
                 }
             }
             updateClock();
