@@ -288,7 +288,7 @@
 
     <!-- Footer -->
     <footer class="home-footer fade-in-up delay-3">
-        <p>&copy; {{ date('Y') }} SMK Negeri 11 Bandung. Virtual Tour Panorama.</p>
+        <p>&copy; {{ date('Y') }} SMK Negeri 11 Bandung. Muhamad Ferhan Pratama S.</p>
     </footer>
 </body>
 </html>
