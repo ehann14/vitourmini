@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="{{ asset('image/b/Logo ViTour 11.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- ✅ Chart.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -29,41 +29,52 @@
         :root {
             --primary-blue: #1e3c72;
             --secondary-blue: #2a5298;
+            --primary-dark: #142a52;
             --accent-teal: #00c9b1;
-            --body-bg: #f8f9fa;
+            --accent-teal-dark: #00a893;
+
+            --body-bg: #eef1f8;
             --card-bg: #ffffff;
-            --text-color: #212529;
-            --muted-color: #6c757d;
+            --text-color: #1f2733;
+            --muted-color: #6b7686;
             --heading-color: #1e3c72;
-            --border-color: #eee;
-            --thead-bg: #f8f9fa;
-            --chip-bg: #f8f9fa;
-            --chip-border: #e9ecef;
-            --chip-color: #495057;
-            --thumb-bg: #f8f9fa;
-            --thumb-border: #dee2e6;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            --card-shadow-hover: 0 8px 25px rgba(0,0,0,0.12);
-            --badge-bg-rgba: rgba(30, 60, 114, 0.92);
+            --border-color: #e8ecf5;
+            --thead-bg: #f6f8fc;
+            --chip-bg: #f4f6fb;
+            --chip-border: #e6eaf3;
+            --chip-color: #4b5566;
+            --thumb-bg: #f4f6fb;
+            --thumb-border: #e2e7f1;
+
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+
+            --card-shadow: 0 1px 2px rgba(20,30,60,0.04), 0 8px 24px -8px rgba(20,30,60,0.10);
+            --card-shadow-hover: 0 10px 32px -6px rgba(20,30,60,0.20);
+            --sidebar-shadow: 4px 0 24px rgba(15,23,42,0.10);
+
+            --badge-bg-rgba: rgba(30, 60, 114, 0.90);
             --badge-teal-rgba: rgba(0, 201, 177, 0.92);
         }
 
         [data-bs-theme="dark"] {
-            --body-bg: #121826;
-            --card-bg: #1a2234;
-            --text-color: #e9ecef;
-            --muted-color: #adb5bd;
-            --heading-color: #8ab4ff;
-            --border-color: #2c3548;
-            --thead-bg: #212b40;
-            --chip-bg: #232d42;
-            --chip-border: #35405a;
-            --chip-color: #ced4da;
-            --thumb-bg: #232d42;
-            --thumb-border: #35405a;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
-            --card-shadow-hover: 0 8px 25px rgba(0,0,0,0.6);
-            --badge-bg-rgba: rgba(20, 28, 48, 0.95);
+            --body-bg: #0f1420;
+            --card-bg: #171f30;
+            --text-color: #e7ebf2;
+            --muted-color: #9aa5b8;
+            --heading-color: #8fb3ff;
+            --border-color: #262f45;
+            --thead-bg: #1c2438;
+            --chip-bg: #1e2740;
+            --chip-border: #303a56;
+            --chip-color: #cfd6e4;
+            --thumb-bg: #1e2740;
+            --thumb-border: #303a56;
+            --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -8px rgba(0,0,0,0.55);
+            --card-shadow-hover: 0 14px 34px -6px rgba(0,0,0,0.65);
+            --sidebar-shadow: 4px 0 24px rgba(0,0,0,0.4);
+            --badge-bg-rgba: rgba(15, 22, 40, 0.92);
             --badge-teal-rgba: rgba(0, 180, 160, 0.95);
             color-scheme: dark;
         }
@@ -78,74 +89,111 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(30,60,114,0.25); border-radius: 10px; }
+        [data-bs-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+
         .navbar-admin, .stat-card, .section-card, .section-header,
-        .denah-pin-card, .facility-chip, .theme-toggle-btn, .chart-card {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        .denah-pin-card, .facility-chip, .theme-toggle-btn, .chart-card, .sidebar {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
+        /* ============ SIDEBAR ============ */
         .sidebar {
             position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%;
-            background: var(--primary-blue); color: white; display: flex; flex-direction: column;
+            background: linear-gradient(195deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+            color: white; display: flex; flex-direction: column;
             z-index: 1030; overflow-y: auto; overflow-x: hidden;
             transition: transform 0.3s ease;
+            box-shadow: var(--sidebar-shadow);
         }
-        [data-bs-theme="dark"] .sidebar { background: #141c30; }
-        [data-bs-theme="dark"] .sidebar a:hover,
-        [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
+        [data-bs-theme="dark"] .sidebar { background: linear-gradient(195deg, #12203c 0%, #0b1424 100%); }
 
         .sidebar::-webkit-scrollbar { width: 6px; }
-        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
-        .sidebar a {
-            color: rgba(255,255,255,0.9); text-decoration: none;
-            padding: 12px 20px; display: block; border-radius: 8px; margin: 4px 0;
-            transition: background-color 0.2s ease;
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 3px; }
+
+        .sidebar-brand {
+            padding: 1.35rem 1.1rem 1rem; position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
         }
-        .sidebar a:hover, .sidebar a.active { background: var(--secondary-blue); color: white; }
-        .sidebar .logout-btn {
-            background: none; border: none; color: rgba(255,255,255,0.9);
-            padding: 12px 20px; text-align: left; width: 100%;
-            font-size: 1rem; cursor: pointer; transition: background-color 0.2s ease;
-        }
-        .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .sidebar-logo {
-            width: 100%; height: auto; max-height: 60px; object-fit: contain;
-            padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px;
+            width: 100%; height: auto; max-height: 56px; object-fit: contain;
+            padding: 8px; background: rgba(255,255,255,0.08); border-radius: var(--radius-sm);
+        }
+        .sidebar-tag {
+            display: block; text-align: center; font-size: 0.7rem; letter-spacing: 0.08em;
+            text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 8px; font-weight: 500;
         }
 
+        .sidebar nav { padding: 1rem 0.85rem; flex-grow: 1; }
+        .sidebar nav .nav-label {
+            font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.4); font-weight: 600; padding: 0 0.6rem; margin: 0.4rem 0 0.6rem;
+        }
+        .sidebar a {
+            color: rgba(255,255,255,0.82); text-decoration: none;
+            padding: 11px 14px; display: flex; align-items: center; gap: 12px;
+            border-radius: 13px; margin: 4px 0; font-size: 0.92rem; font-weight: 500;
+            position: relative; transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+        }
+        .sidebar a .nav-ico {
+            width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.08);
+            display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem;
+            flex-shrink: 0; transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .sidebar a:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateX(2px); }
+        .sidebar a.active {
+            background: linear-gradient(90deg, rgba(0,201,177,0.22), rgba(0,201,177,0.06));
+            color: #fff; box-shadow: inset 3px 0 0 var(--accent-teal);
+        }
+        .sidebar a.active .nav-ico { background: var(--accent-teal); color: #0b1424; }
+
+        .sidebar .logout-btn {
+            background: none; border: none; color: rgba(255,255,255,0.82);
+            padding: 11px 14px; text-align: left; width: 100%; display: flex; align-items: center; gap: 12px;
+            font-size: 0.92rem; font-weight: 500; border-radius: 13px; cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .sidebar .logout-btn:hover { background: rgba(220,53,69,0.18); color: #ff8a94; }
+        .sidebar .logout-btn .nav-ico { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.08); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .sidebar-footer { padding: 0.85rem; border-top: 1px solid rgba(255,255,255,0.10); }
+
+        /* ============ MAIN ============ */
         .main-content {
             margin-left: 16.666667%; min-height: 100vh;
             display: flex; flex-direction: column;
         }
 
         .navbar-admin {
-            background: var(--card-bg); box-shadow: var(--card-shadow);
-            padding: 0.75rem 1rem; position: sticky; top: 0; z-index: 1020;
+            background: color-mix(in srgb, var(--card-bg) 88%, transparent);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--card-shadow);
+            padding: 0.85rem 1rem; position: sticky; top: 0; z-index: 1020;
+            border-bottom: 1px solid var(--border-color);
         }
         @media (min-width: 768px) { .navbar-admin { padding: 1rem 2rem; } }
 
         .theme-toggle-btn {
-            width: 38px; height: 38px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             border: 1px solid var(--border-color); background: var(--chip-bg);
             color: var(--heading-color); display: flex; align-items: center; justify-content: center;
             cursor: pointer; font-size: 0.95rem;
             transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        .theme-toggle-btn:hover { transform: rotate(15deg); background: var(--chip-border); }
+        .theme-toggle-btn:hover { transform: rotate(20deg) scale(1.05); background: var(--chip-border); }
 
-        /* ✅ REALTIME CLOCK STYLES */
         .realtime-clock-wrapper {
             background: var(--chip-bg);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 5px 12px;
+            padding: 6px 14px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            gap: 7px;
         }
         .realtime-clock {
             font-family: 'Courier New', monospace;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.85rem;
             color: var(--accent-teal);
             letter-spacing: 0.5px;
@@ -153,56 +201,79 @@
             text-align: center;
         }
 
+        .profile-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dark));
+            color: #06342e;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; cursor: pointer; text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,201,177,0.35);
+            transition: transform 0.2s ease;
+        }
+        .profile-avatar:hover { transform: scale(1.08); color: #06342e; }
+
+        /* ============ STAT CARDS ============ */
         .stat-card {
-            border: none; border-radius: 12px; box-shadow: var(--card-shadow);
+            border: none; border-radius: var(--radius-md); box-shadow: var(--card-shadow);
             background: var(--card-bg);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .stat-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow-hover); }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
         .stat-icon {
-            width: 48px; height: 48px; border-radius: 10px;
+            width: 52px; height: 52px; border-radius: 14px;
             display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+            color: #fff;
         }
-        .bg-teal-light { background: rgba(0,201,177,0.15); color: var(--accent-teal); }
-        .bg-blue-light { background: rgba(30,60,114,0.15); color: var(--primary-blue); }
-        [data-bs-theme="dark"] .bg-blue-light { background: rgba(138,180,255,0.15); color: #8ab4ff; }
-        .bg-info-light { background: rgba(13,202,240,0.15); color: #0dcaf0; }
+        .stat-icon.grad-teal { background: linear-gradient(135deg, #00c9b1, #00a893); box-shadow: 0 6px 16px rgba(0,201,177,0.30); }
+        .stat-icon.grad-green { background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 6px 16px rgba(5,150,105,0.30); }
+        .stat-icon.grad-blue { background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); box-shadow: 0 6px 16px rgba(30,60,114,0.35); }
+        .stat-icon.grad-info { background: linear-gradient(135deg, #38bdf8, #0ea5e9); box-shadow: 0 6px 16px rgba(14,165,233,0.30); }
 
+        /* ============ SECTION CARDS ============ */
         .section-card {
-            border: none; border-radius: 16px; box-shadow: var(--card-shadow);
+            border: none; border-radius: var(--radius-lg); box-shadow: var(--card-shadow);
             margin-bottom: 1.5rem; background: var(--card-bg);
             content-visibility: auto;
             contain-intrinsic-size: auto 500px;
+            overflow: hidden;
         }
         .section-card .card-body { padding: 0; background: transparent; }
         .section-card table { margin-bottom: 0; color: var(--text-color); }
         .section-card thead th {
-            background: var(--thead-bg); color: var(--text-color);
+            background: var(--thead-bg); color: var(--muted-color);
             font-weight: 600; border-color: var(--border-color);
+            font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
         }
         .section-card tbody td { border-color: var(--border-color); }
+        .section-card tbody tr:hover { background: var(--chip-bg); }
 
         .section-header {
-            background: var(--card-bg); border-radius: 16px 16px 0 0;
-            padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-color);
+            background: var(--card-bg); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: 1.1rem 1.35rem; border-bottom: 1px solid var(--border-color);
             display: flex; justify-content: space-between; align-items: center;
             gap: 0.75rem; flex-wrap: wrap;
         }
-        .section-header h5 { margin: 0; color: var(--heading-color); font-weight: 700; font-size: 1.1rem; }
+        .section-header h5 { margin: 0; color: var(--heading-color); font-weight: 700; font-size: 1.08rem; display: flex; align-items: center; gap: 10px; }
+        .section-header h5 .icon-badge {
+            width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(0,201,177,0.15); color: var(--accent-teal-dark); font-size: 0.95rem;
+        }
+        [data-bs-theme="dark"] .section-header h5 .icon-badge { color: var(--accent-teal); }
 
-        .badge-status-aktif { background: #28a745; color: white; font-size: 0.72rem; padding: 4px 10px; border-radius: 20px; font-weight: 500; }
-        .badge-status-nonaktif { background: #6c757d; color: white; font-size: 0.72rem; padding: 4px 10px; border-radius: 20px; font-weight: 500; }
+        .badge-status-aktif { background: linear-gradient(135deg,#34d399,#059669); color: white; font-size: 0.72rem; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
+        .badge-status-nonaktif { background: #94a1b6; color: white; font-size: 0.72rem; padding: 4px 12px; border-radius: 20px; font-weight: 600; }
 
         .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--muted-color); }
         .empty-state i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
 
         .preview-thumb {
-            width: 60px; height: 40px; object-fit: cover; border-radius: 6px;
+            width: 60px; height: 40px; object-fit: cover; border-radius: 8px;
             border: 1px solid var(--thumb-border); background: var(--thumb-bg);
         }
 
+        /* ============ DENAH PIN CARDS ============ */
         .denah-pin-card {
-            border: none; border-radius: 12px; box-shadow: var(--card-shadow);
+            border: none; border-radius: var(--radius-md); box-shadow: var(--card-shadow);
             overflow: hidden; background: var(--card-bg); height: 100%;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
@@ -217,14 +288,15 @@
         .denah-pin-image-wrapper img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
-            transition: transform 0.3s ease;
+            transition: transform 0.35s ease;
         }
-        .denah-pin-card:hover .denah-pin-image-wrapper img { transform: scale(1.03); }
+        .denah-pin-card:hover .denah-pin-image-wrapper img { transform: scale(1.05); }
 
         .denah-location-badge {
             position: absolute; bottom: 8px; left: 8px;
             background: var(--badge-bg-rgba);
-            color: white; padding: 4px 10px; border-radius: 20px;
+            backdrop-filter: blur(4px);
+            color: white; padding: 4px 11px; border-radius: 20px;
             font-size: 0.72rem; font-weight: 500;
             display: flex; align-items: center; gap: 5px;
             z-index: 3;
@@ -232,59 +304,54 @@
         .denah-coord-badge {
             position: absolute; top: 8px; right: 8px;
             background: var(--badge-teal-rgba);
-            color: white; padding: 4px 8px; border-radius: 20px;
+            backdrop-filter: blur(4px);
+            color: white; padding: 4px 9px; border-radius: 20px;
             font-size: 0.68rem; font-weight: 500;
             font-family: 'Courier New', monospace;
             z-index: 3;
         }
 
-        .denah-pin-card-body { padding: 0.85rem 1rem; }
+        .denah-pin-card-body { padding: 0.9rem 1.05rem 1.05rem; }
         .denah-pin-title {
             font-size: 0.95rem; font-weight: 600; color: var(--heading-color);
-            margin-bottom: 0.4rem; white-space: nowrap; overflow: hidden;
+            margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden;
             text-overflow: ellipsis; display: flex; align-items: center; gap: 8px;
         }
         .denah-pin-icon {
-            width: 30px; height: 30px; border-radius: 8px;
-            background: rgba(0,201,177,0.15); color: var(--accent-teal);
+            width: 30px; height: 30px; border-radius: 9px;
+            background: rgba(0,201,177,0.15); color: var(--accent-teal-dark);
             display: inline-flex; align-items: center; justify-content: center;
             flex-shrink: 0; font-size: 0.85rem;
         }
-        .denah-facilities { display: flex; gap: 0.4rem; margin-bottom: 0.65rem; flex-wrap: wrap; }
+        [data-bs-theme="dark"] .denah-pin-icon { color: var(--accent-teal); }
+        .denah-facilities { display: flex; gap: 0.4rem; margin-bottom: 0.7rem; flex-wrap: wrap; }
         .facility-chip {
             background: var(--chip-bg); border: 1px solid var(--chip-border);
-            padding: 2px 8px; border-radius: 12px; font-size: 0.72rem;
+            padding: 3px 9px; border-radius: 12px; font-size: 0.72rem;
             color: var(--chip-color); display: inline-flex; align-items: center; gap: 4px;
         }
         .facility-chip i { font-size: 0.68rem; }
 
-        .gedung-stat-item {
-            background: var(--chip-bg); border: 1px solid var(--chip-border);
-            border-radius: 8px; padding: 0.5rem 0.75rem;
-        }
-
         .btn-primary-custom-sm {
-            background: var(--primary-blue); color: white;
-            border-radius: 20px; border: none; padding: 0.4rem 1rem;
-            font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.4rem;
-            transition: background-color 0.2s ease;
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            color: white;
+            border-radius: 20px; border: none; padding: 0.45rem 1.1rem;
+            font-size: 0.85rem; font-weight: 500; display: inline-flex; align-items: center; gap: 0.4rem;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(30,60,114,0.25);
         }
-        .btn-primary-custom-sm:hover { background: var(--secondary-blue); color: white; }
+        .btn-primary-custom-sm:hover { color: white; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(30,60,114,0.35); }
 
-        .profile-avatar {
-            width: 38px; height: 38px; border-radius: 50%;
-            background: rgba(0,201,177,0.15); color: var(--accent-teal);
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 600; cursor: pointer; text-decoration: none;
-            transition: transform 0.2s ease;
+        .btn-accent-sm {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dark));
+            color: white; border: none;
         }
-        .profile-avatar:hover { transform: scale(1.08); color: var(--accent-teal); }
+        .btn-accent-sm:hover { color: white; }
 
-        /* ✅ CHART CARD STYLES */
+        /* ============ CHART CARD ============ */
         .chart-card {
-            border: none; border-radius: 16px; box-shadow: var(--card-shadow);
-            background: var(--card-bg); padding: 1.5rem;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border: none; border-radius: var(--radius-lg); box-shadow: var(--card-shadow);
+            background: var(--card-bg); padding: 1.5rem 1.5rem 1.25rem;
         }
         .chart-container {
             position: relative;
@@ -296,11 +363,11 @@
         }
 
         @media (max-width: 575.98px) {
-            .section-header { padding: 0.85rem 1rem; }
+            .section-header { padding: 0.9rem 1.1rem; }
             .section-header h5 { font-size: 1rem; }
-            .denah-pin-card-body { padding: 0.75rem; }
+            .denah-pin-card-body { padding: 0.8rem; }
             .denah-pin-title { font-size: 0.88rem; }
-            .stat-icon { width: 42px; height: 42px; font-size: 1.2rem; }
+            .stat-icon { width: 46px; height: 46px; font-size: 1.2rem; }
             .preview-thumb { width: 50px; height: 34px; }
         }
 
@@ -311,7 +378,7 @@
             .sidebar-toggle-btn { display: block !important; }
             .overlay {
                 display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.5); z-index: 1025;
+                background: rgba(10,14,25,0.55); backdrop-filter: blur(2px); z-index: 1025;
             }
             .overlay.show { display: block; }
             .main-content .p-4 { padding: 1rem !important; }
@@ -325,32 +392,37 @@
     <div class="container-fluid p-0">
         <div class="row g-0">
             <aside class="sidebar p-0">
-                <div class="p-3 border-bottom" style="border-color: rgba(255,255,255,0.2) !important; position: relative;">
-                    <img src="{{ asset('image/b/Logo ViTour 11.png') }}" alt="ViTour Logo" class="sidebar-logo" width="120" height="60">
+                <div class="sidebar-brand">
+                    <img src="{{ asset('image/b/Logo ViTour 11.png') }}" alt="ViTour Logo" class="sidebar-logo" width="120" height="56">
+                    <span class="sidebar-tag">SMK Negeri 11 Bandung</span>
                     <button class="btn btn-sm btn-link text-white d-md-none sidebar-toggle-btn" id="sidebarCloseBtn" style="position: absolute; top: 10px; right: 10px;">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <nav class="mt-3 p-2 flex-grow-1">
+                <nav>
+                    <div class="nav-label">Menu</div>
                     <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home me-2"></i>Dashboard
+                        <span class="nav-ico"><i class="fas fa-house"></i></span>Dashboard
                     </a>
                     <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}">
-                        <i class="fas fa-images me-2"></i>Kelola Panorama
+                        <span class="nav-ico"><i class="fas fa-images"></i></span>Kelola Panorama
                     </a>
                     <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}">
-                        <i class="fas fa-map-marked-alt me-2"></i>Kelola Denah
+                        <span class="nav-ico"><i class="fas fa-map-marked-alt"></i></span>Kelola Denah
                     </a>
                     <a href="{{ route('admin.statistik.index') }}" class="{{ request()->routeIs('admin.statistik.*') ? 'active' : '' }}">
-                        <i class="fas fa-chart-pie me-2"></i>Statistik Pengunjung
+                        <span class="nav-ico"><i class="fas fa-chart-pie"></i></span>Statistik Pengunjung
                     </a>
+                    <div class="nav-label">Lainnya</div>
                     <a href="{{ route('home') }}" target="_blank" rel="noopener">
-                        <i class="fas fa-external-link-alt me-2"></i>Lihat Website
+                        <span class="nav-ico"><i class="fas fa-external-link-alt"></i></span>Lihat Website
                     </a>
                 </nav>
-                <div class="p-3 border-top mt-auto" style="border-color: rgba(255,255,255,0.2) !important;">
+                <div class="sidebar-footer">
                     <form method="POST" action="{{ route('admin.logout') }}">@csrf
-                        <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                        <button type="submit" class="logout-btn">
+                            <span class="nav-ico"><i class="fas fa-sign-out-alt"></i></span>Logout
+                        </button>
                     </form>
                 </div>
             </aside>
@@ -401,12 +473,12 @@
                     </div>
                     @endif
 
-                    <!-- ✅ Stats Cards - Responsive: 1 col mobile, 2 col tablet, 3 col desktop -->
+                    <!-- ✅ Stats Cards -->
                     <div class="row g-3 mb-4">
                         <div class="col-12 col-sm-6 col-lg-4">
                             <div class="card stat-card p-3">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="stat-icon bg-teal-light"><i class="fas fa-images"></i></div>
+                                    <div class="stat-icon grad-teal"><i class="fas fa-images"></i></div>
                                     <div>
                                         <p class="text-muted mb-0 small">Panorama</p>
                                         <h4 class="fw-bold mb-0">{{ $totalPanoramas ?? 0 }}</h4>
@@ -417,7 +489,7 @@
                         <div class="col-12 col-sm-6 col-lg-4">
                             <div class="card stat-card p-3">
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="stat-icon bg-success bg-opacity-10 text-success"><i class="fas fa-check-circle"></i></div>
+                                    <div class="stat-icon grad-green"><i class="fas fa-check-circle"></i></div>
                                     <div>
                                         <p class="text-muted mb-0 small">Panorama Aktif</p>
                                         <h4 class="fw-bold mb-0">{{ $activePanoramas ?? 0 }}</h4>
@@ -429,7 +501,7 @@
                             <a href="{{ route('admin.denah.index') }}" class="text-decoration-none">
                                 <div class="card stat-card p-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="stat-icon bg-info-light"><i class="fas fa-map-marker-alt"></i></div>
+                                        <div class="stat-icon grad-info"><i class="fas fa-map-marker-alt"></i></div>
                                         <div>
                                             <p class="text-muted mb-0 small">Titik Denah (Pin)</p>
                                             <h4 class="fw-bold mb-0">{{ $totalDenahs ?? 0 }}</h4>
@@ -461,7 +533,7 @@
                         <div class="col-12">
                             <div class="section-card">
                                 <div class="section-header">
-                                    <h5><i class="fas fa-images me-2"></i>Panorama Terbaru</h5>
+                                    <h5><span class="icon-badge"><i class="fas fa-images"></i></span>Panorama Terbaru</h5>
                                     <a href="{{ route('admin.panorama.create') }}" class="btn-primary-custom-sm">
                                         <i class="fas fa-plus"></i><span class="d-none d-sm-inline">Tambah</span>
                                     </a>
@@ -521,7 +593,7 @@
                         <div class="col-12">
                             <div class="section-card">
                                 <div class="section-header">
-                                    <h5><i class="fas fa-map-marker-alt me-2"></i>Titik Denah Terbaru</h5>
+                                    <h5><span class="icon-badge"><i class="fas fa-map-marker-alt"></i></span>Titik Denah Terbaru</h5>
                                     <a href="{{ route('admin.denah.create') }}" class="btn-primary-custom-sm">
                                         <i class="fas fa-plus"></i><span class="d-none d-sm-inline">Tambah Titik</span>
                                     </a>
@@ -551,7 +623,6 @@
                                                             <span>| Lt {{ $denah->lantai }}</span>
                                                         @endif
                                                     </div>
-
                                                     <div class="denah-coord-badge">
                                                         <i class="fas fa-crosshairs"></i>
                                                         {{ number_format($denah->position_x, 1) }}, {{ number_format($denah->position_y, 1) }}
@@ -597,8 +668,7 @@
                                                             </a>
                                                         @endif
                                                         <a href="{{ route('admin.denah.edit', $denah->id) }}"
-                                                           class="btn btn-sm flex-grow-1"
-                                                           style="background: var(--accent-teal); color: white;">
+                                                           class="btn btn-sm btn-accent-sm flex-grow-1">
                                                             <i class="fas fa-edit me-1"></i>Edit
                                                         </a>
                                                     </div>
@@ -686,13 +756,13 @@
                     document.documentElement.setAttribute('data-bs-theme', next);
                     try { localStorage.setItem('vitour-theme', next); } catch (e) {}
                     updateThemeIcon();
+                    window.dispatchEvent(new Event('themeChanged'));
                 });
             }
             updateThemeIcon();
 
             // === ✅ JAM REAL TIME (WIB) ===
             function updateRealtimeClock() {
-                // Selalu tampilkan WIB (Asia/Jakarta), apa pun zona waktu perangkat
                 const bagian = new Intl.DateTimeFormat('id-ID', {
                     timeZone: 'Asia/Jakarta',
                     hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -705,7 +775,6 @@
                     clockElement.textContent = `${ambil('hour')}:${ambil('minute')}:${ambil('second')}`;
                 }
             }
-            // Update segera saat load, lalu setiap 1 detik
             updateRealtimeClock();
             setInterval(updateRealtimeClock, 1000);
 
@@ -722,32 +791,29 @@
             // === ✅ CHART: Jumlah Ruangan per Gedung ===
             @if(isset($denahByGedung) && $denahByGedung->count() > 0)
             const ctx = document.getElementById('gedungChart').getContext('2d');
-            
-            // Prepare data from PHP
+
             const gedungLabels = @json($denahByGedung->keys()->toArray());
             const gedungData = @json($denahByGedung->values()->toArray());
-            
-            // Get current theme
-            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-            
-            // Color scheme
+
+            const isDarkNow = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+
             const colors = {
                 light: {
-                    bars: 'rgba(30, 60, 114, 0.8)',
-                    barsHover: 'rgba(0, 201, 177, 0.9)',
-                    grid: 'rgba(0, 0, 0, 0.1)',
-                    text: '#6c757d'
+                    bars: 'rgba(30, 60, 114, 0.85)',
+                    barsHover: 'rgba(0, 201, 177, 0.95)',
+                    grid: 'rgba(0, 0, 0, 0.06)',
+                    text: '#6b7686'
                 },
                 dark: {
-                    bars: 'rgba(138, 180, 255, 0.8)',
-                    barsHover: 'rgba(0, 201, 177, 0.9)',
-                    grid: 'rgba(255, 255, 255, 0.1)',
-                    text: '#adb5bd'
+                    bars: 'rgba(143, 179, 255, 0.85)',
+                    barsHover: 'rgba(0, 201, 177, 0.95)',
+                    grid: 'rgba(255, 255, 255, 0.08)',
+                    text: '#9aa5b8'
                 }
             };
-            
-            const scheme = isDark ? colors.dark : colors.light;
-            
+
+            let scheme = isDarkNow ? colors.dark : colors.light;
+
             const gedungChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -757,23 +823,23 @@
                         data: gedungData,
                         backgroundColor: scheme.bars,
                         hoverBackgroundColor: scheme.barsHover,
-                        borderRadius: 8,
+                        borderRadius: 10,
                         borderSkipped: false,
+                        maxBarThickness: 46
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
-                            backgroundColor: isDark ? 'rgba(26, 34, 52, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-                            titleColor: isDark ? '#e9ecef' : '#212529',
-                            bodyColor: isDark ? '#ced4da' : '#495057',
-                            borderColor: isDark ? '#35405a' : '#dee2e6',
+                            backgroundColor: isDarkNow ? 'rgba(23, 31, 48, 0.96)' : 'rgba(255, 255, 255, 0.97)',
+                            titleColor: isDarkNow ? '#e7ebf2' : '#1f2733',
+                            bodyColor: isDarkNow ? '#cfd6e4' : '#4b5566',
+                            borderColor: isDarkNow ? '#303a56' : '#e6eaf3',
                             borderWidth: 1,
+                            cornerRadius: 10,
                             padding: 12,
                             displayColors: true,
                             callbacks: {
@@ -789,63 +855,40 @@
                             ticks: {
                                 stepSize: 1,
                                 color: scheme.text,
-                                font: {
-                                    family: 'Poppins',
-                                    size: 11
-                                }
+                                font: { family: 'Poppins', size: 11 }
                             },
-                            grid: {
-                                color: scheme.grid,
-                                drawBorder: false
-                            },
+                            grid: { color: scheme.grid, drawBorder: false },
                             title: {
                                 display: true,
                                 text: 'Jumlah Ruangan',
                                 color: scheme.text,
-                                font: {
-                                    family: 'Poppins',
-                                    size: 12,
-                                    weight: '600'
-                                }
+                                font: { family: 'Poppins', size: 12, weight: '600' }
                             }
                         },
                         x: {
-                            ticks: {
-                                color: scheme.text,
-                                font: {
-                                    family: 'Poppins',
-                                    size: 11
-                                }
-                            },
-                            grid: {
-                                display: false,
-                                drawBorder: false
-                            }
+                            ticks: { color: scheme.text, font: { family: 'Poppins', size: 11 } },
+                            grid: { display: false, drawBorder: false }
                         }
                     },
-                    animation: {
-                        duration: 1000,
-                        easing: 'easeOutQuart'
-                    }
+                    animation: { duration: 1000, easing: 'easeOutQuart' }
                 }
             });
-            
-            // Update chart when theme changes
+
             window.addEventListener('themeChanged', function() {
                 const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
-                const scheme = isDark ? colors.dark : colors.light;
-                
+                scheme = isDark ? colors.dark : colors.light;
+
                 gedungChart.data.datasets[0].backgroundColor = scheme.bars;
                 gedungChart.data.datasets[0].hoverBackgroundColor = scheme.barsHover;
-                gedungChart.options.plugins.tooltip.backgroundColor = isDark ? 'rgba(26, 34, 52, 0.95)' : 'rgba(255, 255, 255, 0.95)';
-                gedungChart.options.plugins.tooltip.titleColor = isDark ? '#e9ecef' : '#212529';
-                gedungChart.options.plugins.tooltip.bodyColor = isDark ? '#ced4da' : '#495057';
-                gedungChart.options.plugins.tooltip.borderColor = isDark ? '#35405a' : '#dee2e6';
+                gedungChart.options.plugins.tooltip.backgroundColor = isDark ? 'rgba(23, 31, 48, 0.96)' : 'rgba(255, 255, 255, 0.97)';
+                gedungChart.options.plugins.tooltip.titleColor = isDark ? '#e7ebf2' : '#1f2733';
+                gedungChart.options.plugins.tooltip.bodyColor = isDark ? '#cfd6e4' : '#4b5566';
+                gedungChart.options.plugins.tooltip.borderColor = isDark ? '#303a56' : '#e6eaf3';
                 gedungChart.options.scales.y.ticks.color = scheme.text;
                 gedungChart.options.scales.y.grid.color = scheme.grid;
                 gedungChart.options.scales.y.title.color = scheme.text;
                 gedungChart.options.scales.x.ticks.color = scheme.text;
-                
+
                 gedungChart.update();
             });
             @endif

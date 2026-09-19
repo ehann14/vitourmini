@@ -14,12 +14,14 @@ class StatistikController extends Controller
      */
     public function index(Request $request)
     {
-        // Periode yang dipilih (7 / 30 / 90 hari)
-        $periode = (int) $request->input('periode', 30);
-        if (! in_array($periode, [7, 30, 90], true)) {
-            $periode = 30;
+        // ✅ PERBAIKAN 1: Tambahkan angka 1 ke dalam array validasi
+        $periode = (int) $request->input('periode', 7); // Default diganti ke 7 agar lebih aman
+        
+        if (! in_array($periode, [1, 7, 30, 90], true)) {
+            $periode = 7; // Fallback ke 7 jika nilai aneh dimasukkan
         }
 
+        // Jika periode 1, subDays(0) artinya hari ini mulai dari 00:00:00
         $mulai = now()->subDays($periode - 1)->startOfDay();
 
         // ================= RINGKASAN =================
@@ -160,9 +162,10 @@ class StatistikController extends Controller
             ->pluck('total', 'city');
 
         // ================= TABEL KUNJUNGAN TERBARU =================
+        // ✅ PERBAIKAN 2: Mengubah paginate dari 20 menjadi 15 sesuai permintaan
         $kunjunganTerbaru = VisitorLog::publik()
             ->latest('visited_at')
-            ->paginate(20)
+            ->paginate(15)
             ->withQueryString();
 
         return view('admin.statistik', compact(
@@ -222,7 +225,7 @@ class StatistikController extends Controller
      */
     public function ekspor(Request $request)
     {
-        $periode = (int) $request->input('periode', 30);
+        $periode = (int) $request->input('periode', 7);
         $mulai   = now()->subDays($periode - 1)->startOfDay();
 
         $namaFile = 'kunjungan-vitour-' . now()->format('Ymd-His') . '.csv';
