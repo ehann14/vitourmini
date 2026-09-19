@@ -8,7 +8,7 @@
     <link rel="icon" type="image/png" href="{{ asset('image/b/Logo ViTour 11.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script>
         (function () {
@@ -23,116 +23,118 @@
 
     <style>
         :root {
-            --primary-blue: #1e3c72; --secondary-blue: #2a5298; --accent-teal: #00c9b1; --white: #ffffff;
-            --body-bg: #f8f9fa; --card-bg: #ffffff; --text-color: #212529; --muted-color: #6c757d;
-            --heading-color: #1e3c72; --border-color: #eee; --thead-bg: #f8f9fa;
-            --chip-bg: #f8f9fa; --chip-border: #e9ecef; --chip-color: #495057;
-            --input-bg: #fff; --input-focus-bg: #fff;
-            --hint-bg: #e7f3ff; --hint-border: var(--accent-teal);
-            --info-section-bg-1: #f8f9fa; --info-section-bg-2: #e9ecef;
-            --picker-bg: #f8f9fa; --picker-border: #dee2e6;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.08);
+            --primary-blue: #1e3c72; --secondary-blue: #2a5298; --primary-dark: #142a52;
+            --accent-teal: #00c9b1; --accent-teal-dark: #00a893;
+            --body-bg: #eef1f8; --card-bg: #ffffff; --text-color: #1f2733; --muted-color: #6b7686;
+            --heading-color: #1e3c72; --border-color: #e8ecf5; --chip-bg: #f4f6fb; --chip-border: #e6eaf3;
+            --chip-color: #4b5566; --thead-bg: #f6f8fc;
+            --input-bg: #f4f6fb; --input-focus-bg: #ffffff;
+            --hint-bg: rgba(0, 201, 177, 0.08); --hint-border: var(--accent-teal);
+            --info-section-bg-1: #f8f9fc; --info-section-bg-2: #f1f4f9;
+            --picker-bg: #f4f6fb; --picker-border: #e6eaf3;
+            --radius-lg: 22px; --radius-md: 16px; --radius-sm: 12px;
+            --card-shadow: 0 1px 2px rgba(20,30,60,0.04), 0 8px 24px -8px rgba(20,30,60,0.10);
+            --card-shadow-hover: 0 10px 32px -6px rgba(20,30,60,0.20);
+            --sidebar-shadow: 4px 0 24px rgba(15,23,42,0.10);
         }
         [data-bs-theme="dark"] {
-            --body-bg: #121826; --card-bg: #1a2234; --text-color: #e9ecef; --muted-color: #adb5bd;
-            --heading-color: #8ab4ff; --border-color: #2c3548; --thead-bg: #212b40;
-            --chip-bg: #232d42; --chip-border: #35405a; --chip-color: #ced4da;
-            --input-bg: #232d42; --input-focus-bg: #1a2234;
-            --hint-bg: #1e2f4a; --hint-border: var(--accent-teal);
-            --info-section-bg-1: #1e2739; --info-section-bg-2: #17202f;
-            --picker-bg: #232d42; --picker-border: #35405a;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.45);
-            --card-shadow-strong: 0 4px 20px rgba(0,0,0,0.45);
+            --body-bg: #0f1420; --card-bg: #171f30; --text-color: #e7ebf2; --muted-color: #9aa5b8;
+            --heading-color: #8fb3ff; --border-color: #262f45; --chip-bg: #1e2740; --chip-border: #303a56;
+            --chip-color: #cfd6e4; --thead-bg: #1c2438;
+            --input-bg: #1c2438; --input-focus-bg: #171f30;
+            --hint-bg: rgba(0, 201, 177, 0.12); --hint-border: var(--accent-teal);
+            --info-section-bg-1: #1c2438; --info-section-bg-2: #171f30;
+            --picker-bg: #1e2740; --picker-border: #303a56;
+            --card-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -8px rgba(0,0,0,0.55);
+            --card-shadow-hover: 0 14px 34px -6px rgba(0,0,0,0.65);
+            --sidebar-shadow: 4px 0 24px rgba(0,0,0,0.4);
             color-scheme: dark;
         }
 
-        body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; }
-        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .image-picker-container, .room-info-section, .position-hint, .realtime-clock-wrapper {
+        * { box-sizing: border-box; }
+        body { background: var(--body-bg); font-family: 'Poppins', sans-serif; color: var(--text-color); transition: background-color 0.3s ease, color 0.3s ease; margin: 0; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-thumb { background: rgba(30,60,114,0.25); border-radius: 10px; }
+        [data-bs-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); }
+
+        .navbar-admin, .form-card, .theme-toggle-btn, .form-control, .form-select, .image-picker-container, .room-info-section, .position-hint, .sidebar {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; }
-        [data-bs-theme="dark"] .sidebar { background: #141c30; }
-        [data-bs-theme="dark"] .sidebar a:hover, [data-bs-theme="dark"] .sidebar a.active { background: #1f2d4a; }
+        /* ============ SIDEBAR ============ */
+        .sidebar { position: fixed; top: 0; left: 0; height: 100vh; width: 16.666667%; background: linear-gradient(195deg, var(--primary-blue) 0%, var(--primary-dark) 100%); color: white; display: flex; flex-direction: column; z-index: 1030; overflow-y: auto; overflow-x: hidden; transition: transform 0.3s ease; box-shadow: var(--sidebar-shadow); }
+        [data-bs-theme="dark"] .sidebar { background: linear-gradient(195deg, #12203c 0%, #0b1424 100%); }
         .sidebar::-webkit-scrollbar { width: 6px; }
-        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
-        .sidebar a { color: rgba(255,255,255,0.9); text-decoration: none; padding: 12px 20px; display: block; border-radius: 8px; margin: 4px 0; transition: all 0.3s; }
-        .sidebar a:hover, .sidebar a.active { background: var(--secondary-blue); color: white; }
-        .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.9); padding: 12px 20px; text-align: left; width: 100%; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
-        .sidebar .logout-btn:hover { background: rgba(255,255,255,0.1); color: white; }
-        .sidebar-logo { width: 100%; height: auto; max-height: 60px; object-fit: contain; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.25); border-radius: 3px; }
+        .sidebar-brand { padding: 1.35rem 1.1rem 1rem; position: relative; border-bottom: 1px solid rgba(255,255,255,0.10); }
+        .sidebar-logo { width: 100%; height: auto; max-height: 56px; object-fit: contain; padding: 8px; background: rgba(255,255,255,0.08); border-radius: var(--radius-sm); }
+        .sidebar-tag { display: block; text-align: center; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 8px; font-weight: 500; }
+        .sidebar nav { padding: 1rem 0.85rem; flex-grow: 1; }
+        .sidebar nav .nav-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.4); font-weight: 600; padding: 0 0.6rem; margin: 0.4rem 0 0.6rem; }
+        .sidebar a { color: rgba(255,255,255,0.82); text-decoration: none; padding: 11px 14px; display: flex; align-items: center; gap: 12px; border-radius: 13px; margin: 4px 0; font-size: 0.92rem; font-weight: 500; position: relative; transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease; }
+        .sidebar a .nav-ico { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.08); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; transition: background-color 0.2s ease, color 0.2s ease; }
+        .sidebar a:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateX(2px); }
+        .sidebar a.active { background: linear-gradient(90deg, rgba(0,201,177,0.22), rgba(0,201,177,0.06)); color: #fff; box-shadow: inset 3px 0 0 var(--accent-teal); }
+        .sidebar a.active .nav-ico { background: var(--accent-teal); color: #0b1424; }
+        .sidebar .logout-btn { background: none; border: none; color: rgba(255,255,255,0.82); padding: 11px 14px; text-align: left; width: 100%; display: flex; align-items: center; gap: 12px; font-size: 0.92rem; font-weight: 500; border-radius: 13px; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
+        .sidebar .logout-btn:hover { background: rgba(220,53,69,0.18); color: #ff8a94; }
+        .sidebar .logout-btn .nav-ico { width: 32px; height: 32px; border-radius: 9px; background: rgba(255,255,255,0.08); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+        .sidebar-footer { padding: 0.85rem; border-top: 1px solid rgba(255,255,255,0.10); }
 
         .main-content { margin-left: 16.666667%; min-height: 100vh; display: flex; flex-direction: column; }
-        .navbar-admin { background: var(--card-bg); box-shadow: var(--card-shadow); padding: 1rem 2rem; }
+        .navbar-admin { background: color-mix(in srgb, var(--card-bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: var(--card-shadow); padding: 0.85rem 1rem; position: sticky; top: 0; z-index: 1020; border-bottom: 1px solid var(--border-color); }
+        @media (min-width: 768px) { .navbar-admin { padding: 1rem 2rem; } }
 
-        .theme-toggle-btn {
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 1px solid var(--border-color); background: var(--chip-bg);
-            color: var(--heading-color); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1rem; transition: all 0.3s ease;
-        }
-        .theme-toggle-btn:hover { transform: rotate(15deg) scale(1.1); background: var(--chip-border); }
+        .theme-toggle-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--chip-bg); color: var(--heading-color); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.95rem; transition: transform 0.3s ease, background-color 0.3s ease; }
+        .theme-toggle-btn:hover { transform: rotate(20deg) scale(1.05); background: var(--chip-border); }
 
-        .realtime-clock-wrapper {
-            background: var(--chip-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 5px 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .realtime-clock {
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--accent-teal);
-            letter-spacing: 0.5px;
-            min-width: 65px;
-            text-align: center;
-        }
+        .realtime-clock-wrapper { background: var(--chip-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 6px 14px; display: flex; align-items: center; gap: 7px; }
+        .realtime-clock { font-family: 'Courier New', monospace; font-weight: 700; font-size: 0.85rem; color: var(--accent-teal); letter-spacing: 0.5px; min-width: 65px; text-align: center; }
 
-        .form-card { background: var(--card-bg); border-radius: 16px; box-shadow: var(--card-shadow-strong); padding: 2rem; margin-bottom: 2rem; }
-        .form-label { font-weight: 600; color: var(--muted-color); margin-bottom: 0.5rem; }
-        .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); }
-        .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--primary-blue); box-shadow: 0 0 0 0.25rem rgba(30,60,114,0.25); }
+        /* ============ FORM ============ */
+        .form-card { background: var(--card-bg); border-radius: var(--radius-lg); box-shadow: var(--card-shadow); padding: 2rem; margin-bottom: 2rem; border: 1px solid var(--border-color); }
+        .form-label { font-weight: 600; color: var(--text-color); margin-bottom: 0.5rem; font-size: 0.88rem; }
+        .form-control, .form-select { background: var(--input-bg); border: 1px solid var(--chip-border); color: var(--text-color); border-radius: var(--radius-sm); padding: 0.65rem 0.9rem; font-size: 0.92rem; }
+        .form-control:focus, .form-select:focus { background: var(--input-focus-bg); color: var(--text-color); border-color: var(--accent-teal); box-shadow: 0 0 0 0.2rem rgba(0, 201, 177, 0.18); }
         .form-control::placeholder, .form-select::placeholder { color: var(--muted-color); }
         [data-bs-theme="dark"] .form-select option { background: var(--card-bg); color: var(--text-color); }
 
-        .btn-primary-custom { background: var(--primary-blue); border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: white; transition: all 0.3s; }
-        .btn-primary-custom:hover { background: var(--secondary-blue); transform: translateY(-2px); color: white; }
-        .btn-secondary-custom { background: #e9ecef; border: none; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; color: #6c757d; transition: all 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
-        .btn-secondary-custom:hover { background: #dee2e6; color: #495057; }
-        [data-bs-theme="dark"] .btn-secondary-custom { background: var(--chip-bg); color: var(--muted-color); }
-        [data-bs-theme="dark"] .btn-secondary-custom:hover { background: var(--chip-border); color: var(--text-color); }
-        .btn-danger-custom { background: #dc3545; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 500; color: white; transition: all 0.3s; }
-        .btn-danger-custom:hover { background: #bd2130; color: white; }
+        .btn-primary-custom { background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); border: none; padding: 0.75rem 1.75rem; border-radius: var(--radius-sm); font-weight: 600; color: white; transition: all 0.25s ease; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(30,60,114,0.25); }
+        .btn-primary-custom:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(30,60,114,0.35); color: white; }
+        .btn-secondary-custom { background: var(--chip-bg); border: 1px solid var(--border-color); padding: 0.75rem 1.75rem; border-radius: var(--radius-sm); font-weight: 600; color: var(--text-color); transition: all 0.25s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn-secondary-custom:hover { background: var(--chip-border); color: var(--text-color); transform: translateY(-1px); }
+        .btn-danger-custom { background: linear-gradient(135deg, #f87171, #dc2626); border: none; padding: 0.75rem 1.75rem; border-radius: var(--radius-sm); font-weight: 600; color: white; transition: all 0.25s ease; box-shadow: 0 4px 12px rgba(220,38,38,0.25); }
+        .btn-danger-custom:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(220,38,38,0.35); color: white; }
 
-        .alert-error-custom { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
-        [data-bs-theme="dark"] .alert-error-custom { background: #3d1f23; border-color: #5c2930; color: #f5b5bd; }
-        .form-text { font-size: 0.85rem; color: var(--muted-color); }
-        .position-hint { background: var(--hint-bg); border-left: 4px solid var(--hint-border); padding: 12px; border-radius: 8px; margin-top: 8px; color: var(--text-color); }
+        .alert-error-custom { background: rgba(220, 53, 69, 0.08); border: 1px solid rgba(220, 53, 69, 0.25); color: #dc3545; border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 1.5rem; }
+        [data-bs-theme="dark"] .alert-error-custom { background: rgba(220, 53, 69, 0.15); border-color: rgba(220, 53, 69, 0.4); color: #f87171; }
+        .form-text { font-size: 0.8rem; color: var(--muted-color); margin-top: 0.35rem; }
 
-        .image-picker-container { position: relative; width: 100%; border: 2px dashed var(--picker-border); border-radius: 12px; overflow: hidden; cursor: crosshair; background: var(--picker-bg); }
+        .position-hint { background: var(--hint-bg); border-left: 4px solid var(--hint-border); padding: 12px; border-radius: var(--radius-sm); margin-top: 8px; color: var(--text-color); font-size: 0.85rem; }
+
+        /* ============ IMAGE PICKER ============ */
+        .image-picker-container { position: relative; width: 100%; border: 2px dashed var(--picker-border); border-radius: var(--radius-md); overflow: hidden; cursor: crosshair; background: var(--picker-bg); min-height: 300px; }
         .image-picker-container img { width: 100%; height: auto; display: block; user-select: none; pointer-events: none; }
-        .picker-pin { position: absolute; width: 24px; height: 24px; background: var(--accent-teal); border: 3px solid white; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,0.3); pointer-events: none; transition: all 0.2s; }
+        .picker-pin { position: absolute; width: 28px; height: 28px; background: linear-gradient(135deg, var(--accent-teal), var(--accent-teal-dark)); border: 3px solid var(--card-bg); border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 2px 12px rgba(0,201,177,0.5); pointer-events: none; transition: all 0.2s; z-index: 5; }
         .picker-pin::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 8px; height: 8px; background: white; border-radius: 50%; }
-        .picker-coordinates { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.75); color: white; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; pointer-events: none; }
-        [data-bs-theme="dark"] .picker-coordinates { background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); }
+        .picker-coordinates { position: absolute; bottom: 12px; left: 12px; background: var(--badge-bg-rgba); backdrop-filter: blur(4px); color: white; padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; pointer-events: none; font-family: 'Courier New', monospace; }
 
+        /* ============ ROOM INFO SECTION ============ */
         .room-info-section {
             background: linear-gradient(135deg, var(--info-section-bg-1), var(--info-section-bg-2));
-            padding: 25px; border-radius: 16px; margin-top: 20px; border: 2px solid var(--chip-border);
+            padding: 1.75rem; border-radius: var(--radius-md); margin-top: 1.5rem; border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
         }
-        .room-info-section h5 { color: var(--heading-color); margin-bottom: 20px; font-weight: 700; }
+        .room-info-section h5 { color: var(--heading-color); margin-bottom: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px; font-size: 1.08rem; }
+        .room-info-section h5 .icon-badge { width: 34px; height: 34px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; background: rgba(0,201,177,0.15); color: var(--accent-teal-dark); font-size: 0.95rem; }
+        [data-bs-theme="dark"] .room-info-section h5 .icon-badge { color: var(--accent-teal); }
 
-        @media (max-width: 767px) {
+        @media (max-width: 767.98px) {
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.show { transform: translateX(0); }
             .main-content { margin-left: 0; }
             .sidebar-toggle-btn { display: block !important; }
-            .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1025; }
+            .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,14,25,0.55); backdrop-filter: blur(2px); z-index: 1025; }
             .overlay.show { display: block; }
         }
         @media (min-width: 768px) { .sidebar-toggle-btn { display: none; } }
@@ -142,47 +144,48 @@
     <div class="overlay" id="sidebarOverlay"></div>
     <div class="container-fluid p-0">
         <div class="row g-0">
-            <div class="sidebar p-0">
-                <div class="p-3 border-bottom" style="border-color: rgba(255,255,255,0.2) !important; position: relative;">
-                    <img src="{{ asset('image/b/Logo ViTour 11.png') }}" alt="ViTour Logo" class="sidebar-logo">
+            <aside class="sidebar p-0">
+                <div class="sidebar-brand">
+                    <img src="{{ asset('image/b/Logo ViTour 11.png') }}" alt="ViTour Logo" class="sidebar-logo" width="120" height="56">
+                    <span class="sidebar-tag">SMK Negeri 11 Bandung</span>
                     <button class="btn btn-sm btn-link text-white d-md-none sidebar-toggle-btn" id="sidebarCloseBtn" style="position: absolute; top: 10px; right: 10px;"><i class="fas fa-times"></i></button>
                 </div>
-                <nav class="mt-3 p-2 flex-grow-1">
-                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home me-2"></i>Dashboard</a>
-                    <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}"><i class="fas fa-images me-2"></i>Kelola Panorama</a>
-                    <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}"><i class="fas fa-map-marked-alt me-2"></i>Kelola Denah</a>
-                    <a href="{{ route('admin.statistik.index') }}" class="{{ request()->routeIs('admin.statistik.*') ? 'active' : '' }}"><i class="fas fa-chart-pie me-2"></i>Statistik Pengunjung</a>
-                    <a href="{{ route('home') }}" target="_blank"><i class="fas fa-external-link-alt me-2"></i>Lihat Website</a>
+                <nav>
+                    <div class="nav-label">Menu</div>
+                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"><span class="nav-ico"><i class="fas fa-house"></i></span>Dashboard</a>
+                    <a href="{{ route('admin.panorama.index') }}" class="{{ request()->routeIs('admin.panorama.*') ? 'active' : '' }}"><span class="nav-ico"><i class="fas fa-images"></i></span>Kelola Panorama</a>
+                    <a href="{{ route('admin.denah.index') }}" class="{{ request()->routeIs('admin.denah.*') ? 'active' : '' }}"><span class="nav-ico"><i class="fas fa-map-marked-alt"></i></span>Kelola Denah</a>
+                    <a href="{{ route('admin.statistik.index') }}" class="{{ request()->routeIs('admin.statistik.*') ? 'active' : '' }}"><span class="nav-ico"><i class="fas fa-chart-pie"></i></span>Statistik Pengunjung</a>
+                    <div class="nav-label">Lainnya</div>
+                    <a href="{{ route('home') }}" target="_blank" rel="noopener"><span class="nav-ico"><i class="fas fa-external-link-alt"></i></span>Lihat Website</a>
                 </nav>
-                <div class="p-3 border-top mt-auto" style="border-color: rgba(255,255,255,0.2) !important;">
+                <div class="sidebar-footer">
                     <form method="POST" action="{{ route('admin.logout') }}">@csrf
-                        <button type="submit" class="logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                        <button type="submit" class="logout-btn"><span class="nav-ico"><i class="fas fa-sign-out-alt"></i></span>Logout</button>
                     </form>
                 </div>
-            </div>
+            </aside>
 
-            <div class="col-md-10 main-content">
+            <main class="main-content col-md-10">
                 <nav class="navbar-admin">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2 gap-md-3">
                             <button class="btn btn-sm btn-outline-primary d-md-none sidebar-toggle-btn" id="sidebarToggleBtn"><i class="fas fa-bars"></i></button>
-                            <h4 class="mb-0 fw-bold" style="color: var(--heading-color);"><i class="fas fa-edit me-2"></i>Edit Titik Denah</h4>
+                            <h4 class="mb-0 fw-bold d-none d-sm-block" style="color: var(--heading-color); font-size: 1.15rem;"><i class="fas fa-edit me-2"></i>Edit Titik Denah</h4>
+                            <h5 class="mb-0 fw-bold d-sm-none" style="color: var(--heading-color);"><i class="fas fa-edit me-1"></i>Edit</h5>
                         </div>
-                        <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
                             <div class="d-none d-sm-flex realtime-clock-wrapper">
                                 <i class="fas fa-clock" style="color: var(--accent-teal); font-size: 0.85rem;"></i>
                                 <span id="realtime-clock" class="realtime-clock">00:00:00</span>
                             </div>
-
-                            <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema gelap/terang" aria-label="Ganti tema">
-                                <i class="fas fa-moon" id="themeIcon"></i>
-                            </button>
-                            <a href="{{ route('admin.denah.index') }}" class="btn-secondary-custom"><i class="fas fa-arrow-left"></i>Kembali</a>
+                            <button class="theme-toggle-btn" id="themeToggleBtn" title="Ganti tema" aria-label="Ganti tema"><i class="fas fa-moon" id="themeIcon"></i></button>
+                            <a href="{{ route('admin.denah.index') }}" class="btn-secondary-custom" style="padding: 0.5rem 1.25rem; font-size: 0.88rem;"><i class="fas fa-arrow-left"></i><span class="d-none d-sm-inline">Kembali</span></a>
                         </div>
                     </div>
                 </nav>
 
-                <div class="p-4">
+                <div class="p-3 p-md-4">
                     @if($errors->any())
                         <div class="alert-error-custom"><i class="fas fa-exclamation-circle me-2"></i><strong>Terjadi kesalahan:</strong><ul class="mb-0 mt-2">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul></div>
                     @endif
@@ -223,7 +226,12 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label"><i class="fas fa-mouse-pointer me-2" style="color: var(--accent-teal);"></i>Klik Gambar untuk Atur Posisi Pin</label>
+                                    <label class="form-label" style="color: var(--heading-color); font-size: 1rem;">
+                                        <span style="width: 34px; height: 34px; border-radius: 10px; background: rgba(0,201,177,0.15); color: var(--accent-teal-dark); display: inline-flex; align-items: center; justify-content: center; font-size: 0.95rem; margin-right: 8px;">
+                                            <i class="fas fa-mouse-pointer"></i>
+                                        </span>
+                                        Klik Gambar untuk Atur Posisi Pin
+                                    </label>
                                     <small class="form-text d-block mb-2">Klik di mana saja pada gambar denah di bawah untuk mendapatkan koordinat otomatis</small>
                                     <div class="image-picker-container" id="imagePicker">
                                         <img src="{{ asset('image/denah-utama.jpeg') }}" alt="Denah SMK 11" id="pickerImage">
@@ -263,7 +271,7 @@
 
                                 <div class="col-12">
                                     <div class="room-info-section">
-                                        <h5><i class="fas fa-info-circle me-2"></i>Informasi Fasilitas Ruangan</h5>
+                                        <h5><span class="icon-badge"><i class="fas fa-info-circle"></i></span>Informasi Fasilitas Ruangan</h5>
                                         <div class="row g-3">
                                             <div class="col-md-6">
                                                 <label class="form-label">Jumlah Kursi</label>
@@ -297,22 +305,22 @@
                                 <div class="col-12">
                                     <div class="form-check form-switch">
                                         <input type="hidden" name="is_active" value="0">
-                                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $denah->is_active) ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="is_active"><strong>Aktifkan titik denah ini</strong></label>
+                                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" {{ old('is_active', $denah->is_active) ? 'checked' : '' }} style="width: 3rem; height: 1.5rem;">
+                                        <label class="form-check-label" for="is_active" style="margin-left: 0.5rem; font-weight: 600;"><strong>Aktifkan titik denah ini</strong></label>
                                     </div>
                                     @error('is_active')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
                             </div>
 
-                            <div class="d-flex gap-3 mt-4 pt-3 border-top">
-                                <button type="submit" class="btn-primary-custom"><i class="fas fa-save me-2"></i>Update</button>
-                                <a href="{{ route('admin.denah.index') }}" class="btn-secondary-custom"><i class="fas fa-times me-2"></i>Batal</a>
-                                <button type="button" class="btn-danger-custom" id="deleteBtn" data-id="{{ $denah->id }}"><i class="fas fa-trash me-1"></i>Hapus</button>
+                            <div class="d-flex flex-wrap gap-3 mt-4 pt-3 border-top" style="border-color: var(--border-color) !important;">
+                                <button type="submit" class="btn-primary-custom"><i class="fas fa-save"></i>Update</button>
+                                <a href="{{ route('admin.denah.index') }}" class="btn-secondary-custom"><i class="fas fa-times"></i>Batal</a>
+                                <button type="button" class="btn-danger-custom ms-auto" id="deleteBtn" data-id="{{ $denah->id }}"><i class="fas fa-trash"></i>Hapus</button>
                             </div>
                         </form>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 
@@ -410,14 +418,10 @@
         updateThemeIcon();
 
         function updateRealtimeClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const bagian = new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date());
+            const ambil = (tipe) => bagian.find(b => b.type === tipe)?.value ?? '00';
             const clockElement = document.getElementById('realtime-clock');
-            if (clockElement) {
-                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
-            }
+            if (clockElement) clockElement.textContent = `${ambil('hour')}:${ambil('minute')}:${ambil('second')}`;
         }
         updateRealtimeClock();
         setInterval(updateRealtimeClock, 1000);
