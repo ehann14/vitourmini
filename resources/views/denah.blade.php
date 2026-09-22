@@ -557,6 +557,8 @@
     // CORE VARIABLES
     // ============================================
     let denahData = [];
+    let denahDataLoaded = false;
+    let denahDataLoadingPromise = null;
     let viewer = null;
     let roomInfoData = {};
     let currentSceneId = null;
@@ -748,7 +750,20 @@
             pin.classList.remove('highlighted');
         });
 
-        loadDenahData();
+        // ✅ Cegah user mengetik search sebelum data ruangan selesai dimuat,
+        // agar pencarian tidak "kadang kebaca kadang ngga" karena datanya belum sampai.
+        if (!denahDataLoaded) {
+            searchInput.disabled = true;
+            searchInput.placeholder = 'Memuat data ruangan...';
+            loadDenahData().then(() => {
+                searchInput.disabled = false;
+                searchInput.placeholder = 'Ketik nama ruangan (contoh: Lab Komputer)...';
+            });
+        } else {
+            searchInput.disabled = false;
+            searchInput.placeholder = 'Ketik nama ruangan (contoh: Lab Komputer)...';
+            loadDenahData();
+        }
     }
 
     function closeDenahModal() {
@@ -791,6 +806,9 @@
     // DENAH & SEARCH LOGIC
     // ============================================
     function loadDenahData() {
+        // ✅ Kalau sudah pernah/tengah dimuat, jangan fetch ulang - kembalikan promise yang sama
+        if (denahDataLoadingPromise) return denahDataLoadingPromise;
+
         const cacheKey = 'denah_data_v2';
         const cached = sessionStorage.getItem(cacheKey);
         if (cached) {
@@ -798,24 +816,45 @@
                 const parsed = JSON.parse(cached);
                 if (Date.now() - parsed.timestamp < 600000) {
                     denahData = parsed.data;
+                    denahDataLoaded = true;
                     sortDenahData();
                     renderDenahPins();
                     renderRoomList();
                     processDenahData();
-                    return;
+                    onDenahDataReady();
+                    denahDataLoadingPromise = Promise.resolve(denahData);
+                    return denahDataLoadingPromise;
                 }
             } catch(e) {}
         }
-        fetch('/api/denah-data').then(r => r.json()).then(data => {
+        denahDataLoadingPromise = fetch('/api/denah-data').then(r => r.json()).then(data => {
             if (data.success) {
                 denahData = data.data;
+                denahDataLoaded = true;
                 sortDenahData();
                 sessionStorage.setItem(cacheKey, JSON.stringify({ data: denahData, timestamp: Date.now() }));
                 renderDenahPins();
                 renderRoomList();
                 processDenahData();
+                onDenahDataReady();
             }
+            return denahData;
+        }).catch(function (err) {
+            console.error('Gagal memuat data denah:', err);
+            denahDataLoadingPromise = null; // ✅ izinkan retry kalau gagal
+            return [];
         });
+        return denahDataLoadingPromise;
+    }
+
+    // ✅ Dipanggil setiap kali denahData berhasil dimuat/diperbarui,
+    // supaya kotak search di hero langsung ikut ter-refresh (bukan cuma pas modal dibuka)
+    function onDenahDataReady() {
+        const heroInput = document.getElementById('searchHeroInput');
+        const heroDropdown = document.getElementById('searchDropdown');
+        if (heroInput && heroDropdown && heroDropdown.classList.contains('active')) {
+            renderSearchDropdown(heroInput.value);
+        }
     }
 
     // FUNGSI UNTUK MENGURUTKAN DATA DENAH SESUAI ABJAD (A-Z)
@@ -893,14 +932,29 @@
     const searchInput = document.getElementById('searchHeroInput');
     const searchDropdown = document.getElementById('searchDropdown');
     
-    searchInput.addEventListener('focus', () => { renderSearchDropdown(searchInput.value); searchDropdown.classList.add('active'); });
-    searchInput.addEventListener('input', () => { renderSearchDropdown(searchInput.value); searchDropdown.classList.add('active'); });
+    searchInput.addEventListener('focus', () => {
+        if (!denahDataLoaded) loadDenahData();
+        renderSearchDropdown(searchInput.value);
+        searchDropdown.classList.add('active');
+    });
+    searchInput.addEventListener('input', () => {
+        if (!denahDataLoaded) loadDenahData();
+        renderSearchDropdown(searchInput.value);
+        searchDropdown.classList.add('active');
+    });
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-fs-container')) searchDropdown.classList.remove('active');
     });
 
     function renderSearchDropdown(query) {
         const q = query.trim().toLowerCase();
+
+        // ✅ Data belum siap (baru pertama kali dimuat) - beri status memuat, bukan "tidak ditemukan"
+        if (!denahDataLoaded) {
+            searchDropdown.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;"><i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>Memuat data ruangan...</div>';
+            return;
+        }
+
         let results = denahData.filter(r => r.position_x && r.position_y);
         if (q.length > 0) {
             results = results.filter(r => (r.name || '').toLowerCase().includes(q) || (r.gedung || '').toLowerCase().includes(q));
@@ -933,10 +987,26 @@
 
     document.getElementById('searchHeroBtn').onclick = () => {
         const q = searchInput.value.trim().toLowerCase();
-        const match = denahData.find(r => (r.name || '').toLowerCase().includes(q) && r.has_panorama);
-        if (match) {
-            searchInput.value = match.name;
-            selectScene(match.scene_id || match.panorama_id, match.name);
+        if (!q) return;
+
+        function doSearch() {
+            const match = denahData.find(r => (r.name || '').toLowerCase().includes(q) && r.has_panorama);
+            if (match) {
+                searchInput.value = match.name;
+                selectScene(match.scene_id || match.panorama_id, match.name);
+            } else {
+                searchDropdown.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">Tidak ditemukan</div>';
+                searchDropdown.classList.add('active');
+            }
+        }
+
+        // ✅ Kalau data belum siap, tunggu proses load selesai dulu (jangan langsung dianggap kosong)
+        if (!denahDataLoaded) {
+            searchDropdown.innerHTML = '<div style="padding: 20px; text-align: center; color: #666;"><i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>Memuat data ruangan...</div>';
+            searchDropdown.classList.add('active');
+            loadDenahData().then(doSearch);
+        } else {
+            doSearch();
         }
     };
 
@@ -1027,6 +1097,10 @@
     // INIT
     // ============================================
     document.addEventListener('DOMContentLoaded', async function() {
+        // ✅ Muat data denah/ruangan sedini mungkin (paralel, tidak menunggu panorama)
+        // supaya kotak search di hero langsung siap dipakai, bukan cuma pas modal denah dibuka.
+        loadDenahData();
+
         if (!panoramas || panoramas.length === 0) {
             document.getElementById('viewer-loading').innerHTML = '<h3 style="color: white;">Belum ada scene tersedia</h3>';
             return;
