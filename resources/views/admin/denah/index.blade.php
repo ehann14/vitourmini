@@ -136,6 +136,38 @@
         code { background: var(--chip-bg); color: var(--accent-teal-dark); padding: 2px 8px; border-radius: 6px; font-size: 0.82rem; font-family: 'Courier New', monospace; font-weight: 600; }
         [data-bs-theme="dark"] code { color: var(--accent-teal); }
 
+        /* ============ PREVIEW DENAH (PETA + TITIK) ============ */
+        .denah-preview-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+        .denah-preview-head h5 { margin: 0; font-weight: 700; color: var(--heading-color); font-size: 1rem; }
+        .denah-preview-legend { display: flex; align-items: center; gap: 1rem; font-size: 0.82rem; color: var(--muted-color); }
+        .denah-preview-legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+        .legend-dot.filled { background: var(--accent-teal); box-shadow: 0 0 0 3px rgba(0,201,177,0.18); }
+        .legend-dot.empty { background: #94a1b6; box-shadow: 0 0 0 3px rgba(148,161,182,0.18); }
+        .denah-preview-wrapper { position: relative; width: 100%; max-width: 480px; margin: 0 auto; border-radius: var(--radius-md); overflow: hidden; background: #0b1424; border: 1px solid var(--border-color); }
+        .denah-preview-inner { position: relative; width: 100%; }
+        .denah-preview-img { width: 100%; height: auto; display: block; user-select: none; -webkit-user-drag: none; }
+        .denah-preview-pin { position: absolute; width: 16px; height: 16px; border-radius: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; cursor: pointer; z-index: 5; transition: transform 0.15s ease, box-shadow 0.15s ease; }
+        .denah-preview-pin.filled { background: var(--accent-teal); box-shadow: 0 0 0 4px rgba(0,201,177,0.28), 0 2px 6px rgba(0,0,0,0.35); }
+        .denah-preview-pin.empty { background: #94a1b6; box-shadow: 0 0 0 4px rgba(148,161,182,0.28), 0 2px 6px rgba(0,0,0,0.35); }
+        .denah-preview-pin.inactive { opacity: 0.45; }
+        .denah-preview-pin:hover { transform: translate(-50%, -50%) scale(1.35); z-index: 6; }
+        .denah-preview-empty { padding: 2.5rem 1rem; text-align: center; color: var(--muted-color); }
+        .denah-preview-empty i { font-size: 2.25rem; opacity: 0.3; margin-bottom: 0.75rem; display: block; }
+        .denah-preview-toggle-btn { background: var(--chip-bg); border: 1px solid var(--chip-border); color: var(--muted-color); padding: 0.4rem 0.95rem; border-radius: 20px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .denah-preview-toggle-btn:hover { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
+        .denah-preview-body { overflow: hidden; transition: max-height 0.3s ease, opacity 0.25s ease; }
+        .denah-preview-body.collapsed { max-height: 0 !important; opacity: 0; margin: 0; }
+
+        /* ============ PAGINATION ============ */
+        .denah-pagination-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; flex-wrap: wrap; gap: 0.75rem; }
+        .denah-pagination-info { font-size: 0.85rem; color: var(--muted-color); }
+        .pagination { margin: 0; }
+        .pagination .page-link { background: var(--chip-bg); border: 1px solid var(--chip-border); color: var(--text-color); font-size: 0.85rem; padding: 0.45rem 0.8rem; }
+        .pagination .page-link:hover { background: var(--accent-teal); color: #fff; border-color: var(--accent-teal); }
+        .pagination .page-item.active .page-link { background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue)); border-color: var(--primary-blue); color: #fff; }
+        .pagination .page-item.disabled .page-link { background: var(--chip-bg); color: var(--muted-color); opacity: 0.6; }
+
         @media (max-width: 992px) { .search-filter-wrapper { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 576px) { .search-filter-wrapper { grid-template-columns: 1fr; } .filter-select { width: 100%; } }
         @media (max-width: 767.98px) {
@@ -200,6 +232,43 @@
                     @endif
 
                     <div class="form-card">
+                        <div class="denah-preview-head">
+                            <h5><i class="fas fa-map-location-dot me-2"></i>Preview Denah &amp; Titik Ruangan</h5>
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
+                                <div class="denah-preview-legend">
+                                    <span><i class="legend-dot filled"></i> Terisi (ada panorama)</span>
+                                    <span><i class="legend-dot empty"></i> Belum terisi</span>
+                                </div>
+                                <button type="button" class="denah-preview-toggle-btn" id="denahPreviewToggleBtn">
+                                    <i class="fas fa-eye-slash" id="denahPreviewToggleIcon"></i>
+                                    <span id="denahPreviewToggleText">Sembunyikan Denah</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="denah-preview-body" id="denahPreviewBody">
+                            @if($allPoints->count() > 0)
+                                <div class="denah-preview-wrapper">
+                                    <div class="denah-preview-inner">
+                                        <img src="{{ asset('image/denah-utama.jpeg') }}" alt="Denah Sekolah" class="denah-preview-img">
+                                        @foreach($allPoints as $point)
+                                            <div class="denah-preview-pin {{ $point->panorama_id ? 'filled' : 'empty' }} {{ $point->is_active ? '' : 'inactive' }}"
+                                                 style="left: {{ $point->position_x }}%; top: {{ $point->position_y }}%;"
+                                                 title="{{ $point->name }} ({{ $point->gedung }}{{ $point->lantai ? ' - Lantai '.$point->lantai : '' }}) {{ $point->panorama_id ? '- Ada panorama' : '- Belum ada panorama' }}{{ $point->is_active ? '' : ' - Nonaktif' }}"
+                                                 data-bs-toggle="tooltip"></div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @else
+                                <div class="denah-preview-empty">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                    <p class="mb-0">Belum ada titik denah dengan posisi yang tersimpan</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-card">
                         <div class="search-filter-wrapper">
                             <div class="search-input-wrapper">
                                 <i class="fas fa-search search-icon"></i>
@@ -222,7 +291,7 @@
                         </div>
 
                         <div class="search-meta">
-                            <div class="result-count">Menampilkan <strong id="resultCount">0</strong> dari <strong id="totalCount">0</strong> titik denah</div>
+                            <div class="result-count">Menampilkan <strong id="resultCount">0</strong> dari <strong id="totalCount">0</strong> titik denah di halaman ini <span class="d-none d-sm-inline">(total {{ $denahs->total() }} titik denah)</span></div>
                             <button type="button" class="reset-btn" id="resetFilters" title="Reset semua filter"><i class="fas fa-undo"></i> Reset Filter</button>
                         </div>
 
@@ -248,7 +317,7 @@
                                             data-lantai="{{ strtolower($item->lantai ?? '-') }}"
                                             data-status="{{ $item->is_active ? 'aktif' : 'nonaktif' }}"
                                             data-panorama="{{ $item->panorama ? 'ada' : 'tidak' }}">
-                                            <td class="col-no">{{ $loop->iteration }}</td>
+                                            <td class="col-no">{{ $denahs->firstItem() + $loop->index }}</td>
                                             <td>
                                                 <span style="width: 32px; height: 32px; border-radius: 9px; background: rgba(0,201,177,0.15); color: var(--accent-teal-dark); display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; margin-right: 10px;">
                                                     <i class="fas {{ $item->icon }}"></i>
@@ -302,6 +371,16 @@
                                 <p class="mb-0 small" style="color: var(--muted-color);">Coba ubah kata kunci atau reset filter Anda</p>
                             </div>
                         </div>
+
+                        @if($denahs->hasPages())
+                            <div class="denah-pagination-wrapper">
+                                <div class="denah-pagination-info">
+                                    Halaman <strong>{{ $denahs->currentPage() }}</strong> dari <strong>{{ $denahs->lastPage() }}</strong>
+                                    &middot; Total <strong>{{ $denahs->total() }}</strong> titik denah
+                                </div>
+                                {{ $denahs->onEachSide(1)->links('pagination::bootstrap-5') }}
+                            </div>
+                        @endif
                     </div>
 
                     <div class="text-center mt-4">
@@ -320,6 +399,36 @@
         document.querySelectorAll('.alert').forEach(alert => {
             setTimeout(() => { const bsAlert = new bootstrap.Alert(alert); bsAlert.close(); }, 5000);
         });
+
+        document.querySelectorAll('.denah-preview-pin[data-bs-toggle="tooltip"]').forEach(function (el) {
+            new bootstrap.Tooltip(el, { placement: 'top', trigger: 'hover focus' });
+        });
+
+        (function () {
+            const toggleBtn = document.getElementById('denahPreviewToggleBtn');
+            const toggleIcon = document.getElementById('denahPreviewToggleIcon');
+            const toggleText = document.getElementById('denahPreviewToggleText');
+            const previewBody = document.getElementById('denahPreviewBody');
+            if (!toggleBtn || !previewBody) return;
+
+            const STORAGE_KEY = 'vitour-denah-preview-hidden';
+
+            function setState(hidden) {
+                previewBody.classList.toggle('collapsed', hidden);
+                toggleIcon.className = hidden ? 'fas fa-eye' : 'fas fa-eye-slash';
+                toggleText.textContent = hidden ? 'Tampilkan Denah' : 'Sembunyikan Denah';
+            }
+
+            let hidden = false;
+            try { hidden = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
+            setState(hidden);
+
+            toggleBtn.addEventListener('click', function () {
+                hidden = !previewBody.classList.contains('collapsed');
+                setState(hidden);
+                try { localStorage.setItem(STORAGE_KEY, hidden ? '1' : '0'); } catch (e) {}
+            });
+        })();
 
         var sidebar = document.querySelector('.sidebar');
         var overlay = document.getElementById('sidebarOverlay');

@@ -163,12 +163,19 @@ class DenahController extends Controller
      */
     public function index()
     {
+        // ✅ Semua titik (untuk preview peta denah) - ringan, tanpa pagination
+        $allPoints = Denah::select('id', 'name', 'gedung', 'lantai', 'position_x', 'position_y', 'panorama_id', 'is_active')
+            ->whereNotNull('position_x')
+            ->whereNotNull('position_y')
+            ->get();
+
+        // ✅ Data tabel dipaginasi 10 per halaman, sisanya di halaman/slide berikutnya
         $denahs = Denah::with('panorama')
             ->orderBy('gedung')
             ->orderBy('order')
-            ->get();
-        
-        return view('admin.denah.index', compact('denahs'));
+            ->paginate(10);
+
+        return view('admin.denah.index', compact('denahs', 'allPoints'));
     }
 
     /**
