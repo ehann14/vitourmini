@@ -6,6 +6,7 @@ use App\Models\Panorama;
 use App\Models\VisitorLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StatistikController extends Controller
 {
@@ -14,184 +15,190 @@ class StatistikController extends Controller
      */
     public function index(Request $request)
     {
-        // ✅ PERBAIKAN 1: Tambahkan angka 1 ke dalam array validasi
-        $periode = (int) $request->input('periode', 7); // Default diganti ke 7 agar lebih aman
-        
+        $periode = (int) $request->input('periode', 7);
+
         if (! in_array($periode, [1, 7, 30, 90], true)) {
-            $periode = 7; // Fallback ke 7 jika nilai aneh dimasukkan
+            $periode = 7;
         }
 
-        // Jika periode 1, subDays(0) artinya hari ini mulai dari 00:00:00
         $mulai = now()->subDays($periode - 1)->startOfDay();
 
-        // ================= RINGKASAN =================
-        $kunjunganHariIni = VisitorLog::publik()->whereDate('visited_at', today())->count();
-        $pengunjungHariIni = VisitorLog::publik()->whereDate('visited_at', today())
-            ->distinct('visitor_id')->count('visitor_id');
+        $cacheKey = 'statistik:'.$periode.':'.now()->toDateString();
 
-        $kunjunganKemarin = VisitorLog::publik()->whereDate('visited_at', today()->subDay())->count();
+        $stats = cache()->remember($cacheKey, 300, function () use ($mulai, $periode) {
+            $hariIni = today();
+            $besok = today()->addDay();
+            $kemarin = today()->subDay();
+            $awalPeriode = fn () => VisitorLog::publik()->where('visited_at', '>=', $mulai);
 
-        $kunjunganPeriode = VisitorLog::publik()->where('visited_at', '>=', $mulai)->count();
-        $pengunjungPeriode = VisitorLog::publik()->where('visited_at', '>=', $mulai)
-            ->distinct('visitor_id')->count('visitor_id');
+            $kunjunganHariIni = VisitorLog::publik()
+                ->where('visited_at', '>=', $hariIni)
+                ->where('visited_at', '<', $besok)
+                ->count();
+            $pengunjungHariIni = VisitorLog::publik()
+                ->where('visited_at', '>=', $hariIni)
+                ->where('visited_at', '<', $besok)
+                ->distinct('visitor_id')
+                ->count('visitor_id');
+            $kunjunganKemarin = VisitorLog::publik()
+                ->where('visited_at', '>=', $kemarin)
+                ->where('visited_at', '<', $hariIni)
+                ->count();
 
-        $totalKunjungan = VisitorLog::publik()->count();
-        $totalPengunjung = VisitorLog::publik()->distinct('visitor_id')->count('visitor_id');
+            $kunjunganPeriode = $awalPeriode()->count();
+            $pengunjungPeriode = $awalPeriode()->distinct('visitor_id')->count('visitor_id');
+            $totalKunjungan = VisitorLog::publik()->count();
+            $totalPengunjung = VisitorLog::publik()->distinct('visitor_id')->count('visitor_id');
 
-        // Perbandingan hari ini vs kemarin (%)
-        $selisihHarian = $kunjunganKemarin > 0
-            ? round((($kunjunganHariIni - $kunjunganKemarin) / $kunjunganKemarin) * 100)
-            : ($kunjunganHariIni > 0 ? 100 : 0);
+            $selisihHarian = $kunjunganKemarin > 0
+                ? round((($kunjunganHariIni - $kunjunganKemarin) / $kunjunganKemarin) * 100)
+                : ($kunjunganHariIni > 0 ? 100 : 0);
 
-        // Rata-rata halaman yang dibuka tiap pengunjung
-        $halamanPerPengunjung = $pengunjungPeriode > 0
-            ? round($kunjunganPeriode / $pengunjungPeriode, 1)
-            : 0;
+            $halamanPerPengunjung = $pengunjungPeriode > 0
+                ? round($kunjunganPeriode / $pengunjungPeriode, 1)
+                : 0;
 
-        // ================= GRAFIK HARIAN =================
-        $harian = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->selectRaw('DATE(visited_at) as tanggal,
-                         COUNT(*) as kunjungan,
-                         COUNT(DISTINCT visitor_id) as pengunjung')
-            ->groupBy('tanggal')
-            ->orderBy('tanggal')
-            ->get()
-            ->keyBy('tanggal');
+            $harian = $awalPeriode()
+                ->selectRaw('DATE(visited_at) as tanggal,
+                             COUNT(*) as kunjungan,
+                             COUNT(DISTINCT visitor_id) as pengunjung')
+                ->groupBy('tanggal')
+                ->orderBy('tanggal')
+                ->get()
+                ->keyBy('tanggal');
 
-        $grafikLabel = [];
-        $grafikKunjungan = [];
-        $grafikPengunjung = [];
+            $grafikLabel = [];
+            $grafikKunjungan = [];
+            $grafikPengunjung = [];
 
-        for ($i = $periode - 1; $i >= 0; $i--) {
-            $tgl = now()->subDays($i);
-            $key = $tgl->toDateString();
+            for ($i = $periode - 1; $i >= 0; $i--) {
+                $tgl = now()->subDays($i);
+                $key = $tgl->toDateString();
 
-            $grafikLabel[]      = $tgl->translatedFormat($periode > 30 ? 'd/m' : 'd M');
-            $grafikKunjungan[]  = (int) ($harian->get($key)?->kunjungan ?? 0);
-            $grafikPengunjung[] = (int) ($harian->get($key)?->pengunjung ?? 0);
-        }
+                $grafikLabel[] = $tgl->translatedFormat($periode > 30 ? 'd/m' : 'd M');
+                $grafikKunjungan[] = (int) ($harian->get($key)?->kunjungan ?? 0);
+                $grafikPengunjung[] = (int) ($harian->get($key)?->pengunjung ?? 0);
+            }
 
-        // ================= PANORAMA TERPOPULER =================
-        $namaPanorama = Panorama::pluck('name', 'scene_id');
+            $namaPanorama = Panorama::pluck('name', 'scene_id');
 
-        $panoramaPopuler = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->where('page_type', 'panorama')
-            ->whereNotNull('scene_id')
-            ->selectRaw('scene_id,
-                         COUNT(*) as kunjungan,
-                         COUNT(DISTINCT visitor_id) as pengunjung')
-            ->groupBy('scene_id')
-            ->orderByDesc('kunjungan')
-            ->take(10)
-            ->get()
-            ->map(function ($row) use ($namaPanorama) {
-                $row->nama = $namaPanorama[$row->scene_id] ?? $row->scene_id;
-                return $row;
-            });
+            $panoramaPopuler = $awalPeriode()
+                ->where('page_type', 'panorama')
+                ->whereNotNull('scene_id')
+                ->selectRaw('scene_id,
+                             COUNT(*) as kunjungan,
+                             COUNT(DISTINCT visitor_id) as pengunjung')
+                ->groupBy('scene_id')
+                ->orderByDesc('kunjungan')
+                ->take(10)
+                ->get()
+                ->map(function ($row) use ($namaPanorama) {
+                    $row->nama = $namaPanorama[$row->scene_id] ?? $row->scene_id;
 
-        $maxPanorama = (int) ($panoramaPopuler->max('kunjungan') ?: 1);
+                    return $row;
+                });
 
-        // ================= HALAMAN TERPOPULER =================
-        $halamanPopuler = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->selectRaw('page_type, COUNT(*) as total')
-            ->groupBy('page_type')
-            ->orderByDesc('total')
-            ->pluck('total', 'page_type');
+            $maxPanorama = (int) ($panoramaPopuler->max('kunjungan') ?: 1);
 
-        // ================= PERANGKAT & BROWSER =================
-        $perangkat = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->selectRaw('device_type, COUNT(*) as total')
-            ->groupBy('device_type')
-            ->orderByDesc('total')
-            ->pluck('total', 'device_type');
+            $halamanPopuler = $awalPeriode()
+                ->selectRaw('page_type, COUNT(*) as total')
+                ->groupBy('page_type')
+                ->orderByDesc('total')
+                ->pluck('total', 'page_type');
 
-        $browser = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->selectRaw('browser, COUNT(*) as total')
-            ->groupBy('browser')
-            ->orderByDesc('total')
-            ->take(6)
-            ->pluck('total', 'browser');
+            $perangkat = $awalPeriode()
+                ->selectRaw('device_type, COUNT(*) as total')
+                ->groupBy('device_type')
+                ->orderByDesc('total')
+                ->pluck('total', 'device_type');
 
-        // ================= JAM TERSIBUK =================
-        $perJam = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->selectRaw('HOUR(visited_at) as jam, COUNT(*) as total')
-            ->groupBy('jam')
-            ->pluck('total', 'jam');
+            $browser = $awalPeriode()
+                ->selectRaw('browser, COUNT(*) as total')
+                ->groupBy('browser')
+                ->orderByDesc('total')
+                ->take(6)
+                ->pluck('total', 'browser');
 
-        $grafikJam = [];
-        for ($j = 0; $j < 24; $j++) {
-            $grafikJam[] = (int) $perJam->get($j, 0);
-        }
-        $jamTersibuk = $perJam->isNotEmpty() ? (int) $perJam->sortDesc()->keys()->first() : null;
+            $hourExpression = match (DB::connection()->getDriverName()) {
+                'sqlite' => "CAST(strftime('%H', visited_at) AS INTEGER)",
+                'pgsql' => 'EXTRACT(HOUR FROM visited_at)',
+                'sqlsrv' => 'DATEPART(HOUR, visited_at)',
+                default => 'HOUR(visited_at)',
+            };
 
-        // ================= ASAL PENGUNJUNG =================
-        $asal = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->selectRaw('referrer, COUNT(*) as total')
-            ->groupBy('referrer')
-            ->orderByDesc('total')
-            ->take(50)
-            ->get()
-            ->groupBy(function ($row) {
-                if (! $row->referrer) {
-                    return 'Langsung / bookmark';
-                }
-                $host = parse_url($row->referrer, PHP_URL_HOST) ?: 'Lainnya';
-                return str_contains($host, parse_url(config('app.url'), PHP_URL_HOST) ?: '###')
-                    ? 'Dari halaman sendiri'
-                    : $host;
-            })
-            ->map(fn ($grup) => $grup->sum('total'))
-            ->sortDesc()
-            ->take(6);
+            $perJam = $awalPeriode()
+                ->selectRaw("{$hourExpression} as jam, COUNT(*) as total")
+                ->groupBy('jam')
+                ->pluck('total', 'jam');
 
-        // ================= KOTA (kalau geo aktif) =================
-        $kota = VisitorLog::publik()
-            ->where('visited_at', '>=', $mulai)
-            ->whereNotNull('city')
-            ->selectRaw('city, COUNT(DISTINCT visitor_id) as total')
-            ->groupBy('city')
-            ->orderByDesc('total')
-            ->take(8)
-            ->pluck('total', 'city');
+            $grafikJam = [];
+            for ($j = 0; $j < 24; $j++) {
+                $grafikJam[] = (int) $perJam->get($j, 0);
+            }
+            $jamTersibuk = $perJam->isNotEmpty() ? (int) $perJam->sortDesc()->keys()->first() : null;
 
-        // ================= TABEL KUNJUNGAN TERBARU =================
-        // ✅ PERBAIKAN 2: Mengubah paginate dari 20 menjadi 15 sesuai permintaan
+            $asal = $awalPeriode()
+                ->selectRaw('referrer, COUNT(*) as total')
+                ->groupBy('referrer')
+                ->orderByDesc('total')
+                ->take(50)
+                ->get()
+                ->groupBy(function ($row) {
+                    if (! $row->referrer) {
+                        return 'Langsung / bookmark';
+                    }
+
+                    $host = parse_url($row->referrer, PHP_URL_HOST) ?: 'Lainnya';
+
+                    return str_contains($host, parse_url(config('app.url'), PHP_URL_HOST) ?: '###')
+                        ? 'Dari halaman sendiri'
+                        : $host;
+                })
+                ->map(fn ($grup) => $grup->sum('total'))
+                ->sortDesc()
+                ->take(6);
+
+            $kota = $awalPeriode()
+                ->whereNotNull('city')
+                ->selectRaw('city, COUNT(DISTINCT visitor_id) as total')
+                ->groupBy('city')
+                ->orderByDesc('total')
+                ->take(8)
+                ->pluck('total', 'city');
+
+            return compact(
+                'kunjunganHariIni',
+                'pengunjungHariIni',
+                'selisihHarian',
+                'kunjunganPeriode',
+                'pengunjungPeriode',
+                'totalKunjungan',
+                'totalPengunjung',
+                'halamanPerPengunjung',
+                'grafikLabel',
+                'grafikKunjungan',
+                'grafikPengunjung',
+                'grafikJam',
+                'jamTersibuk',
+                'panoramaPopuler',
+                'maxPanorama',
+                'halamanPopuler',
+                'perangkat',
+                'browser',
+                'asal',
+                'kota'
+            );
+        });
+
         $kunjunganTerbaru = VisitorLog::publik()
             ->latest('visited_at')
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.statistik', compact(
-            'periode',
-            'kunjunganHariIni',
-            'pengunjungHariIni',
-            'selisihHarian',
-            'kunjunganPeriode',
-            'pengunjungPeriode',
-            'totalKunjungan',
-            'totalPengunjung',
-            'halamanPerPengunjung',
-            'grafikLabel',
-            'grafikKunjungan',
-            'grafikPengunjung',
-            'grafikJam',
-            'jamTersibuk',
-            'panoramaPopuler',
-            'maxPanorama',
-            'halamanPopuler',
-            'perangkat',
-            'browser',
-            'asal',
-            'kota',
-            'kunjunganTerbaru'
-        ));
+        return view('admin.statistik', array_merge($stats, [
+            'periode' => $periode,
+            'kunjunganTerbaru' => $kunjunganTerbaru,
+        ]));
     }
 
     /**
@@ -217,6 +224,10 @@ class StatistikController extends Controller
         $jumlah = $query->count();
         $query->delete();
 
+        foreach ([1, 7, 30, 90] as $periode) {
+            cache()->forget('statistik:'.$periode.':'.today()->toDateString());
+        }
+
         return back()->with('success', "{$pesan} ({$jumlah} baris)");
     }
 
@@ -226,9 +237,9 @@ class StatistikController extends Controller
     public function ekspor(Request $request)
     {
         $periode = (int) $request->input('periode', 7);
-        $mulai   = now()->subDays($periode - 1)->startOfDay();
+        $mulai = now()->subDays($periode - 1)->startOfDay();
 
-        $namaFile = 'kunjungan-vitour-' . now()->format('Ymd-His') . '.csv';
+        $namaFile = 'kunjungan-vitour-'.now()->format('Ymd-His').'.csv';
 
         return response()->streamDownload(function () use ($mulai) {
             $out = fopen('php://output', 'w');

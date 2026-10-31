@@ -563,6 +563,7 @@
     let roomInfoData = {};
     let currentSceneId = null;
     let currentViewerMode = null;
+    let sceneLoadToken = 0;
 
     @php
         $panoramasWithUrl = $panoramas->map(function($p) {
@@ -615,6 +616,7 @@
         const sceneData = scenesConfig[sceneId];
         if (!sceneData) return;
 
+        const loadToken = ++sceneLoadToken;
         currentSceneId = sceneId;
         document.querySelectorAll('.scene-btn').forEach(btn => {
             btn.style.borderColor = btn.dataset.scene === sceneId ? 'var(--accent-teal)' : '#eee';
@@ -629,20 +631,17 @@
 
         if (isLoading) { isLoading.style.display = 'flex'; updateLoadingProgress(10, 'Mempersiapkan...'); }
 
-        if (currentViewerMode === '360' && sceneData.isFlat) {
-            if (viewer) { viewer.destroy(); viewer = null; }
-            panoramaDiv.innerHTML = '';
-        } else if (currentViewerMode === 'flat' && !sceneData.isFlat) {
-            flatImage.src = ''; flatHotspotsContainer.innerHTML = '';
-        }
-
         currentViewerMode = sceneData.isFlat ? 'flat' : '360';
 
         if (sceneData.isFlat) {
+            if (viewer) {
+                viewer.destroy();
+                viewer = null;
+            }
+            panoramaDiv.innerHTML = '';
             panoramaDiv.style.display = 'none';
             flatViewer.style.display = 'block';
             updateLoadingProgress(50, 'Memuat gambar...');
-            flatImage.src = sceneData.panorama;
             flatHotspotsContainer.innerHTML = '';
             
             sceneData.rawHotspots.forEach(h => {
@@ -654,16 +653,43 @@
                 if (h.link) { pin.onclick = () => selectScene(h.link, scenesConfig[h.link]?.title); }
                 flatHotspotsContainer.appendChild(pin);
             });
+
+            try {
+                await new Promise((resolve, reject) => {
+                    flatImage.onload = resolve;
+                    flatImage.onerror = () => reject(new Error(`Gambar tidak dapat dimuat: ${sceneData.panorama}`));
+                    flatImage.src = sceneData.panorama;
+
+                    if (flatImage.complete) {
+                        if (flatImage.naturalWidth > 0) resolve();
+                        else reject(new Error(`Gambar tidak dapat dimuat: ${sceneData.panorama}`));
+                    }
+                });
+            } catch (error) {
+                console.error('Gagal memuat foto lokasi:', error);
+                flatImage.removeAttribute('src');
+                if (loadToken === sceneLoadToken && isLoading) {
+                    updateLoadingProgress(100, 'Foto tidak dapat dimuat');
+                    setTimeout(() => { isLoading.style.display = 'none'; }, 1200);
+                }
+                return;
+            }
+
+            if (loadToken !== sceneLoadToken) return;
             if (isLoading) isLoading.style.display = 'none';
         } else {
+            flatImage.removeAttribute('src');
+            flatHotspotsContainer.innerHTML = '';
             flatViewer.style.display = 'none';
             panoramaDiv.style.display = 'block';
             updateLoadingProgress(30, 'Memuat Pannellum...');
             
             if (!viewer) {
                 await waitForPannellum();
+                if (loadToken !== sceneLoadToken) return;
                 updateLoadingProgress(60, 'Menginisialisasi...');
                 const scenes360Only = Object.fromEntries(Object.entries(scenesConfig).filter(([_, v]) => !v.isFlat));
+                panoramaDiv.innerHTML = '';
                 
                 try {
                     viewer = pannellum.viewer('panorama', {
@@ -683,9 +709,12 @@
             } else {
                 updateLoadingProgress(70, 'Mengganti scene...');
                 viewer.loadScene(sceneId);
+                if (loadToken !== sceneLoadToken) return;
                 if (isLoading) isLoading.style.display = 'none';
             }
         }
+
+        if (loadToken !== sceneLoadToken) return;
         updateUIForScene(sceneId);
     }
 
